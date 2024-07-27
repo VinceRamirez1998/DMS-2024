@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1 class="text-3xl font-bold underline">
-    Hello world!
+    TRY LANG PO!
   </h1>
 </body>
 </html>
