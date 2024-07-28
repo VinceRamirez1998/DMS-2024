@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
-    
+    <script src="https://unpkg.com/heroicons@1.0.6/dist/heroicons.js"></script>
 </head>
 <header>
 <nav class="bg-red-900 w-full">
