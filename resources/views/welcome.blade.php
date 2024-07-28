@@ -27,7 +27,7 @@
         <div class="flex justify-between items-center flex-column md:flex-row md:px-8 w-full">
           <div>
             <input type="checkbox" name="" id="RememberMe">
-            <label for="RememberMe" style="font-size: 12px;">Keep me logged in</label>
+            <label for="RememberMe" style="font-size: 12px;">Keep me logged in LESGOWW</label>
           </div>
           <div>
             <a href="" class="flex underline text-blue-600" style="font-size: 12px; margin-top: 5px;">Forgot&nbsp;Password?</a>
