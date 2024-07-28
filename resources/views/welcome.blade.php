@@ -92,9 +92,9 @@
   {{-- Block --}}
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
   <div class="col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
-    <a href=""><p><span class="me-1">•</span>asd</p></a>
-    <a href=""><p><span class="me-1">•</span>asd</p></a>
-    <a href=""><p><span class="me-1">•</span>asd</p></a>
+    <a href=""><p><span class="me-1">•</span>hehehe</p></a>
+    <a href=""><p><span class="me-1">•</span>hehehe</p></a>
+    <a href=""><p><span class="me-1">•</span>hehehe</p></a>
   </div>
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
 </div>
