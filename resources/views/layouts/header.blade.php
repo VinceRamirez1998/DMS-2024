@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/heroicons@1.0.6/dist/heroicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <header>
 <nav class="bg-red-900 w-full">
     <div class="flex flex-wrap items-center justify-between p-4 py-2">
       <a href="/" class="flex items-center rtl:space-x-reverse">
-          <img src="{{ asset('../img/DHVSU_Logo.png') }}" class="h-10 rounded-2xl" alt="Flowbite Logo" />
+          <img src="{{ asset('../img/DHVSU_Logo.png') }}" class="h-10 rounded-2xl" alt="" />
       </a>
       <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
           <span class="sr-only">Open main menu</span>
@@ -22,13 +23,13 @@
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul class="flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
           <li>
-            <a href="#" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0" aria-current="page">Home</a>
+            <a href="/" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0" aria-current="page">Home</a>
           </li>
           <li>
             <a href="/about" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">About Us</a>
           </li>
           <li>
-            <a href="#" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Contact Us</a>
+            <a href="/contact" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Contact Us</a>
           </li>
           <li>
             <a href="#" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Log In</a>
