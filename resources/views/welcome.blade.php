@@ -30,7 +30,7 @@
             <label for="RememberMe" style="font-size: 12px;">Keep me logged in LESGOWW</label>
           </div>
           <div>
-            <a href="" class="flex underline text-blue-600" style="font-size: 12px; margin-top: 5px;">Forgot&nbsp;Password?</a>
+            <a href="" class="flex underline text-blue-600" style="font-size: 12px; margin-top: 5px;">Forgot&nbsp;Password DAW???</a>
           </div>
         </div>
         <button class="bg-red-900 text-white mt-3 mb-5 lg:mb-20 rounded px-9 py-1">Log In</button>
