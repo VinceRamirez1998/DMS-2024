@@ -36,7 +36,7 @@
         <button class="bg-red-900 text-white mt-3 mb-5 lg:mb-20 rounded px-9 py-1">Log In</button>
     </form>
         <hr class="border-t-2 border-gray-400 w-full mb-2 lg:mt-9">
-        <p class="text-sm">Doesn't have an account yet? <button id="signupBtn" type="button" class="text-sm text-blue-600 underline">Sign up 123123123</button></p>
+        <p class="text-sm">Doesn't have an account yet? <button id="signupBtn" type="button" class="text-sm text-blue-600 underline">Sign up</button></p>
       </div>
   </div>
 
