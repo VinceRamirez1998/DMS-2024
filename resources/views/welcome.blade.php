@@ -46,7 +46,7 @@
         </div>
         <div class="flex justify-between items-center flex-column md:flex-row w-full">
           <div>
-            <input type="checkbox" name="" id="RememberMe">
+            <input type="checkbox" name="" id="RememberMe" class="rounded">
             <label for="RememberMe" style="font-size: 12px;">Keep me logged in</label>
           </div>
           <div>
@@ -66,6 +66,7 @@
     <form action="" method="POST">
       @csrf
       <div class="w-full flex flex-col justify-center items-center">
+
         {{-- First Name --}}
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
@@ -75,6 +76,7 @@
           </span>
             <input type="text" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2" name="" id="" placeholder="First Name">
         </div>
+
         {{-- Last Name --}}
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
@@ -84,6 +86,7 @@
           </span>
             <input type="text" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2" name="" id="" placeholder="Last Name">
         </div>
+
         {{-- Username --}}
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
@@ -93,6 +96,7 @@
           </span>
             <input type="text" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2" name="" id="" placeholder="Username">
         </div>
+
         {{-- Email --}}
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
@@ -102,6 +106,7 @@
           </span>
             <input type="email" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2" name="" id="" placeholder="Email">
         </div>
+
         {{-- Position --}}
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
@@ -111,6 +116,7 @@
           </span>
             <input type="text" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2" name="" id="" placeholder="Position">
         </div>
+
         {{-- Select Purpose --}}
         <div class="relative w-full">
           <div class="relative">
@@ -121,10 +127,12 @@
             </span>
             <select id="purpose-select" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2 text-gray-400">
                 <option selected disabled value="">Select Purpose</option>
-                <option value="inquire">Inquire</option>
+                <option value="inquire" class="relative">Inquire</option>
+                <option value="request">Send Request Letter</option>
             </select>
           </div>
         </div>
+
         {{-- Password --}}
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
@@ -134,6 +142,7 @@
           </span>
             <input type="password" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2" name="" id="" placeholder="Password">
         </div>
+
         {{-- Confirm Password --}}
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
@@ -144,21 +153,25 @@
             <input type="password" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2" name="" id="" placeholder="Confirm Password">
         </div>
         <div class="w-full text-sm">
+
+          {{-- Terms of Service --}}
           <div class="flex items-center">
             <input type="checkbox" name="" id="TOS" class="me-2 rounded">
             <label for="TOS">I agree to the <a href="" target="_blank" class="text-blue-600 underline">Terms of Service</a></label>
           </div>
+
+          {{-- Data Privacy Policy --}}
           <div class="flex items-center">
             <input type="checkbox" name="" id="DPP" class="me-2 rounded">
             <label for="DPP">I agree to the <a href="" target="_blank" class="text-blue-600 underline">Data Privacy Policy</a></label>
           </div>
         </div>
-        <button class="bg-red-900 text-white mt-3 mb-5 lg:mb-6 rounded px-9 py-1">Request</button>
-    </form>
+
+        <button id="submitBtn" type="submit" class="bg-red-900 text-white mt-3 mb-5 lg:mb-6 rounded px-9 py-1 opacity-50 cursor-not-allowed" tooltip="asd" disabled>Request</button>
+    </form> 
         <hr class="border-t-2 border-gray-400 w-full mb-2 lg:mt-0">
         <p class="text-sm">Already have an account? <button id="loginBtn" type="button" class="text-sm text-blue-600 underline">Log In</button></p>
       </div>
-    
   </div>
 </div>
 </div>
@@ -166,8 +179,9 @@
 
 
 <div class="grid grid-cols-6 lg:gap-x-4 pt-2 px-5">
+
   {{-- Announcement Header --}}
-  <form action="">
+  <form action="" method="POST">
     @csrf
   <div class="col-span-6 lg:col-span-5 flex">
       <button name="content" value="news" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white border-solid border-r-2 border-rose-900">News</button>
@@ -187,6 +201,7 @@
 </div>
 
 <script>
+  // Toggle Login Form
   document.getElementById('loginBtn').addEventListener('click', function(){
     var form = document.getElementById('signupForm');
     var loginForm = document.getElementById('loginForm');
@@ -198,6 +213,7 @@
     }
   });
 
+  // Toggle Signup Form
   document.getElementById('signupBtn').addEventListener('click', function(){
     var form = document.getElementById('loginForm');
     var loginForm = document.getElementById('signupForm');
@@ -210,6 +226,7 @@
   });
 </script>
 
+{{-- Change option to black when selected --}}
 <script>
   document.getElementById('purpose-select').addEventListener('change', function() {
       if (this.value) {
@@ -221,6 +238,29 @@
       }
   });
 </script>
+
+{{-- Enable Submit Button --}}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const tosCheckbox = document.getElementById('TOS');
+        const dppCheckbox = document.getElementById('DPP');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function toggleButtonState() {
+            if (tosCheckbox.checked && dppCheckbox.checked) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        tosCheckbox.addEventListener('change', toggleButtonState);
+        dppCheckbox.addEventListener('change', toggleButtonState);
+    });
+</script>
+
 </body>
 
 </html>

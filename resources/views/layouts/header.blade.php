@@ -32,7 +32,7 @@
             <a href="/contact" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Contact Us</a>
           </li>
           <li>
-            <a href="#" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Log In</a>
+            <a href="/" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Log In</a>
           </li>
         </ul>
       </div>
