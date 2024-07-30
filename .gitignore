@@ -1,3 +1,4 @@
+# Ignore common files and directories
 /.phpunit.cache
 /node_modules
 /public/build
@@ -5,7 +6,6 @@
 /public/storage
 /storage/*.key
 /vendor
-.env
 .env.backup
 .env.production
 .phpunit.result.cache
@@ -17,4 +17,10 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-.history/
+
+# Explicitly include Filament directory in vendor
+!vendor/filament/
+!vendor/filament/**
+
+# Explicitly include .env file
+!.env
