@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -49,9 +51,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'firstname' => ['required','string','max:255'],
+            'lastname' => ['required','string', 'max:255'],
+            'position' => ['required','string','max:255'],
+            'purpose' => ['required','string','in:inquiry,sendrequestletter'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required','same:password'],
         ]);
     }
 
@@ -63,10 +70,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        Log::info('Creating user with data: ', $data);
         return User::create([
-            'name' => $data['name'],
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'username' => $data['username'],
             'email' => $data['email'],
+            'position' => $data['position'],
+            'purpose' => $data['purpose'],
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function register(Request $request)
+    {
+        User::create([
+            'firstname' => $request['firstname'],
+            'lastname' => $request['lastname'],
+            'username' => $request['username'],
+            'email' => $request['email'],
+            'position' => $request['position'],
+            'purpose' => $request['purpose'],
+            'password' => Hash::make($request['password']),
+        ]);
+
+        return redirect('/home');
+    }
+    
 }

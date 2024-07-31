@@ -34,6 +34,11 @@
           <li>
             <a href="/" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Log In</a>
           </li>
+          @if (Auth::check())
+          <li>
+            <a href="/logout" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Log out</a>
+          </li>
+          @endif
         </ul>
       </div>
     </div>
