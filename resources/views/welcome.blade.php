@@ -44,6 +44,11 @@
           </span>
             <input type="password" name="password" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2"  id="" placeholder="Password">
         </div>
+        @error('username')
+        <div class="col-span-12">
+          <p class="invalid-feedback text-sm text-red-500" role="alert"><span class="me-1">•</span> {{ $message }}</p>
+        </div>
+        @enderror
         @error('email')
         <div class="col-span-12">
           <p class="invalid-feedback text-sm text-red-500" role="alert"><span class="me-1">•</span> {{ $message }}</p>

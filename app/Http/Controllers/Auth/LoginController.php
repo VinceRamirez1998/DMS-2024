@@ -42,8 +42,9 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request){
-        $this->guard()->logout();
+        Auth::logout();
         $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/');
     }
 
@@ -51,7 +52,10 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        if ($this->attemptLogin($request)) {
+        $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
             return $this->sendLoginResponse($request);
         }
 
@@ -69,11 +73,11 @@ class LoginController extends Controller
 
     // Attempt to log the user into the application
     protected function attemptLogin(Request $request)
-{
-    \Log::info('Attempting login with remember me: ' . $request->filled('remember'));
+    {
+        \Log::info('Attempting login with remember me: ' . $request->filled('remember'));
 
-    return Auth::attempt($this->credentials($request), $request->filled('remember'));
-}
+        return Auth::attempt($this->credentials($request), $request->filled('remember'));
+    }
 
 
     // Get the login credentials from the request

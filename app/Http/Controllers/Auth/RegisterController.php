@@ -70,7 +70,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        Log::info('Creating user with data: ', $data);
         return User::create([
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
@@ -84,6 +83,24 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+
+        $validator = $request->validate([
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'position' => ['required', 'string', 'max:255'],
+            'purpose' => ['required', 'string', 'in:inquiry,sendrequestletter'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required', 'same:password'],
+        ], [
+            'username.unique' => 'The username has already been taken.',
+            'email.unique' => 'The email address is already in use.',
+            'email.email' => 'The email address must be a valid email format.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'password_confirmation.same' => 'The password confirmation must match the password.',
+        ]);
+
         User::create([
             'firstname' => $request['firstname'],
             'lastname' => $request['lastname'],
