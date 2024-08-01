@@ -143,7 +143,7 @@
             </span>
             <select name="purpose" id="purpose-select" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2 text-gray-400">
                 <option selected disabled value="">Select Purpose</option>
-                <option value="inquire" class="relative">Inquire</option>
+                <option value="inquire">Inquire</option>
                 <option value="request">Send Request Letter</option>
             </select>
           </div>

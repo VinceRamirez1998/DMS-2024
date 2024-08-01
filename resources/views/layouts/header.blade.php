@@ -44,7 +44,7 @@
   {{-- LOGGED IN --}}
   <nav class="bg-red-900 w-full pr-1 pl-2 md:pl-0 md:pr-6">
     <div class="flex flex-wrap items-center justify-between">
-      <a href="/" class="flex items-center rtl:space-x-reverse md:bg-[#eeeeee] py-1 px-0 md:px-[130px] md:rounded-tr-lg md:rounded-br-lg">
+      <a href="/dashboard" class="flex items-center rtl:space-x-reverse md:bg-[#eeeeee] py-1 px-0 md:px-[130px] md:rounded-tr-lg md:rounded-br-lg">
           <img src="{{ asset('../img/ESM.png') }}" class="h-10 rounded-3xl" alt="" />
       </a>
       <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">

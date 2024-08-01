@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -83,13 +84,12 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-
         $validator = $request->validate([
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'position' => ['required', 'string', 'max:255'],
-            'purpose' => ['required', 'string', 'in:inquiry,sendrequestletter'],
+            'purpose' => ['required', 'string', 'in:inquire,request'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required', 'same:password'],
@@ -101,7 +101,7 @@ class RegisterController extends Controller
             'password_confirmation.same' => 'The password confirmation must match the password.',
         ]);
 
-        User::create([
+        $createUser = User::create([
             'firstname' => $request['firstname'],
             'lastname' => $request['lastname'],
             'username' => $request['username'],
@@ -111,7 +111,15 @@ class RegisterController extends Controller
             'password' => Hash::make($request['password']),
         ]);
 
-        return redirect('/home');
+        
+        // Log in user
+         $credentials = $request->only('email', 'password');
+         if(Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
+         }else{
+             return redirect('/home');
+         }
     }
     
 }
