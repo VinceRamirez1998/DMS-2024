@@ -59,6 +59,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/repository', function () {
+        return view('repository');
+    })->name('repository');
+    Route::get('/inquiry', function () {
+        return view('inquiry');
+    })->name('inquiry');
 });
 
 // Home Route (Accessible to unauthenticated users)

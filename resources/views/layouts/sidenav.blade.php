@@ -11,12 +11,12 @@
     display: none;
     /* display: block; */
   }
-  /* .margin-min-top {
-    margin-top: 208px;
-  } */
+  .margin-min-top {
+    margin-top: 0px;
+  }
 </style>
 
-<div id="menu" class="bg-red-900 hidden md:block w-[37px] h-screen transition-width duration-300">
+<div id="menu" class="bg-red-900 hidden md:block w-[37px] h-[100vh] transition-width duration-300">
   <button class="ms-1 mt-1" id="menubtn">
       <i class="fa-solid fa-bars text-white text-3xl"></i>
   </button>
@@ -29,22 +29,22 @@
     <p class="menu-content text-center mt-2 text-white font-bold text-xl mb-5">{{ '@' . auth()->user()->username }}</p>
 
     {{-- Content --}}
-    <div id="icon-arrange" class="container-fluid">
+    <div id="icon-arrange" class="mt-[208px] container-fluid">
       {{-- Dashboard --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="" class="flex flex-nowrap items-center hover:bg-red-800 pl-0 py-1"><i class="ms-1 mt-1 fa-solid fa-gauge-high text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Dashboard</p></a>
+      <a href="/dashboard" class="flex flex-nowrap items-center hover:bg-red-800 pl-0 py-1"><i class="ms-1 mt-1 fa-solid fa-gauge-high text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Dashboard</p></a>
       {{-- Repository --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-magnifying-glass text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Repository</p></a>
+      <a href="/repository" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-magnifying-glass text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Repository</p></a>
       {{-- Inquiry --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-envelope text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Inquiry</p></a>
+      <a href="/inquiry" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-envelope text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Inquiry</p></a>
       {{-- Notification --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-bell text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Notification</p></a>
+      <a href="#" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-bell text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Notification</p></a>
       {{-- Settings --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-sliders text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Settings</p></a>
+      <a href="#" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-sliders text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Settings</p></a>
     
     </div>
   </div>
