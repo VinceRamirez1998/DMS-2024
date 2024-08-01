@@ -27,7 +27,10 @@ Route::get('/contact', function () {
 
 Route::post('register', [RegisterController::class, 'register'])->name('register');
 Route::middleware(['auth', 'verified'])->group(function () {
-    ROute::get('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 Auth::routes();
 

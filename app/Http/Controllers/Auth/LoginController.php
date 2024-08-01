@@ -101,7 +101,7 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
 
-        return redirect()->intended($this->redirectPath());
+        return redirect()->route('dashboard');
     }
 
     // Handle a failed login attempt
