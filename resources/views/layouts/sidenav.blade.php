@@ -1,22 +1,23 @@
 <style>
   .collapsed {
-    /* width: 298.21px !important; */
-    width: 37px;
+    width: 298.21px !important;
+    /* width: 37px; */
   }
   .hideicons {
-    display: none!important;
+    /* display: none!important; */
+    display:block!important;
   }
   .menu-content {
-    /* display: none; */
-    display: block;
+    display: none;
+    /* display: block; */
   }
-  .margin-min-top {
+  /* .margin-min-top {
     margin-top: 208px;
-  }
+  } */
 </style>
 
-<div id="menu" class="bg-red-900 hidden md:block w-[298.21px] h-screen transition-width duration-300">
-  <button class="ms-1 mt-1" id="menubtn" onclick="showmenu()">
+<div id="menu" class="bg-red-900 hidden md:block w-[37px] h-screen transition-width duration-300">
+  <button class="ms-1 mt-1" id="menubtn">
       <i class="fa-solid fa-bars text-white text-3xl"></i>
   </button>
   <div class="container-fluid">
