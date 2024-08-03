@@ -33,8 +33,11 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
 });
+    
+    
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Routes for Unverified Users
 Route::middleware(['auth', 'unverified'])->group(function () {

@@ -82,7 +82,7 @@
           <li>
             <div class="flex flex-row items-center ms-1 mt-1 md:ms-0 md:mt-0">
               <i class="fa-solid fa-right-from-bracket text-white me-2 pt-1"></i>
-              <a href="/logout" class="text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Log out</a>
+              <a href="{{ route('logout') }}" class="text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Log out</a>
             </div>
           </li>
         </ul>
