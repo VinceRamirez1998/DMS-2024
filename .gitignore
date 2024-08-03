@@ -22,5 +22,9 @@ yarn-error.log
 !vendor/filament/
 !vendor/filament/**
 
+# Explicitly include Filament directory in vendor
+!vendor/spatie/
+!vendor/spatie/**
+
 # Explicitly include .env file
 !.env
