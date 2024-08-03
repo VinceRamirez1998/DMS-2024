@@ -25,11 +25,7 @@
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul class="flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
           <li>
-<<<<<<< HEAD
-            <a href="#" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0" aria-current="page">TRY LANG</a>
-=======
-            <a href="/" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0" aria-current="page">Home</a>
->>>>>>> frontEndIndexPage
+            <a href="#" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0" aria-current="page">HOME</a>
           </li>
           <li>
             <a href="/about" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">About Us</a>
