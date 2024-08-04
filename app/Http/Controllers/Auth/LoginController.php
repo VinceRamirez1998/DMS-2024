@@ -54,7 +54,12 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        $credentials = $request->only('email', 'password');
+        $loginType = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $loginType => $request->input('email'),
+            'password' => $request->input('password')
+        ];
         $remember = $request->filled('remember');
 
         if (Auth::attempt($credentials, $remember)) {
