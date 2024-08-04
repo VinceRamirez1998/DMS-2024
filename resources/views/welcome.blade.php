@@ -217,7 +217,6 @@
     <a href=""><p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, voluptate.</p></a>
     <a href=""><p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur molestiae sint ratione a commodi perferendis architecto</p></a>
     <a href=""><p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis deleniti doloremque accusamus cum sit.</p></a>
->>>>>>> frontEndIndexPage
   </div>
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
 </div>

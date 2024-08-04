@@ -67,14 +67,19 @@
           <li class="md:hidden">
             <a href="" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Repository</a>
           </li>
+          @if(Auth()->user()->purpose == 'request')
           <li class="md:hidden">
-            <a href="" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Inquiry</a>
+            <a href="/downloadable" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Downloadable Forms</a>
+          <li>
+          @endif
+          <li class="md:hidden">
+            <a href="/inquiry" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Inquiry</a>
           </li>
           <li class="md:hidden">
             <a href="" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Notification</a>
           </li>
           <li class="md:hidden">
-            <a href="" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Settings</a>
+            <a href="/settings" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Settings</a>
           </li>
           <li>
             <p class="text-white ms-[3px] md:ms-0 my-2 md:my-0">{{ date('m/d/Y') }}</p>

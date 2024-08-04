@@ -62,12 +62,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/repository', function () {
+    Route::get('/repository/ongoing', function () {
         return view('repository');
     })->name('repository');
     Route::get('/inquiry', function () {
         return view('inquiry');
     })->name('inquiry');
+    Route::get('/downloadable', function () {
+        return view('downloadableform');
+    })->name('downloadable');
+    Route::get('/settings', function () {
+        return view('settings');
+    })->name('settings');
 });
 
 // Home Route (Accessible to unauthenticated users)

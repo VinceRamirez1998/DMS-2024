@@ -19,7 +19,7 @@
       </div>
       {{-- Announcement --}}
       <div class="col-span-12 md:col-span-5 bg-[#bd8889] rounded-md border-2 border-red-500">
-        <div class="container w-[100%]">
+        <div class="container-fluid w-100">
           <p class="text-xl ps-3 mt-2 mb-0 py-3 bg-red-900 text-white font-semibold">Announcement Board</p>
           <div class="flex flex-col container px-7 h-[277px] overflow-y-scroll">
             <a href="" class="ms-1">• あの日の悲しみさえ あの日の苦しみさえあの日の悲しみさえ あの日の苦しみさえ</a>

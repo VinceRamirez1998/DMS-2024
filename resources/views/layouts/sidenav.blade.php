@@ -16,7 +16,7 @@
   }
 </style>
 
-<div id="menu" class="bg-red-900 hidden md:block w-[37px] h-[100vh] transition-width duration-300">
+<div id="menu" class="bg-red-900 hidden md:block w-[37px] h-[100vh] transition-width duration-300 col-auto">
   <button class="ms-1 mt-1" id="menubtn">
       <i class="fa-solid fa-bars text-white text-3xl"></i>
   </button>
@@ -35,8 +35,13 @@
       <a href="/dashboard" class="flex flex-nowrap items-center hover:bg-red-800 pl-0 py-1"><i class="ms-1 mt-1 fa-solid fa-gauge-high text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Dashboard</p></a>
       {{-- Repository --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="/repository" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-magnifying-glass text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Repository</p></a>
+      <a href="/repository/ongoing" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-magnifying-glass text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Repository</p></a>
+      @if(Auth()->user()->purpose == 'request')
+      {{-- Downloadable Forms --}}
+      <hr class="menu-content border-t-2 border-t-red-950">
+      <a href="/downloadable" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-2 mt-1 fa-regular fa-file-lines text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Downloadable Forms</p></a>
       {{-- Inquiry --}}
+      @endif
       <hr class="menu-content border-t-2 border-t-red-950">
       <a href="/inquiry" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-envelope text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Inquiry</p></a>
       {{-- Notification --}}
@@ -44,7 +49,7 @@
       <a href="#" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-bell text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Notification</p></a>
       {{-- Settings --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="#" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-sliders text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Settings</p></a>
+      <a href="/settings" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-sliders text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Settings</p></a>
     
     </div>
   </div>
