@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +29,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'position',
         'purpose',
         'password',
+        'name',
+        'role',
+        'phone',
     ];
 
     /**
@@ -47,4 +53,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function canAccessFilament(): bool
+    {
+        return $this->hasRole('Admin');
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return  $this->hasRole('Admin') && $this->hasVerifiedEmail();
+    }
 }
