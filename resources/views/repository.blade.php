@@ -9,7 +9,7 @@
   <title>DHVSU</title>
 </head>
 <body>
-  <div class="flex">
+  <div class="flex h-screen">
     @include('layouts.sidenav')
   <div class="w-screen pb-5">
     <div class="grid grid-cols-12 md:px-8 md:pt-8 gap-4 p-2 md:p-0">
