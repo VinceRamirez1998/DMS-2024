@@ -16,7 +16,7 @@
   }
 </style>
 
-<div id="menu" class="bg-red-900 hidden md:block w-[37px] h-[100vh] transition-width duration-300 col-auto">
+<div id="menu" class="bg-red-900 hidden md:block w-[37px] h-auto transition-width duration-300 col-auto">
   <button class="ms-1 mt-1" id="menubtn">
       <i class="fa-solid fa-bars text-white text-3xl"></i>
   </button>

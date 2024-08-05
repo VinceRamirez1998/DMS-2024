@@ -33,7 +33,7 @@
 
       </div>
       {{-- Projects --}}
-      <div class="col-span-12">
+      <div class="col-span-12 mb-3">
         <div class="flex flex-row">
           <a href="" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</a>
           <a href="" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">Completed Projects</a>
