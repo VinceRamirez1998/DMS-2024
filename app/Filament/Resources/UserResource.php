@@ -22,8 +22,12 @@ use App\Filament\Resources\UserResource\RelationManagers;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+    public static function getNavigationBadge(): string
+    {
+        return static::getModel()::count();
+    }
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
@@ -55,7 +59,7 @@ class UserResource extends Resource
                     ->unique()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (Page $livewire) => $livewire instanceof CreateUser)
+                    // ->required(fn (Page $livewire) => $livewire instanceof CreateUser)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
