@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/heroicons@1.0.6/dist/heroicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<header class="sticky top-0">
+<header class="sticky top-0 z-50">
   @if(!Auth::check())
   {{-- NOT LOGGED IN --}}
   <nav class="bg-red-900 w-full">
@@ -44,7 +44,7 @@
   {{-- LOGGED IN --}}
   <nav class="bg-red-900 w-full pr-1 pl-2 md:pl-0 md:pr-6">
     <div class="flex flex-wrap items-center justify-between">
-      <a href="/dashboard" class="flex items-center rtl:space-x-reverse md:bg-[#eeeeee] py-1 px-0 md:px-[130px] md:rounded-tr-lg md:rounded-br-lg">
+      <a href="/dashboard" class="flex items-center rtl:space-x-reverse md:bg-[#eeeeee] py-1 px-0 md:px-[106px] md:rounded-tr-lg md:rounded-br-lg">
           <img src="{{ asset('../img/ESM.png') }}" class="h-10 rounded-3xl" alt="" />
       </a>
       <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">

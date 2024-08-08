@@ -15,21 +15,25 @@
     margin-top: 0px;
   }
 </style>
-
 <div id="menu" class="bg-red-900 hidden md:block w-[37px] h-auto transition-width duration-300 col-auto">
+  <div class="">
   <button class="ms-1 mt-1" id="menubtn">
       <i class="fa-solid fa-bars text-white text-3xl"></i>
   </button>
   <div class="container-fluid">
     <div class="container flex justify-center">
       <div class="menu-content w-[150px] h-[150px] flex justify-center items-center rounded-full overflow-hidden">
-        <img src="{{ asset('img/DHVSU_Logo.png') }}" class="w-full h-auto object-cover" alt="DHVSU Logo">
+        @if(auth()->user()->profile_picture)
+        <img src="{{ asset('img/profile/'.auth()->user()->profile_picture) }}" alt="" class="w-full h-full object-cover">
+        @else
+        <img src="https://via.placeholder.com/180" alt="" class="w-full h-auto object-cover">
+        @endif
       </div>
     </div>
     <p class="menu-content text-center mt-2 text-white font-bold text-xl mb-5">{{ '@' . auth()->user()->username }}</p>
 
     {{-- Content --}}
-    <div id="icon-arrange" class="mt-[208px] container-fluid">
+    <div id="icon-arrange" class="mt-[208px] container-fluid overflow-hidden">
       {{-- Dashboard --}}
       <hr class="menu-content border-t-2 border-t-red-950">
       <a href="/dashboard" class="flex flex-nowrap items-center hover:bg-red-800 pl-0 py-1"><i class="ms-1 mt-1 fa-solid fa-gauge-high text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Dashboard</p></a>
@@ -46,11 +50,11 @@
       <a href="/inquiry" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-envelope text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Inquiry</p></a>
       {{-- Notification --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="#" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-bell text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Notification</p></a>
+      <a href="/notification" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-bell text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Notification</p></a>
       {{-- Settings --}}
       <hr class="menu-content border-t-2 border-t-red-950">
       <a href="/settings" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-solid fa-sliders text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Settings</p></a>
-    
+      </div>
     </div>
   </div>
 </div>

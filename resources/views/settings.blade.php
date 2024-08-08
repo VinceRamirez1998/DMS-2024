@@ -19,10 +19,14 @@
         {{-- Profile Picture --}}
         <div class=" justify-center flex">
           <div class="relative mt-10">
-            <div class="h-[180px] w-[180px] flex justify-center items-center object-cover border-4 border-black rounded-full overflow-hidden">
-              <img src="{{ asset('img/ESM.png') }}" alt="Profile Picture" class="w-100 h-100">
+            <div class="h-[180px] w-[180px] flex justify-center items-center border-4 border-black rounded-full overflow-hidden">
+              @if(auth()->user()->profile_picture)
+              <img src="{{ asset('img/profile/'.auth()->user()->profile_picture) }}" alt="" class="w-full h-full object-cover">
+              @else
+              <img src="https://via.placeholder.com/180" alt="" class="w-100 h-100">
+              @endif
             </div>
-            <a href="#" class="absolute z-[999] bottom-0 right-0 bg-white rounded-full p-2 px-3 border-2 border-gray-500"><i class="fa-solid fa-camera text-gray-500 text-2xl"></i></a>
+            <a href="{{ route('settings.profile') }}" class="absolute z-1 bottom-0 right-0 bg-white rounded-full p-2 px-3 border-2 border-gray-500"><i class="fa-solid fa-camera text-gray-500 text-2xl"></i></a>
           </div>
         </div>
         <div class="grid grid-cols-5 gap-4 md:gap-4 mx-auto mt-5 pb-5">
@@ -51,24 +55,24 @@
           <div class="col-span-5 md:col-span-3">
             <div class="flex flex-col">
                 <p>Password</p>
-                <input type="text" class="w-full py-1 rounded-md p-2 border-2 border-red-500" placeholder="Enter Password">
-                <button class="bg-red-900 text-white rounded-md font-semibold px-7 py-1 h-[32px] md:hidden">Change&nbsp;Password</button>
+                <input type="text" class="w-full py-1 rounded-md p-2 border-2 border-red-500" placeholder="Enter Password" value="**********" readonly>
+                <a href="{{ route('settings.password') }}" class="bg-red-900 text-white rounded-md font-semibold px-7 py-1 h-[32px] md:hidden text-center">Change&nbsp;Password</a>
             </div>
         </div>
-        <div class="col-span-3 md:col-span-2 md:col-start-4 flex md:items-end items-start hidden md:flex">
-            <button class="bg-red-900 text-white rounded-md font-semibold px-7 py-1 h-[32px]">Change&nbsp;Password</button>
+        <div class="col-span-3 md:col-span-2 md:col-start-4 md:items-end items-start hidden md:flex">
+            <a href="{{ route('settings.password') }}" class="bg-red-900 text-white rounded-md font-semibold px-7 py-1 h-[32px] text-center">Change&nbsp;Password</a>
         </div>
         
           {{-- Contact --}}
           <div class="col-span-5 md:col-span-3">
             <div class="flex flex-col">
               <p>Contact No.</p>
-              <input type="text" class="w-full py-1 rounded-md p-2 border-2 border-red-500" placeholder="Enter Contact No.">
-              <button class="bg-red-900 text-white rounded-md font-semibold px-7 py-1 h-[32px] md:hidden">Change&nbsp;Number</button>
+              <input type="text" class="w-full py-1 rounded-md p-2 border-2 border-red-500 {{ auth()->user()->phone ? 'text-black' : 'text-gray-400' }}" value="{{ auth()->user()->phone ?? 'Contact no. not set yet.' }}" placeholder="Enter Contact No." readonly>
+              <a href="{{ route('settings.contact') }}" class="bg-red-900 text-white rounded-md font-semibold px-7 py-1 h-[32px] md:hidden text-center">Change&nbsp;Number</a>
             </div>
           </div>
           <div class="col-span-3 md:col-span-2 md:col-start-4 flex md:items-end items-start hidden md:flex">
-            <button class="bg-red-900 text-white rounded-md font-semibold px-8 py-1 h-[32px]">Change&nbsp;Number</button>
+            <a href="{{ route('settings.contact') }}" class="bg-red-900 text-white rounded-md font-semibold px-8 py-1 h-[32px] text-center">Change&nbsp;Number</a>
         </div>
           
           <div class="col-span-5 mt-5">

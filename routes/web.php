@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Functions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -74,6 +75,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/settings', function () {
         return view('settings');
     })->name('settings');
+    Route::get('/settings/password', function () {
+        return view('settingspassword');
+    })->name('settings.password');
+    Route::get('/settings/contact', function () {
+        return view('settingscontact');
+    })->name('settings.contact');
+    Route::get('/settings/profile', function () {
+        return view('settingsprofile');
+    })->name('settings.profile');
+    Route::get('/notification', function () {
+        return view('notification');
+    })->name('notification');
+
+    Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
+    Route::post('/settings/contact/update', [Functions::class, 'changeContact'])->name('settings.contact.update');
+    Route::post('/settings/profile/update', [Functions::class, 'changeProfile'])->name('settings.profile.update');
 });
 
 // Home Route (Accessible to unauthenticated users)
