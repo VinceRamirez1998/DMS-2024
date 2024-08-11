@@ -63,8 +63,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/repository/ongoing', function () {
-        return view('repository');
+    Route::get('/repository/{category}', function($category){
+        return view('repository', ['category' => $category]);
     })->name('repository');
     Route::get('/inquiry', function () {
         return view('inquiry');
@@ -87,6 +87,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notification', function () {
         return view('notification');
     })->name('notification');
+    Route::get('/projectsandrequests', function () {
+        return view('projectsandrequests');
+    })->name('projectsandrequests');
+    Route::get('/requests', function () {
+        return view('requests');
+    })->name('requests');
+    Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');
+    Route::get('/requests/{month}/{folder}', [Functions::class, 'request_folder'])->name('requests.folder');
+
 
     Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
     Route::post('/settings/contact/update', [Functions::class, 'changeContact'])->name('settings.contact.update');

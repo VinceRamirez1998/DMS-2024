@@ -65,7 +65,7 @@
             <a href="" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Dashboard</a>
           </li>
           <li class="md:hidden">
-            <a href="" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Repository</a>
+            <a href="{{ route('repository',['category' => 'ongoing']) }}" class="block py-2 px-1 text-white dark:hover:bg-red-500 md:dark:hover:bg-transparent rounded md:p-0">Repository</a>
           </li>
           @if(Auth()->user()->purpose == 'request')
           <li class="md:hidden">
@@ -101,4 +101,17 @@
 </body>
 <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+<script>
+  function checkOverflow(element) {
+    if (element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth) {
+        element.style.overflow = 'auto'; // or 'scroll'
+    } else {
+        element.style.overflow = 'hidden';
+    }
+}
+
+const myElement = document.querySelector('.my-element');
+checkOverflow(myElement);
+
+</script>
 </html>

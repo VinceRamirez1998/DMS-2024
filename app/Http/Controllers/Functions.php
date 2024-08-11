@@ -60,4 +60,13 @@ class Functions extends Controller
       
         return redirect()->back()->with('success', 'Profile changed successfully.');
     }
+
+    public function request_month($month){
+        return view('requestsmonth', ['monthName' => $month]);
+    }
+
+    public function request_folder($month,$folder){
+        return view('requestsfolder', ['monthName' => $month, 'folder' => $folder]);
+    }
+
 }

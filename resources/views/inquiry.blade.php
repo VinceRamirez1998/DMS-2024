@@ -39,8 +39,8 @@
             <div class="relative w-[480px]">
               <div id="dropzone" class="dropzone py-[120px] border-2 border-dashed border-gray-300 bg-white rounded-lg p-8 text-center cursor-pointer hover:bg-gray-50">
                 <p id="status" class="text-gray-600">Drag and drop files here or click to select file</p>
-                <input type="file" id="fileInput" hidden>
-            </div>
+                <input type="file" id="fileInput" accept=".doc,.docx,.pdf" hidden>
+              </div>
             </div>
         </div>
           @endif

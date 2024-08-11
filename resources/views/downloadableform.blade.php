@@ -20,7 +20,7 @@
         <p class="text-lg text-white font-bold w-100 py-3 bg-red-900 ps-3 mt-2">Downloadable Forms</p>
         {{-- Request Letter --}}
         <div class="py-2 px-3 mx-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleCompletedBtn"><p>Request Letter</p></button>
+          <button id="toggleCompletedBtn" class="container text-left"><p>Request Letter</p></button>
           <div id="completedContent" class="grid grid-col-12 md:ml-5 pb-10 text-justify mt-5 hidden transition-all duration-500">
             <a href="{{ asset('img/DHVSU_Logo.png') }}" download="{{ asset('img/DHVSU_Logo.png') }}" id="showImageBtnCompleted" class="font-normal flex flex-col justify-center items-center text-center">
               <img src="{{ asset('img/DHVSU_Logo.png') }}" class="h-100 max-h-[306px]" alt="">
@@ -30,7 +30,7 @@
         </div>
         {{-- Customer Survey Form --}}
         <div class="py-2 px-3 mx-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleCompletedBtn1"><p>Customer Survey Form</p></button>
+          <button id="toggleCompletedBtn1" class="container text-left"><p>Customer Survey Form</p></button>
           <div id="completedContent1" class="grid grid-col-12 md:ml-5 pb-10 text-justify mt-5 hidden transition-all duration-500">
             <a href="{{ asset('img/DHVSU_Logo.png') }}" download="{{ asset('img/DHVSU_Logo.png') }}" id="showImageBtnCompleted" class="font-normal flex flex-col justify-center items-center text-center">
               <img src="{{ asset('img/DHVSU_Logo.png') }}" class="h-100 max-h-[306px]" alt="">
@@ -40,7 +40,7 @@
         </div>
         {{-- Monitoring Form --}}
         <div class="py-2 px-3 mx-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleCompletedBtn2"><p>Monitoring Form</p></button>
+          <button id="toggleCompletedBtn2" class="container text-left"><p>Monitoring Form</p></button>
           <div id="completedContent2" class="grid grid-col-12 md:ml-5 pb-10 text-justify mt-5 hidden transition-all duration-500">
             <a href="{{ asset('img/DHVSU_Logo.png') }}" download="{{ asset('img/DHVSU_Logo.png') }}" id="showImageBtnCompleted" class="font-normal flex flex-col justify-center items-center text-center">
               <img src="{{ asset('img/DHVSU_Logo.png') }}" class="h-100 max-h-[306px]" alt="">
@@ -50,7 +50,7 @@
         </div>
         {{-- Evaluation Form --}}
         <div class="py-2 px-3 mx-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleCompletedBtn3"><p>Evaluation Form</p></button>
+          <button id="toggleCompletedBtn3" class="container text-left"><p>Evaluation Form</p></button>
           <div id="completedContent3" class="grid grid-col-12 md:ml-5 pb-10 text-justify mt-5 hidden transition-all duration-500">
             <a href="{{ asset('img/DHVSU_Logo.png') }}" download="{{ asset('img/DHVSU_Logo.png') }}" id="showImageBtnCompleted" class="font-normal flex flex-col justify-center items-center text-center">
               <img src="{{ asset('img/DHVSU_Logo.png') }}" class="h-100 max-h-[306px]" alt="">
@@ -60,7 +60,7 @@
         </div>
         {{-- Satisfaction Survey Form --}}
         <div class="py-2 px-3 mx-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleCompletedBtn4"><p>Satisfaction Survey Form</p></button>
+          <button id="toggleCompletedBtn4" class="container text-left"><p>Satisfaction Survey Form</p></button>
           <div id="completedContent4" class="grid grid-col-12 md:ml-5 pb-10 text-justify mt-5 hidden transition-all duration-500">
             <a href="{{ asset('img/DHVSU_Logo.png') }}" download="{{ asset('img/DHVSU_Logo.png') }}" id="showImageBtnCompleted" class="font-normal flex flex-col justify-center items-center text-center">
               <img src="{{ asset('img/DHVSU_Logo.png') }}" class="h-100 max-h-[306px]" alt="">
