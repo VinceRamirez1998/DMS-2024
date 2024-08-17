@@ -21,7 +21,7 @@
   </button>
   <div class="container-fluid">
     <div class="container flex justify-center">
-      <div class="menu-content w-[150px] h-[150px] flex justify-center items-center rounded-full overflow-hidden">
+      <div id="profile-container" class="w-[150px] h-[150px] invisible flex justify-center items-center rounded-full overflow-hidden">
         @if(auth()->user()->profile_picture)
         <img src="{{ asset('img/profile/'.auth()->user()->profile_picture) }}" alt="" class="w-full h-full object-cover">
         @else
@@ -32,7 +32,7 @@
     <p class="menu-content text-center mt-2 text-white font-bold text-xl mb-5">{{ '@' . auth()->user()->username }}</p>
 
     {{-- Content --}}
-    <div id="icon-arrange" class="mt-[208px] container-fluid overflow-hidden relative">
+    <div id="icon-arrange" class="container-fluid overflow-hidden relative">
       {{-- Dashboard --}}
       <hr class="menu-content border-t-2 border-t-red-950">
       <a href="/dashboard" class="flex flex-nowrap items-center hover:bg-red-800 pl-0 py-1"><i class="ms-1 mt-1 fa-solid fa-gauge-high text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Dashboard</p></a>
@@ -87,7 +87,9 @@
 <script>
   document.getElementById('menubtn').addEventListener('click', function() {
       const menu = document.getElementById('menu');
+      const profile = document.getElementById('profile-container');
       menu.classList.toggle('collapsed');
+      profile.classList.toggle('invisible');
 
       var icons = document.querySelectorAll('.menu-content');
       icons.forEach(function(icon) {

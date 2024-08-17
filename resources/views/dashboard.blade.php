@@ -10,7 +10,7 @@
   <title>DHVSU</title>
 </head>
 <body>
-  <div class="flex">
+  <div class="flex h-auto">
   @include('layouts.sidenav')
   <div class="w-screen h-full">
     <div class="grid grid-cols-12 md:pl-8 md:pt-8 gap-4 p-2 md:p-0 h-auto">
@@ -135,10 +135,8 @@
         <p class="text-xl ps-3 mt-2 mb-0 py-3 bg-red-900 text-white font-semibold">Announcement Board</p>
         <div class="flex flex-col container px-12 h-full overflow-y-scroll">
           <p class="ms-1">• あの日の悲しみさえ あの日の苦しみさえあの日の悲しみさえ あの日の苦しみさえ</p>
-          
         </div>
       </div>
-
     </div>
   @endif
   </div>
