@@ -90,9 +90,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projectsandrequests', function () {
         return view('projectsandrequests');
     })->name('projectsandrequests');
-    Route::get('/requests', function () {
-        return view('requests');
-    })->name('requests');
+    Route::get('/requests', [Functions::class, 'request_page'])->name('requests');
     Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');
     Route::get('/requests/{month}/{folder}', [Functions::class, 'request_folder'])->name('requests.folder');
 
@@ -100,6 +98,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
     Route::post('/settings/contact/update', [Functions::class, 'changeContact'])->name('settings.contact.update');
     Route::post('/settings/profile/update', [Functions::class, 'changeProfile'])->name('settings.profile.update');
+
+    Route::post('/inquiry/submit', [Functions::class, 'submitInquiry'])->name('submit.inquiry');
+
+    Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
 });
 
 // Home Route (Accessible to unauthenticated users)

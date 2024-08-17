@@ -19,36 +19,16 @@
         <div class="h-screen w-full overflow-y-scroll">
         <div class="grid grid-cols-12 gap-2 pb-3 px-3 md:px-5">
 
-          @for($i = 1; $i <= 12; $i++)
-          <div class="col-span-6 md:col-span-3 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
-
+        @foreach($months as $month)
+        <div class="col-span-6 md:col-span-3 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
             <div class="flex-1 min-w-0">
-                @php
-                    $monthName = date('F', mktime(0, 0, 0, $i, 1));
-                @endphp
-                <a href="{{ route('requests.month', ['month' => $monthName]) }}" class="flex items-center">
+                <a href="{{ route('requests.month', ['month' => $month->month_name]) }}" class="flex items-center">
                     <i class="fa-solid fa-folder text-2xl me-2"></i>
-                    <p class="overflow-hidden whitespace-nowrap text-ellipsis">{{ $monthName }}</p>
+                    <p class="overflow-hidden whitespace-nowrap text-ellipsis">{{ $month->month_name }}</p>
                 </a>
             </div>
-        
-            {{-- <div class="relative">
-                <button class="p-2" id="dropdownButton{{ $i }}">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-                <div id="dropdownMenu{{ $i }}" class="hidden flex flex-col absolute right-5 top-1 z-10 bg-white border border-gray-400 mt-2">
-                    <form action="" method="POST">
-                        @csrf
-                        <button class="p-2">Rename</button>
-                        <hr class="border-b border-gray-400">
-                        <button class="p-2">Delete</button>
-                    </form>
-                </div>
-            </div> --}}
         </div>
-        
-        
-          @endfor
+        @endforeach
         </div>
       </div>
       </div>

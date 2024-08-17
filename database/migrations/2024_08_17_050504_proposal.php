@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('proposal', function (Blueprint $table) {
             $table->id();
             $table->string('username');
+            $table->string('title');
+            $table->string('position');
+            $table->string('location');
             $table->string('file');
-            $table->string('remarks');
-            
+            $table->string('status')->nullable();
+            $table->string('type')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

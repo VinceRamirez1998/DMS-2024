@@ -24,13 +24,15 @@
     <div class="grid grid-cols-12 md:px-2 md:pt-8 gap-4 p-2 md:p-0 md:mt-3">
       {{-- Projects --}}
       <div class="col-span-12">
+        <form action="{{ route('submit.inquiry') }}" method="post" enctype="multipart/form-data">
+        @csrf
         <div class="flex flex-col gap-2 bg-[#eeeeee] rounded-md p-3 border-2 border-red-500">
           <label for="title" class="text-lg">Title</label>
-          <input type="text" id="title" class="w-full md:w-[370px] rounded-md p-2 border-2 border-red-500" placeholder="">
+          <input name="title" type="text" id="title" class="w-full md:w-[370px] rounded-md p-2 border-2 border-red-500" placeholder="">
           <label for="position" class="text-lg">Position</label>
-          <input type="text" id="position" class="w-full md:w-[370px] rounded-md p-2 border-2 border-red-500" placeholder="">
+          <input name="position" type="text" id="position" class="w-full md:w-[370px] rounded-md p-2 border-2 border-red-500" placeholder="">
           <label for="location" class="text-lg">Location</label>
-          <input type="text" id="location" class="w-full md:w-[370px] rounded-md p-2 border-2 border-red-500" placeholder="">
+          <input name="location" type="text" id="location" class="w-full md:w-[370px] rounded-md p-2 border-2 border-red-500" placeholder="">
           @if(Auth()->user()->purpose == 'inquire')
           <label for="inquiry" class="text-lg">Inquiry</label>
           <textarea type="text" id="inquiry" class="w-full h-[290px] rounded-md p-2 border-2 border-red-500 resize-none" placeholder=""></textarea>
@@ -39,16 +41,31 @@
             <div class="relative w-[480px]">
               <div id="dropzone" class="dropzone py-[120px] border-2 border-dashed border-gray-300 bg-white rounded-lg p-8 text-center cursor-pointer hover:bg-gray-50">
                 <p id="status" class="text-gray-600">Drag and drop files here or click to select file</p>
-                <input type="file" id="fileInput" accept=".doc,.docx,.pdf" hidden>
+                <input name="file" type="file" id="fileInput" accept=".doc,.docx,.pdf" hidden>
               </div>
             </div>
         </div>
           @endif
-          <div class="col-span-12 flex justify-center">
+          <div class="col-span-12 flex justify-center items-center flex-col">
+            @if ($errors->any())
+                <div class="rounded-md bg-red-400  w-full md:w-[20rem] px-2 md:px-10 my-2">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="my-1">• {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('success'))
+            <div class="rounded-md bg-green-400 text-center w-full md:w-[20rem] px-2 md:px-10 my-2">
+                    <p class="text-lg font-semibold text-white">{{ session('success') }}</p>
+                </div>
+            @endif
+
             <button class="bg-red-900 text-md font-semibold text-white w-[240px] py-1 rounded-md">Send</button>
           </div>
-          
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

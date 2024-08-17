@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class Functions extends Controller
 {
@@ -61,12 +63,79 @@ class Functions extends Controller
         return redirect()->back()->with('success', 'Profile changed successfully.');
     }
 
+    public function request_page(){
+        $months = Proposal::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
+        ->where('type', 'inquiry')
+        ->groupBy('month', 'month_name')
+        ->orderBy('month')
+        ->get();
+        return view('requests', compact('months'));
+    }
     public function request_month($month){
-        return view('requestsmonth', ['monthName' => $month]);
+        $monthNumber = date('m', strtotime($month));
+        $file = Proposal::select('*')
+                     ->where('type', 'inquiry')
+                     ->whereMonth('created_at', $monthNumber) 
+                     ->orderBy('created_at') 
+                     ->get();
+
+        return view('requestsmonth', ['monthName' => $month], compact('file','month'));
     }
 
-    public function request_folder($month,$folder){
-        return view('requestsfolder', ['monthName' => $month, 'folder' => $folder]);
+    public function request_folder($month, $folder){
+        $file = Proposal::where('id', $folder)->first();
+        $file = Proposal::where('title', $file->title)->get();
+
+        return view('requestsfolder', ['monthName' => $month, 'folder' => $folder], compact('file', 'month'));
+    }
+
+    public function submitInquiry(Request $request){
+        $request->validate([
+            'title' => 'required',
+            'position' => 'required',
+            'location' => 'required',
+            'file' => 'required|mimes:pdf,doc,docx',
+
+        ]);
+
+        // File
+        $file = $request->title . '-'. auth()->user()->username . '_' . date('m_d_Y_s') . '.' . $request->file->extension();
+        $request->file->move(public_path('documents'), $file);
+        $proposal = new Proposal();
+        $proposal->username = auth()->user()->username;
+        $proposal->title = $request->title;
+        $proposal->position = $request->position;
+        $proposal->location = $request->location;
+        $proposal->type = 'inquiry';
+        $proposal->file = $file;
+        $proposal->save();
+
+
+        return redirect()->back()->with('success', 'Proposal submitted.');
+    }
+
+    public function requestsoption(Request $request, $month){
+        if (empty($request->option)) {
+            $request->validate([
+                'option' => 'required',
+            ]);
+        }
+    
+        if ($request->option === 'rename') {
+            $proposal = Proposal::where('id', $request->folder_id)->first();
+            $proposal->title = $request->new_name; 
+            $proposal->save();
+        } elseif ($request->option === 'delete') {
+            $proposal = Proposal::where('id', $request->folder_id)->first();
+            if ($proposal && $proposal->file) {
+                $filePath = public_path('documents/' . $proposal->file);
+                if (file_exists($filePath)) {
+                    unlink($filePath);  
+                }
+            }
+            $proposal->delete();
+        }
+        return redirect()->back();
     }
 
 }

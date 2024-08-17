@@ -12,7 +12,7 @@
 <body>
   <div class="flex h-auto">
   @include('layouts.sidenav')
-  <div class="w-screen h-full">
+  <div class="w-screen h-full pb-5">
     <div class="grid grid-cols-12 md:pl-8 md:pt-8 gap-4 p-2 md:p-0 h-auto">
     @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator'|| auth()->user()->role == 'areaspecialist'|| auth()->user()->role == 'centermanagement')
       {{-- Video --}}
@@ -130,11 +130,13 @@
         </div>
       </div>
     </div>
-    <div class="col-span-12 md:col-span-6 flex justify-center">
+    <div class="col-span-12 md:col-span-6 flex justify-center overflow-hidden h-screen">
       <div class="container-fluid w-100 bg-[#bd8889]">
         <p class="text-xl ps-3 mt-2 mb-0 py-3 bg-red-900 text-white font-semibold">Announcement Board</p>
         <div class="flex flex-col container px-12 h-full overflow-y-scroll">
+          @for ($i=0; $i<50; $i++)
           <p class="ms-1">• あの日の悲しみさえ あの日の苦しみさえあの日の悲しみさえ あの日の苦しみさえ</p>
+          @endfor
         </div>
       </div>
     </div>
