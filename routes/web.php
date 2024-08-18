@@ -34,7 +34,7 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 });
     
     
@@ -69,6 +69,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/inquiry', function () {
         return view('inquiry');
     })->name('inquiry');
+    Route::get('/proposals', function () {
+        return view('proposals');
+    })->name('proposals');
     Route::get('/downloadable', function () {
         return view('downloadableform');
     })->name('downloadable');
@@ -100,6 +103,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/settings/profile/update', [Functions::class, 'changeProfile'])->name('settings.profile.update');
 
     Route::post('/inquiry/submit', [Functions::class, 'submitInquiry'])->name('submit.inquiry');
+    Route::post('/proposals/submit', [Functions::class, 'submitProposals'])->name('submit.proposals');
 
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
 });

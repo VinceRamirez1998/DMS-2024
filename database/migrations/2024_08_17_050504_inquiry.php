@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proposal', function (Blueprint $table) {
+        Schema::create('inquiry', function (Blueprint $table) {
             $table->id();
             $table->string('username');
             $table->string('title');
             $table->string('position');
             $table->string('location');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->string('status')->nullable();
             $table->string('type')->nullable();
             $table->string('remarks')->nullable();

@@ -75,6 +75,7 @@
         <hr class="border-t-2 border-gray-400 w-full mb-2 lg:mt-9">
         <p class="text-sm">Doesn't have an account yet? <button id="signupBtn" type="button" class="text-sm text-blue-600 underline">Sign up</button></p>
       </div>
+     
   </div>
 
   {{-- SIGN UP FORM--}}

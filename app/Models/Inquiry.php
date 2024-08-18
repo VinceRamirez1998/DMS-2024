@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Inquiry;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Proposal extends Model
+class Inquiry extends Model
 {
     use HasFactory;
 
-    protected $table = 'proposal';
+    protected $table = 'inquiry';
     protected $fillable = [
         'username',
         'title',

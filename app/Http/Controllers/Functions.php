@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proposal;
+use App\Models\Inquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -94,21 +94,37 @@ class Functions extends Controller
             'title' => 'required',
             'position' => 'required',
             'location' => 'required',
-            'file' => 'required|mimes:pdf,doc,docx',
+            
 
         ]);
 
-        // File
-        $file = $request->title . '-'. auth()->user()->username . '_' . date('m_d_Y_s') . '.' . $request->file->extension();
-        $request->file->move(public_path('documents'), $file);
-        $proposal = new Proposal();
-        $proposal->username = auth()->user()->username;
-        $proposal->title = $request->title;
-        $proposal->position = $request->position;
-        $proposal->location = $request->location;
-        $proposal->type = 'inquiry';
-        $proposal->file = $file;
-        $proposal->save();
+        if(auth()->user()->purpose == 'request'){
+            $request->validate([
+                'file' => 'required|mimes:pdf,doc,docx',
+            ]);
+            // File
+            $file = $request->title . '-'. auth()->user()->username . '_' . date('m_d_Y_s') . '.' . $request->file->extension();
+            $request->file->move(public_path('documents'), $file);
+            $proposal = new Inquiry();
+            $proposal->username = auth()->user()->username;
+            $proposal->title = $request->title;
+            $proposal->position = $request->position;
+            $proposal->location = $request->location;
+            $proposal->type = auth()->user()->purpose;
+            $proposal->file = $file;
+            $proposal->save();
+        }else{
+            // Purpose => inquire
+            $proposal = new Inquiry();
+            $proposal->username = auth()->user()->username;
+            $proposal->title = $request->title;
+            $proposal->position = $request->position;
+            $proposal->location = $request->location;
+            $proposal->type = auth()->user()->purpose;
+            $proposal->save();
+        }
+
+
 
 
         return redirect()->back()->with('success', 'Proposal submitted.');
@@ -136,6 +152,34 @@ class Functions extends Controller
             $proposal->delete();
         }
         return redirect()->back();
+    }
+
+    public function submitProposal(Request $request){
+        $request->validate([
+            'last_name' => 'required',
+            'first_name' => 'required',
+            'email' => 'required|email',
+            'position' => 'required',
+            'project_title' => 'required',
+            'description' => 'required',
+            'file' => 'required|mimes:pdf,doc,docx',
+
+        ]);
+
+        // File
+        $file = $request->title . '-'. auth()->user()->username . '_proposal_' . date('m_d_Y_s') . '.' . $request->file->extension();
+        $request->file->move(public_path('documents'), $file);
+        $proposal = new Inquiry();
+        $proposal->username = auth()->user()->username;
+        $proposal->title = $request->title;
+        $proposal->position = $request->position;
+        $proposal->location = $request->location;
+        $proposal->type = 'proposal';
+        $proposal->file = $file;
+        $proposal->save();
+
+
+        return redirect()->back()->with('success', 'Proposal submitted.');
     }
 
 }
