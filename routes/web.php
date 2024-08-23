@@ -60,9 +60,10 @@ Route::middleware(['auth', 'unverified'])->group(function () {
 
 // Routes for Authenticated Users with Verified Emails
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+    Route::get('/dashboard', [Functions::class, 'dashboard'])->name('dashboard');
     Route::get('/repository/{category}', function($category){
         return view('repository', ['category' => $category]);
     })->name('repository');
@@ -103,7 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/settings/profile/update', [Functions::class, 'changeProfile'])->name('settings.profile.update');
 
     Route::post('/inquiry/submit', [Functions::class, 'submitInquiry'])->name('submit.inquiry');
-    Route::post('/proposals/submit', [Functions::class, 'submitProposals'])->name('submit.proposals');
+    Route::post('/proposals/submit', [Functions::class, 'submitProposal'])->name('submit.proposal');
 
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
 });
