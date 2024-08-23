@@ -66,7 +66,7 @@ class Functions extends Controller
 
     public function request_page(){
         $months = Proposal::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
-        ->where('type', 'inquiry')
+        ->where('type', 'inquire')
         ->groupBy('month', 'month_name')
         ->orderBy('month')
         ->get();
@@ -75,7 +75,7 @@ class Functions extends Controller
     public function request_month($month){
         $monthNumber = date('m', strtotime($month));
         $file = Proposal::select('*')
-                     ->where('type', 'inquiry')
+                     ->where('type', 'inquire')
                      ->whereMonth('created_at', $monthNumber) 
                      ->orderBy('created_at') 
                      ->get();
@@ -182,7 +182,7 @@ class Functions extends Controller
 
     public function dashboard(){
         if(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
-        $total_inquiries = Inquiry::where('type', 'inquiry')->count();
+        $total_inquiries = Inquiry::where('type', 'inquire')->count();
         $total_requests = Inquiry::where('type', 'request')->count();
         $recent_files = Inquiry::latest()->take(5)->get();
         return view('dashboard', compact('total_requests','total_inquiries','recent_files'));
