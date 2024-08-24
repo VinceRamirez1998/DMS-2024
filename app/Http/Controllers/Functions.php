@@ -66,7 +66,7 @@ class Functions extends Controller
 
     public function request_page(){
         $months = Inquiry::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
-        ->where('type', 'inquire')
+        ->where('type', 'request')
         ->groupBy('month', 'month_name')
         ->orderBy('month')
         ->get();
@@ -79,7 +79,6 @@ class Functions extends Controller
                      ->whereMonth('created_at', $monthNumber) 
                      ->orderBy('created_at') 
                      ->get();
-
         return view('requestsmonth', ['monthName' => $month], compact('file','month'));
     }
 
