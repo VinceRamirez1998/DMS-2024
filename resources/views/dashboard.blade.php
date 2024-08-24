@@ -23,8 +23,8 @@
         {{-- Area Specialist and Center Management --}}
         @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
         <div class="grid grid-cols-4 grid-rows-8 gap-4 h-full lg:px-20">
-          <div class="col-span-2 row-span-4 flex flex-col justify-center items-center rounded-md bg-[#bc8888]"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5">Total Inquiries</p></div>
-          <div class="col-span-2 row-span-4 col-start-3 flex flex-col justify-center items-center rounded-md bg-[#bc8888]"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5">Total Requests</p></div>
+          <div class="col-span-2 row-span-4 flex flex-col justify-center items-center rounded-md bg-[#bc8888]"><p class="text-4xl font-extrabold  pt-5">{{ $total_inquiries ?? '0' }}</p><p class="text-lg font-semibold mt-5 pb-5">Total Inquiries</p></div>
+          <div class="col-span-2 row-span-4 col-start-3 flex flex-col justify-center items-center rounded-md bg-[#bc8888]"><p class="text-4xl font-extrabold  pt-5">{{ $total_requests ?? '0' }}</p><p class="text-lg font-semibold mt-5 pb-5">Total Requests</p></div>
           <div class="col-span-2 row-span-4 row-start-5 flex flex-col justify-center items-center rounded-md bg-[#bc8888]"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5 text-center">Total On-going Projects</p></div>
           <div class="col-span-2 row-span-4 col-start-3 row-start-5 flex flex-col justify-center items-center rounded-md bg-[#bc8888]"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5 text-center">Total Completed Projects</p></div>
         </div>
@@ -76,7 +76,7 @@
           {{-- end of iterate 5 ongoing projects --}}
       </div>
       @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
-        <div class="flex flex-col gap-2 bg-[#bd8889] rounded-md px-0 p-3 border-2 border-red-500 w-100">
+        <div class="flex flex-col gap-2 bg-[#bd8889] rounded-md px-0 p-3 border-2 border-red-500 w-100 lg:mb-20">
           <div class="w-100 bg-red-900 pl-2 lg:pl-5 py-3">
             <p class="text-white text-lg font-bold">Recent Files</p>
           </div>
@@ -89,21 +89,21 @@
                       <th class="border border-black px-4 py-2">Use</th>
                       <th class="border border-black px-4 py-2">Date Uploaded</th>
                       <th class="border border-black px-4 py-2">Type</th>
-                      <th class="border border-black px-4 py-2">Action</th>
                       <th class="border border-black px-4 py-2">Status</th>
+                      <th class="border border-black px-4 py-2">Action</th>
                   </tr>
               </thead>
               <tbody class="bg-[#cdcdcd]">
-                @for ($i=1; $i<10; $i++)
+                @foreach ($recent_files as $recent_file)
                   <tr class="odd:bg-[#cdcdcd] even:bg-[#b2b2b2]">
-                      <td class="border border-black px-4 py-2">Request Letter</td>
-                      <td class="border border-black px-4 py-2">Mark Zucc</td>
-                      <td class="border border-black px-4 py-2">04/10/2024</td>
-                      <td class="border border-black px-4 py-2">pdf</td>
-                      <td class="border border-black px-4 py-2">Upload</td>
-                      <td class="border border-black px-4 py-2">Pending</td>
+                      <td class="border border-black px-4 py-2">{{ $recent_file->title }}</td>
+                      <td class="border border-black px-4 py-2">{{ $recent_file->username }}</td>
+                      <td class="border border-black px-4 py-2">{{ $recent_file->created_at->format('m/d/Y') }}</td>
+                      <td class="border border-black px-4 py-2">{{ pathinfo($recent_file->file, PATHINFO_EXTENSION) }}</td>
+                      <td class="border border-black px-4 py-2">{{ $recent_file->status }}</td>
+                      <td class="border border-black px-4 py-2">N/A</td>
                   </tr>
-                @endfor
+                @endforeach
               </tbody>
           </table>
           
@@ -121,11 +121,11 @@
         <div class="flex flex-col container mt-[13rem]">
           <div class="flex items-center">
             <span class="h-4 w-4 bg-[#a9a9a9]"></span>
-            <p class="ms-2">40% Requests</p>
+            <p class="ms-2">{{ $requests_percentage }}% Requests</p>
           </div>
           <div class="flex items-center">
             <span class="h-4 w-4 bg-[#808080]"></span>
-            <p class="ms-2">40% Proposals</p>
+            <p class="ms-2">{{ $proposals_percentage }}% Proposals</p>
           </div>
         </div>
       </div>
@@ -187,7 +187,35 @@ document.addEventListener('click', function(event) {
 
 
 </script>
-<script src="{{ asset('js/piechart.js') }}"></script>
+{{-- Piechart --}}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const data = [
+        { name: 'Requests', value: {{ $requests_percentage }}, color: 'gray' },
+        { name: 'Proposal', value: {{ $proposals_percentage }}, color: 'darkgray' },
+    ];
+
+    function updatePieChart(data) {
+        const total = data.reduce((sum, item) => sum + item.value, 0);
+        let currentAngle = 0;
+        const gradientParts = data.map(item => {
+            const angle = (item.value / total) * 360;
+            const startAngle = currentAngle;
+            currentAngle += angle;
+            return `${item.color} ${startAngle}deg ${currentAngle}deg`;
+        }).join(', ');
+
+        const pieChart = document.getElementById('piechart');
+        pieChart.style.backgroundImage = `conic-gradient(${gradientParts})`;
+
+        // console.log(`conic-gradient(${gradientParts})`);
+    }
+
+    updatePieChart(data);
+});
+
+
+</script>
 </body>
 
 </html>

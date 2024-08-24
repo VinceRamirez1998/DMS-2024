@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inquiry;
+use App\Models\Proposals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -65,7 +66,7 @@ class Functions extends Controller
 
     public function request_page(){
         $months = Proposal::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
-        ->where('type', 'inquiry')
+        ->where('type', 'inquire')
         ->groupBy('month', 'month_name')
         ->orderBy('month')
         ->get();
@@ -74,7 +75,7 @@ class Functions extends Controller
     public function request_month($month){
         $monthNumber = date('m', strtotime($month));
         $file = Proposal::select('*')
-                     ->where('type', 'inquiry')
+                     ->where('type', 'inquire')
                      ->whereMonth('created_at', $monthNumber) 
                      ->orderBy('created_at') 
                      ->get();
@@ -104,7 +105,7 @@ class Functions extends Controller
             ]);
             // File
             $file = $request->title . '-'. auth()->user()->username . '_' . date('m_d_Y_s') . '.' . $request->file->extension();
-            $request->file->move(public_path('documents'), $file);
+            $request->file->move(public_path('documents/inquiry'), $file);
             $proposal = new Inquiry();
             $proposal->username = auth()->user()->username;
             $proposal->title = $request->title;
@@ -114,7 +115,6 @@ class Functions extends Controller
             $proposal->file = $file;
             $proposal->save();
         }else{
-            // Purpose => inquire
             $proposal = new Inquiry();
             $proposal->username = auth()->user()->username;
             $proposal->title = $request->title;
@@ -124,11 +124,9 @@ class Functions extends Controller
             $proposal->save();
         }
 
-
-
-
         return redirect()->back()->with('success', 'Proposal submitted.');
     }
+    
 
     public function requestsoption(Request $request, $month){
         if (empty($request->option)) {
@@ -144,7 +142,7 @@ class Functions extends Controller
         } elseif ($request->option === 'delete') {
             $proposal = Proposal::where('id', $request->folder_id)->first();
             if ($proposal && $proposal->file) {
-                $filePath = public_path('documents/' . $proposal->file);
+                $filePath = public_path('documents/requests/' . $proposal->file);
                 if (file_exists($filePath)) {
                     unlink($filePath);  
                 }
@@ -156,30 +154,50 @@ class Functions extends Controller
 
     public function submitProposal(Request $request){
         $request->validate([
-            'last_name' => 'required',
-            'first_name' => 'required',
+            'lastname' => 'required',
+            'firstname' => 'required',
             'email' => 'required|email',
             'position' => 'required',
             'project_title' => 'required',
-            'description' => 'required',
+            'project_description' => 'required',
             'file' => 'required|mimes:pdf,doc,docx',
 
         ]);
 
         // File
-        $file = $request->title . '-'. auth()->user()->username . '_proposal_' . date('m_d_Y_s') . '.' . $request->file->extension();
-        $request->file->move(public_path('documents'), $file);
-        $proposal = new Inquiry();
-        $proposal->username = auth()->user()->username;
-        $proposal->title = $request->title;
+        $file = $request->project_title . '-'. auth()->user()->username . '_proposal_' . date('m_d_Y_s') . '.' . $request->file->extension();
+        $request->file->move(public_path('documents/proposals'), $file);
+        $proposal = new Proposals();
+        $proposal->lastname = $request->lastname;
+        $proposal->firstname = $request->firstname;
+        $proposal->email = $request->email;
+        $proposal->project_title = $request->project_title;
+        $proposal->project_description = $request->project_description;
         $proposal->position = $request->position;
-        $proposal->location = $request->location;
-        $proposal->type = 'proposal';
         $proposal->file = $file;
         $proposal->save();
 
-
         return redirect()->back()->with('success', 'Proposal submitted.');
+    }
+
+    public function dashboard(){
+        if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident'){
+            $total_requests = Inquiry::count();
+            $total_proposals = Proposals::count();
+            $total = $total_proposals + $total_requests;
+            $requests_percentage = ($total_requests / $total) * 100;
+            $proposals_percentage = ($total_proposals / $total) * 100;
+           
+            return view('dashboard', compact('total_requests','total_proposals', 'proposals_percentage', 'requests_percentage'));
+        }
+        elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
+            $total_inquiries = Inquiry::where('type', 'inquire')->count();
+            $total_requests = Inquiry::where('type', 'request')->count();
+            $recent_files = Inquiry::latest()->take(5)->get();
+        return view('dashboard', compact('total_requests','total_inquiries','recent_files'));
+        }
+
+        return view('dashboard');
     }
 
 }

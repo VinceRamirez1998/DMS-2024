@@ -60,9 +60,11 @@ Route::middleware(['auth', 'unverified'])->group(function () {
 
 // Routes for Authenticated Users with Verified Emails
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+    Route::get('/dashboard', [Functions::class, 'dashboard'])->name('dashboard');
+
     Route::get('/repository/{category}', function($category){
         return view('repository', ['category' => $category]);
     })->name('repository');
