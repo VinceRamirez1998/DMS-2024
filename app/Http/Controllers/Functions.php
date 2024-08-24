@@ -181,10 +181,19 @@ class Functions extends Controller
     }
 
     public function dashboard(){
-        if(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
-        $total_inquiries = Inquiry::where('type', 'inquire')->count();
-        $total_requests = Inquiry::where('type', 'request')->count();
-        $recent_files = Inquiry::latest()->take(5)->get();
+        if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident'){
+            $total_requests = Inquiry::count();
+            $total_proposals = Proposals::count();
+            $total = $total_proposals + $total_requests;
+            $requests_percentage = ($total_requests / $total) * 100;
+            $proposals_percentage = ($total_proposals / $total) * 100;
+           
+            return view('dashboard', compact('total_requests','total_proposals', 'proposals_percentage', 'requests_percentage'));
+        }
+        elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
+            $total_inquiries = Inquiry::where('type', 'inquire')->count();
+            $total_requests = Inquiry::where('type', 'request')->count();
+            $recent_files = Inquiry::latest()->take(5)->get();
         return view('dashboard', compact('total_requests','total_inquiries','recent_files'));
         }
 

@@ -121,11 +121,11 @@
         <div class="flex flex-col container mt-[13rem]">
           <div class="flex items-center">
             <span class="h-4 w-4 bg-[#a9a9a9]"></span>
-            <p class="ms-2">40% Requests</p>
+            <p class="ms-2">{{ $requests_percentage }}% Requests</p>
           </div>
           <div class="flex items-center">
             <span class="h-4 w-4 bg-[#808080]"></span>
-            <p class="ms-2">40% Proposals</p>
+            <p class="ms-2">{{ $proposals_percentage }}% Proposals</p>
           </div>
         </div>
       </div>
@@ -187,7 +187,35 @@ document.addEventListener('click', function(event) {
 
 
 </script>
-<script src="{{ asset('js/piechart.js') }}"></script>
+{{-- Piechart --}}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const data = [
+        { name: 'Requests', value: {{ $requests_percentage }}, color: 'gray' },
+        { name: 'Proposal', value: {{ $proposals_percentage }}, color: 'darkgray' },
+    ];
+
+    function updatePieChart(data) {
+        const total = data.reduce((sum, item) => sum + item.value, 0);
+        let currentAngle = 0;
+        const gradientParts = data.map(item => {
+            const angle = (item.value / total) * 360;
+            const startAngle = currentAngle;
+            currentAngle += angle;
+            return `${item.color} ${startAngle}deg ${currentAngle}deg`;
+        }).join(', ');
+
+        const pieChart = document.getElementById('piechart');
+        pieChart.style.backgroundImage = `conic-gradient(${gradientParts})`;
+
+        // console.log(`conic-gradient(${gradientParts})`);
+    }
+
+    updatePieChart(data);
+});
+
+
+</script>
 </body>
 
 </html>
