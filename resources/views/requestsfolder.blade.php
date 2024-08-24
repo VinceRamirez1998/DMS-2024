@@ -18,11 +18,14 @@
             <a href="{{ route('requests') }}" class="">Requests</a>
             <i class="fa-solid fa-chevron-left mx-3"></i>
             <a href="{{ route('requests.month', ['month' => $monthName]) }}">{{ $monthName }}</a>
+            <i class="fa-solid fa-chevron-left mx-3"></i>
+            @foreach($file as $title)<a disabled> {{ $title->title }} </a>@endforeach
         </p>
         <div class="h-screen w-full overflow-y-scroll">
         <div class="grid grid-cols-12 gap-2 pb-3 px-3 md:px-5">
 
             @foreach($file as $file)
+            @if($file->file != null)
             <div class="col-span-12 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
   
               <div class="flex-1 min-w-0">
@@ -120,9 +123,10 @@
                   </div>
               </div>
           </div>
-          
-     
-            @endforeach
+        @else
+        <span class="text-lg">File&nbsp;not&nbsp;found.</span>
+        @endif
+        @endforeach
         </div>
       </div>
       </div>
