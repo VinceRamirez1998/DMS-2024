@@ -51,11 +51,13 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        dd('asd');
         return Validator::make($data, [
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'firstname' => ['required','string','max:255'],
             'lastname' => ['required','string', 'max:255'],
-            'position' => ['required','string','max:255'],
+            // 'department' => ['required','string','in:ccs,cea,cbs,cas,coe,chm,cit,cssp,law'],
+            'position' => ['required','string','in:teacher,president,vicepresident,coordinator,areaspecialist'],
             'purpose' => ['required','string','in:inquiry,sendrequestletter'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -89,7 +91,7 @@ class RegisterController extends Controller
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'position' => ['required', 'string', 'max:255'],
-            'purpose' => ['required', 'string', 'in:inquire,request'],
+            'purpose' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required', 'same:password'],

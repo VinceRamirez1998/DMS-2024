@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Functions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -33,7 +34,7 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 });
     
     
@@ -62,12 +63,49 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/repository', function () {
-        return view('repository');
+    Route::get('/repository/{category}', function($category){
+        return view('repository', ['category' => $category]);
     })->name('repository');
     Route::get('/inquiry', function () {
         return view('inquiry');
     })->name('inquiry');
+    Route::get('/proposals', function () {
+        return view('proposals');
+    })->name('proposals');
+    Route::get('/downloadable', function () {
+        return view('downloadableform');
+    })->name('downloadable');
+    Route::get('/settings', function () {
+        return view('settings');
+    })->name('settings');
+    Route::get('/settings/password', function () {
+        return view('settingspassword');
+    })->name('settings.password');
+    Route::get('/settings/contact', function () {
+        return view('settingscontact');
+    })->name('settings.contact');
+    Route::get('/settings/profile', function () {
+        return view('settingsprofile');
+    })->name('settings.profile');
+    Route::get('/notification', function () {
+        return view('notification');
+    })->name('notification');
+    Route::get('/projectsandrequests', function () {
+        return view('projectsandrequests');
+    })->name('projectsandrequests');
+    Route::get('/requests', [Functions::class, 'request_page'])->name('requests');
+    Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');
+    Route::get('/requests/{month}/{folder}', [Functions::class, 'request_folder'])->name('requests.folder');
+
+
+    Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
+    Route::post('/settings/contact/update', [Functions::class, 'changeContact'])->name('settings.contact.update');
+    Route::post('/settings/profile/update', [Functions::class, 'changeProfile'])->name('settings.profile.update');
+
+    Route::post('/inquiry/submit', [Functions::class, 'submitInquiry'])->name('submit.inquiry');
+    Route::post('/proposals/submit', [Functions::class, 'submitProposals'])->name('submit.proposals');
+
+    Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
 });
 
 // Home Route (Accessible to unauthenticated users)

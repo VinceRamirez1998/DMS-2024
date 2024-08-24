@@ -10,8 +10,8 @@
 </head>
 <body>
   <div class="flex">
-  @include('layouts.sidenav')
-  <div class="w-screen pb-5">
+    @include('layouts.sidenav')
+  <div class="w-screen h-screen pb-5">
     <div class="grid grid-cols-12 md:px-8 md:pt-8 gap-4 p-2 md:p-0">
       {{-- Projects --}}
       <div class="col-span-12 flex justify-end">
@@ -31,11 +31,14 @@
         <form action="" method="POST">
           @csrf
         <div class="flex flex-row">
-            <button class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</button>
-            <button class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">Completed Projects</button>
+            <a href="{{ route('repository',['category' => 'ongoing']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</a>
+            <a href="{{ route('repository',['category' => 'completed']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">Completed Projects</a>
           </div>
         </form>
-      <div class="flex flex-col gap-2 bg-[#bd8889] rounded-md p-3 border-2 border-red-500">
+      @if($category == 'ongoing')
+      {{-- Ongoing Projects --}}
+      <div class="flex flex-col gap-2 bg-[#eeeeee] rounded-md p-3 border-2 border-red-500">
+        
         <div class="ms-1 py-2 px-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
           <button id="toggleOngoingBtn"><p>Project Basa</p></button>
           <div id="ongoingContent" class="grid grid-col-12 md:ml-5 text-justify md:text-left mt-5 hidden transition-all duration-500">
@@ -50,6 +53,27 @@
           </div>
         </div>
       </div>
+      @elseif($category == 'completed')
+      {{-- Completed Projects --}}
+      <div class="flex flex-col gap-2 bg-[#eeeeee] rounded-md p-3 border-2 border-red-500">
+        <div class="ms-1 py-2 px-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
+          <button id="toggleCompletedBtn"><p>Project Basa</p></button>
+          <div id="completedContent" class="grid grid-col-12 md:ml-5 pb-10 text-justify mt-5 hidden transition-all duration-500">
+            <button id="showImageBtnCompleted" class="font-normal flex flex-col justify-center items-center text-center">
+              <img src="{{ asset('img/DHVSU_Logo.png') }}" class="h-100 max-h-[306px]" alt="">
+              Click to view
+            </button>
+          </div>
+        </div>
+        <div id="imageModalCompleted" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div class="relative max-w-100 justify-center flex">
+            <button id="closeImageBtnCompleted" class="absolute top-[-50px] right-5 text-white text-[3rem]">&times;</button>
+            <img src="{{ asset('../img/DHVSU_Logo.png') }}" alt="Project Basa Photo" class="max-w-[50%] max-h-[70rem]">
+          </div>
+        </div>
+      </div>
+      
+      @endif
     </div>
   </div>
 </div>
@@ -76,6 +100,32 @@
 
   // Close Ongoing Modal
   document.getElementById('imageModal').addEventListener('click', function(event) {
+    if (event.target === this) {
+      this.classList.add('hidden');
+    }
+  });
+</script>
+
+{{-- Completed Project --}}
+<script>
+  // Toggle Ongoing Project Content
+  document.getElementById('toggleCompletedBtn').addEventListener('click', function() {
+    var content = document.getElementById('completedContent');
+    content.classList.toggle('hidden');
+  });
+
+  // Show Image
+  document.getElementById('showImageBtnCompleted').addEventListener('click', function() {
+    document.getElementById('imageModalCompleted').classList.remove('hidden');
+  });
+
+  // Close Button
+  document.getElementById('closeImageBtnCompleted').addEventListener('click', function() {
+    document.getElementById('imageModalCompleted').classList.add('hidden');
+  });
+
+  // Close Ongoing Modal
+  document.getElementById('imageModalCompleted').addEventListener('click', function(event) {
     if (event.target === this) {
       this.classList.add('hidden');
     }

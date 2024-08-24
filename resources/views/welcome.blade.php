@@ -12,8 +12,9 @@
   
 <div class="grid grid-cols-6 gap-4 pt-2 px-5">
   {{-- Picture --}}
-  <div class="col-span-12 order-2 lg:order-1 lg:col-span-5">
-      <img src="{{ asset('../img/hero.png') }}" alt="" class="w-full h-full object-cover rounded">
+  <div class="col-span-12 order-2 lg:order-1 lg:col-span-5 justify-center items-center flex bg-[#bd8889] rounded-md">
+      {{-- <img src="{{ asset('../img/hero.png') }}" alt="" class="w-full h-full object-cover rounded"> --}}
+      <iframe class="p-2 bg-[#bd8889] w-[100%] md:w-[100%] h-100 md:h-[100%] rounded-md " src="https://www.youtube.com/embed/hwTrdzc6NmY?autoplay=1&loop=1&playlist=hwTrdzc6NmY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 
   {{-- LOGIN FORM--}}
@@ -65,7 +66,7 @@
             <label for="RememberMe" style="font-size: 12px;">Keep me logged in</label>
           </div>
           <div>
-            <a href="" class="flex underline text-blue-600" style="font-size: 12px; margin-top: 5px;">Forgot&nbsp;Password</a>
+            <a href="{{ route('password.request') }}" class="flex underline text-blue-600" style="font-size: 12px; margin-top: 5px;">Forgot&nbsp;Password</a>
           </div>
         </div>
         <button class="bg-red-900 text-white mt-3 mb-5 lg:mb-20 rounded px-9 py-1">Log In</button>
@@ -74,6 +75,7 @@
         <hr class="border-t-2 border-gray-400 w-full mb-2 lg:mt-9">
         <p class="text-sm">Doesn't have an account yet? <button id="signupBtn" type="button" class="text-sm text-blue-600 underline">Sign up</button></p>
       </div>
+     
   </div>
 
   {{-- SIGN UP FORM--}}
@@ -130,7 +132,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
             </svg>
           </span>
-            <input name="position" type="text" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2"  id="" placeholder="Position">
+          <input name="position" type="text" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2"  id="" placeholder="Position">
         </div>
 
         {{-- Select Purpose --}}
@@ -209,15 +211,12 @@
   {{-- Block --}}
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
   <div class="col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
-<<<<<<< HEAD
-    <a href=""><p><span class="me-1">•</span>12345</p></a>
-    <a href=""><p><span class="me-1">•</span>12345</p></a>
-    <a href=""><p><span class="me-1">•</span>12345</p></a>
-=======
-    <a href=""><p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, voluptate.</p></a>
-    <a href=""><p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur molestiae sint ratione a commodi perferendis architecto</p></a>
-    <a href=""><p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis deleniti doloremque accusamus cum sit.</p></a>
->>>>>>> frontEndIndexPage
+    <p><span class="me-1">•</span>12345</p>
+    <p><span class="me-1">•</span>12345</p>
+    <p><span class="me-1">•</span>12345</p>
+    <p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, voluptate.</p>
+    <p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur molestiae sint ratione a commodi perferendis architecto</p>
+    <p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis deleniti doloremque accusamus cum sit.</p>
   </div>
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
 </div>
