@@ -188,6 +188,7 @@ document.addEventListener('click', function(event) {
 
 </script>
 {{-- Piechart --}}
+@if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident')
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const data = [
@@ -213,9 +214,8 @@ document.addEventListener('click', function(event) {
 
     updatePieChart(data);
 });
-
-
 </script>
+@endif
 </body>
 
 </html>

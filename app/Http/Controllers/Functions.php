@@ -65,7 +65,7 @@ class Functions extends Controller
     }
 
     public function request_page(){
-        $months = Proposal::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
+        $months = Inquiry::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
         ->where('type', 'inquire')
         ->groupBy('month', 'month_name')
         ->orderBy('month')
@@ -74,7 +74,7 @@ class Functions extends Controller
     }
     public function request_month($month){
         $monthNumber = date('m', strtotime($month));
-        $file = Proposal::select('*')
+        $file = Inquiry::select('*')
                      ->where('type', 'inquire')
                      ->whereMonth('created_at', $monthNumber) 
                      ->orderBy('created_at') 
@@ -84,8 +84,8 @@ class Functions extends Controller
     }
 
     public function request_folder($month, $folder){
-        $file = Proposal::where('id', $folder)->first();
-        $file = Proposal::where('title', $file->title)->get();
+        $file = Inquiry::where('id', $folder)->first();
+        $file = Inquiry::where('title', $file->title)->get();
 
         return view('requestsfolder', ['monthName' => $month, 'folder' => $folder], compact('file', 'month'));
     }
@@ -136,11 +136,11 @@ class Functions extends Controller
         }
     
         if ($request->option === 'rename') {
-            $proposal = Proposal::where('id', $request->folder_id)->first();
+            $proposal = Proposals::where('id', $request->folder_id)->first();
             $proposal->title = $request->new_name; 
             $proposal->save();
         } elseif ($request->option === 'delete') {
-            $proposal = Proposal::where('id', $request->folder_id)->first();
+            $proposal = Proposals::where('id', $request->folder_id)->first();
             if ($proposal && $proposal->file) {
                 $filePath = public_path('documents/requests/' . $proposal->file);
                 if (file_exists($filePath)) {
