@@ -75,7 +75,7 @@ class Functions extends Controller
     public function request_month($month){
         $monthNumber = date('m', strtotime($month));
         $file = Inquiry::select('*')
-                     ->where('type', 'inquire')
+                     ->where('type', 'request')
                      ->whereMonth('created_at', $monthNumber) 
                      ->orderBy('created_at') 
                      ->get();
