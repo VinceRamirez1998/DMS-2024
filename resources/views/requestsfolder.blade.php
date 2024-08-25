@@ -69,7 +69,7 @@
                           <!-- Delete Modal -->
                           <div id="delete-modal-{{ $file->id }}" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
                               <div class="bg-white p-5 rounded-lg">
-                                  <h2 class="text-lg font-semibold mb-4">Delete Folder?</h2>
+                                  <h2 class="text-lg font-semibold mb-4">Delete Request?</h2>
                                   <div class="flex justify-end space-x-2">
                                       <button type="button" id="cancel-delete-{{ $file->id }}" class="px-4 py-2 bg-gray-400 text-white rounded">Cancel</button>
                                       <button name="option" value="delete" type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Delete</button>

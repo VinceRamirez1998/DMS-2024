@@ -64,13 +64,21 @@ class Functions extends Controller
         return redirect()->back()->with('success', 'Profile changed successfully.');
     }
 
-    public function request_page(){
-        $months = Inquiry::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
-        ->where('type', 'request')
-        ->groupBy('month', 'month_name')
-        ->orderBy('month')
-        ->get();
-        return view('requests', compact('months'));
+    public function request_page($type){
+        if($type == 'proposals'){
+            $months = Proposals::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
+            ->groupBy('month', 'month_name')
+            ->orderBy('month')
+            ->get();
+            return view('requests', compact('months'));
+        }else{
+            $months = Inquiry::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
+            ->where('type', 'request')
+            ->groupBy('month', 'month_name')
+            ->orderBy('month')
+            ->get();
+            return view('requests', compact('months'));
+        }
     }
     public function request_month($month){
         $monthNumber = date('m', strtotime($month));
@@ -85,7 +93,6 @@ class Functions extends Controller
     public function request_folder($month, $folder){
         $file = Inquiry::where('id', $folder)->first();
         $file = Inquiry::where('title', $file->title)->get();
-
         return view('requestsfolder', ['monthName' => $month, 'folder' => $folder], compact('file', 'month'));
     }
 
@@ -135,18 +142,18 @@ class Functions extends Controller
         }
     
         if ($request->option === 'rename') {
-            $proposal = Proposals::where('id', $request->folder_id)->first();
-            $proposal->title = $request->new_name; 
-            $proposal->save();
+            $requests = Inquiry::where('id', $request->folder_id)->first();
+            $requests->title = $request->new_name; 
+            $requests->save();
         } elseif ($request->option === 'delete') {
-            $proposal = Proposals::where('id', $request->folder_id)->first();
-            if ($proposal && $proposal->file) {
-                $filePath = public_path('documents/requests/' . $proposal->file);
+            $requests = Inquiry::where('id', $request->folder_id)->first();
+            if ($requests && $requests->file) {
+                $filePath = public_path('documents/requests/' . $requests->file);
                 if (file_exists($filePath)) {
                     unlink($filePath);  
                 }
             }
-            $proposal->delete();
+            $requests->delete();
         }
         return redirect()->back();
     }
