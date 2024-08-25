@@ -71,9 +71,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/inquiry', function () {
         return view('inquiry');
     })->name('inquiry');
-    Route::get('/proposals', function () {
-        return view('proposals');
-    })->name('proposals');
+    Route::get('/proposal/form', function () {
+        return view('proposal_form');
+    })->name('proposal.form');
     Route::get('/downloadable', function () {
         return view('downloadableform');
     })->name('downloadable');
@@ -98,6 +98,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/{type}', [Functions::class, 'request_page'])->name('requests');
     Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');
     Route::get('/requests/{month}/{folder}', [Functions::class, 'request_folder'])->name('requests.folder');
+    Route::get('/proposals/{folder}', [Functions::class, 'proposals_folder'])->name('proposals.folder');
 
 
     Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
@@ -108,6 +109,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/proposals/submit', [Functions::class, 'submitProposals'])->name('submit.proposals');
 
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
+    Route::post('/proposals/{folder}/option', [Functions::class, 'proposalsoption'])->name('proposals.option');
 });
 
 // Home Route (Accessible to unauthenticated users)

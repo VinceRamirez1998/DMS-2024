@@ -53,7 +53,7 @@
       <button onclick="dropdownproposal()" class="flex flex-nowrap flex-row items-center py-1"><i class="ms-2 mt-1 fa-regular fa-file-lines text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Proposals</p><i id="caret-proposal" class="fa-solid fa-caret-up transition text-white absolute right-5 hidden"></i></button>
       <div id="dropdown-proposal" class="hidden">
         <ul>
-          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/proposals">• Upload Proposal</a></li>
+          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="{{ route('proposal.form') }}">• Upload Proposal</a></li>
           @if(Auth()->user()->role == 'coordinator')
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="">• Folder</a></li>
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="">• Remarks</a></li>
@@ -63,6 +63,9 @@
           @endif
         </ul>
       </div>
+      @elseif(Auth()->user()->role == 'president' || Auth()->user()->role == 'vicepresident')
+      <hr class="menu-content border-t-2 border-t-red-950">
+      <a href="{{ route('requests', ['type' => 'proposals']) }}" class="flex flex-nowrap flex-row items-center py-1"><i class="ms-2 mt-1 fa-regular fa-file-lines text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Proposals</p></a>
       @endif
       {{-- Inquiry --}}
       @if(Auth()->user()->position != null)

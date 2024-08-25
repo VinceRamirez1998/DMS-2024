@@ -60,17 +60,13 @@ class Functions extends Controller
         if (file_exists($oldProfile) && is_file($oldProfile)) {
             unlink($oldProfile);
         }
-      
         return redirect()->back()->with('success', 'Profile changed successfully.');
     }
 
     public function request_page($type){
         if($type == 'proposals'){
-            $months = Proposals::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
-            ->groupBy('month', 'month_name')
-            ->orderBy('month')
-            ->get();
-            return view('requests', compact('months'));
+            $proposal = Proposals::get();
+            return view('proposals', compact('proposal'));
         }else{
             $months = Inquiry::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
             ->where('type', 'request')
@@ -94,6 +90,12 @@ class Functions extends Controller
         $file = Inquiry::where('id', $folder)->first();
         $file = Inquiry::where('title', $file->title)->get();
         return view('requestsfolder', ['monthName' => $month, 'folder' => $folder], compact('file', 'month'));
+    }
+
+    public function proposals_folder($folder){
+        $file = Proposals::where('project_title', $folder)->first();
+        $file = Proposals::where('project_title', $file->project_title)->get();
+        return view('proposalsfolder', ['folder' => $folder], compact('file'));
     }
 
     public function submitInquiry(Request $request){
@@ -204,6 +206,46 @@ class Functions extends Controller
         }
 
         return view('dashboard');
+    }
+
+    public function proposalsoption(Request $request, $folder){
+        if (empty($request->option)) {
+            $request->validate([
+                'option' => 'required',
+            ]);
+        }
+    
+        if ($request->option === 'rename') {
+            $requests = Proposals::where('id', $request->folder_id)->first();
+            $newName = $request->new_name;
+            $fileExtension = $request->file_extension;
+            $extension = pathinfo($newName, PATHINFO_EXTENSION);
+        
+            if ($extension !== $fileExtension) {
+                $newName .= '.' . $fileExtension;
+            }
+
+            $oldFilePath = public_path("documents/proposals/{$requests->project_title}");
+            $newFilePath = public_path("documents/proposals/{$newName}");
+
+            if (file_exists($oldFilePath)) {
+                rename($oldFilePath, $newFilePath);
+            }
+
+            $requests->file = $newName;
+            $requests->save();
+        }
+         elseif ($request->option === 'delete') {
+            $requests = Proposals::where('id', $request->folder_id)->first();
+            if ($requests && $requests->file) {
+                $filePath = public_path('documents/proposals/' . $requests->file);
+                if (file_exists($filePath)) {
+                    unlink($filePath);  
+                }
+            }
+            $requests->delete();
+        }
+        return redirect()->back();
     }
 
 }
