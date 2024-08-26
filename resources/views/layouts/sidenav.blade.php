@@ -58,7 +58,6 @@
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="">• Folder</a></li>
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="">• Remarks</a></li>
           @elseif(Auth()->user()->role == 'areaspecialist' || Auth()->user()->role == 'centermanagement')
-          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="">• My Projects</a></li>
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/projectsandrequests">• Projects and Requests</a></li>
           @endif
         </ul>

@@ -86,7 +86,7 @@
               <thead>
                   <tr class="bg-[#b2b2b2]">
                       <th class="border border-black px-4 py-2">File Name</th>
-                      <th class="border border-black px-4 py-2">Use</th>
+                      <th class="border border-black px-4 py-2">User</th>
                       <th class="border border-black px-4 py-2">Date Uploaded</th>
                       <th class="border border-black px-4 py-2">Type</th>
                       <th class="border border-black px-4 py-2">Status</th>

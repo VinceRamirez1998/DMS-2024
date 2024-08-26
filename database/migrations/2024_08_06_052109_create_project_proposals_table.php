@@ -23,8 +23,6 @@ return new class extends Migration
             $table->timestamp('date_created')->nullable();
             $table->timestamp('date_updated')->nullable();
            
-            
-           
         });
     }
 

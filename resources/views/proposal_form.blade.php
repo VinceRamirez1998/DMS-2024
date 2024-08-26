@@ -52,6 +52,7 @@
                     <option value="centermanagement">Center Management</option>
                     <option value="areaspecialist">Area Specialist</option>
                     <option value="coordinator">Coordinator</option>
+                    <option value="faculty">Faculty Extensionist</option>
                   </select>
                 </div>
               </div>
