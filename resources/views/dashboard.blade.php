@@ -46,7 +46,44 @@
         </div>
       </div>
       {{-- Projects --}}
-      <div class="col-span-12 mb-3">
+         <div class="col-span-12 mb-3">
+         <div class="flex flex-row justify-between mb-4 gap-2">
+          <!-- Inquiries Box -->
+          <div class="flex items-center bg-blue-500 p-4 rounded-md text-white font-semibold w-1/3">
+              <!-- Heroicon for Question Mark -->
+              <svg class="h-16 w-16 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+              </svg>
+              <div>
+                  <h2 class="text-lg">Inquiries</h2>
+                  <p class="text-2xl font-bold">0</p> <!-- Replace with dynamic count if needed -->
+              </div>
+          </div>
+          
+          <!-- Requests Box -->
+          <div class="flex items-center bg-green-500 p-4 rounded-md text-white font-semibold w-1/3">
+              <!-- Heroicon for Paper Airplane -->
+              <svg class="h-16 w-16 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+              </svg>              
+              <div>
+                  <h2 class="text-lg">Requests</h2>
+                  <p class="text-2xl font-bold">0</p> <!-- Replace with dynamic count if needed -->
+              </div>
+          </div>
+          
+          <!-- Project List Box -->
+          <div class="flex items-center bg-yellow-500 p-4 rounded-md text-white font-semibold w-1/3">
+              <!-- Heroicon for List -->
+              <svg class="h-16 w-16 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>              
+              <div>
+                  <h2 class="text-lg">Project List</h2>
+                  <p class="text-2xl font-bold">0</p> <!-- Replace with dynamic count if needed -->
+              </div>
+          </div>
+      </div>
       @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
         <div class="flex flex-row">
           <a href="{{ route('repository',['category' => 'ongoing']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</a>
@@ -214,6 +251,8 @@ document.addEventListener('click', function(event) {
 
     updatePieChart(data);
 });
+
+<script src="https://unpkg.com/heroicons@2.0.10/heroicons.min.js"></script>
 </script>
 @endif
 </body>
