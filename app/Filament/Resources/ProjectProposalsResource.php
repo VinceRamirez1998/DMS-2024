@@ -17,9 +17,16 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProjectProposalsResource extends Resource
 {
     protected static ?string $model = ProjectProposals::class;
+    
+   
     public static function getNavigationBadge(): string
     {
         return static::getModel()::count();
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Proposals'; // Change this to your desired label
     }
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
