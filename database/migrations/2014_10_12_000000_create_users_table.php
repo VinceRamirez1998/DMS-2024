@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('purpose')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
+            $table->string('focal_person')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

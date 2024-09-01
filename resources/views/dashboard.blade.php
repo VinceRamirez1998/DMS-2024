@@ -13,13 +13,13 @@
   <div class="flex h-auto">
   @include('layouts.sidenav')
   <div class="w-screen h-full pb-5">
-    <div class="grid grid-cols-12 md:pl-8 md:pt-8 gap-4 p-2 md:p-0 h-auto">
+    <div class="grid grid-cols-12 bg-[#3c3b3b] rounded-lg md:mx-8 md:mt-8 gap-4 m-2 md:m-0 h-auto">
     @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator'|| auth()->user()->role == 'areaspecialist'|| auth()->user()->role == 'centermanagement')
       {{-- Video --}}
       <div class="col-span-12 md:col-span-7">
         {{-- Users and Coordinator --}}
         @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
-        <iframe class="p-2 bg-[#bd8889] w-[100%] md:w-[620px] h-100 md:h-[349px] rounded-md border-2 border-red-500" src="https://www.youtube.com/embed/hwTrdzc6NmY?autoplay=1&loop=1&playlist=hwTrdzc6NmY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe class="p-2 bg-[#bd8889] w-[100%] md:w-[620px] h-100 md:h-[349px]" src="https://www.youtube.com/embed/hwTrdzc6NmY?autoplay=1&loop=1&playlist=hwTrdzc6NmY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         {{-- Area Specialist and Center Management --}}
         @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
         <div class="grid grid-cols-4 grid-rows-8 gap-4 h-full lg:px-20">
@@ -112,29 +112,135 @@
       @endif
     </div>
   @elseif(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident')
-    <div class="col-span-12 md:col-span-6 flex justify-center">
-      <div class="border-2 border-gray-400 container flex flex-col p-3">
-        <p class="text-left mb-10">Chart</p>
-        <div class="container flex items-center justify-center">
-          <div id="piechart" class="piechart"></div>
+    <div class="order-1 col-span-12 md:col-span-6 flex justify-center">
+      <div class="container flex flex-col p-3">
+        <div class="container flex items-center mt-10 justify-center relative">
+          <div id="piechart" class="piechart relative"></div>
+          <div id="tooltip" class="tooltip hidden absolute bg-white text-black p-1 rounded shadow"></div>
         </div>
-        <div class="flex flex-col container mt-[13rem]">
-          <div class="flex items-center">
-            <span class="h-4 w-4 bg-[#a9a9a9]"></span>
-            <p class="ms-2">{{ $requests_percentage }}% Requests</p>
+        
+        {{-- Percentage --}}
+        <div class="flex flex-row justify-between container mt-[5rem] md:mb-[6rem]">
+          <div class="">
+            <a href="#" class="flex items-center me-2 text-white">
+              <span class="h-4 w-4 bg-[#f3c96b]"></span>
+              <p class="ms-1">{{ intval($ccs_percentage) }}%&nbsp;CCS</p>
+            </a>
+            <a href="#" class="flex items-center me-2 text-white">
+              <span class="h-4 w-4 bg-[#de6e6a]"></span>
+              <p class="ms-1">{{ intval($cea_percentage) }}%&nbsp;CEA</p>
+            </a>
           </div>
-          <div class="flex items-center">
-            <span class="h-4 w-4 bg-[#808080]"></span>
-            <p class="ms-2">{{ $proposals_percentage }}% Proposals</p>
+          <div class="">
+          <a href="#" class="flex items-center me-2 text-white">
+            <span class="h-4 w-4 bg-[#5971c0]"></span>
+            <p class="ms-1">{{ intval($chs_percentage) }}%&nbsp;CHS</p>
+          </a>
+          <a href="#" class="flex items-center me-2 text-white">
+            <span class="h-4 w-4 bg-[#9ec97f]"></span>
+            <p class="ms-1">{{ intval($shs_percentage) }}%&nbsp;SHS</p>
+          </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-span-12 md:col-span-6 flex justify-center overflow-hidden h-screen">
-      <div class="container-fluid w-100 bg-[#bd8889]">
-        <p class="text-xl ps-3 mt-2 mb-0 py-3 bg-red-900 text-white font-semibold">Announcement Board</p>
-        <div class="flex flex-col container px-12 h-full overflow-y-scroll">
-          @for ($i=0; $i<50; $i++)
+    <div class="order-2 md:order-3 col-span-12 px-3">
+      <div class="flex container-fluid justify-center md:justify-start mb-2">
+        <p class="text-lg font-bold rounded-lg px-2 py-3 bg-[#767474] text-white">College of Computing Studies</p>
+      </div>
+      <div class="flex flex-col md:flex-row justify-between md:justify-start container-fluid">
+        <div class="flex font-bold">
+          <p class="text-md font-bold text-white">Total Projects:</p>
+          <p class="text-md font-bold text-white ms-2">3</p>
+        </div>
+        <div class="flex">
+          <p class="text-md font-bold text-white md:ms-5">Total Faculty Extensionists:</p>
+          <p class="text-md font-bold text-white ms-2">55</p>
+        </div>
+      </div>
+      <div class="text-white overflow-y-scroll md:overflow-auto">
+        <div class="text-white overflow-y-scroll md:overflow-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Project List Table -->
+              <div>
+                  <p class="font-bold mt-10 mb-3">Project List</p>
+                  <table class="min-w-full border-collapse">
+                      <thead>
+                          <tr class="border-y-2 border-black">
+                              <th class="px-4 py-2 text-left">#</th>
+                              <th class="px-4 py-2 text-left">Project Name</th>
+                              <th class="px-4 py-2 text-left">Total Participant</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">1</td>
+                              <td class="px-4 py-2">Project A</td>
+                              <td class="px-4 py-2">10</td>
+                          </tr>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">2</td>
+                              <td class="px-4 py-2">Project B</td>
+                              <td class="px-4 py-2">15</td>
+                          </tr>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">3</td>
+                              <td class="px-4 py-2">Project C</td>
+                              <td class="px-4 py-2">20</td>
+                          </tr>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">4</td>
+                              <td class="px-4 py-2">Project D</td>
+                              <td class="px-4 py-2">25</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+      
+              <!-- Faculty List Table -->
+              <div>
+                  <p class="font-bold mt-10 mb-3">Faculty List</p>
+                  <table class="min-w-full border-collapse">
+                      <thead>
+                          <tr class="border-y-2 border-black">
+                              <th class="px-4 py-2 text-left">#</th>
+                              <th class="px-4 py-2 text-left">Faculty Name</th>
+                              <th class="px-4 py-2 text-left">No. of Project Participated</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">1</td>
+                              <td class="px-4 py-2">Dr. Smith</td>
+                              <td class="px-4 py-2">12</td>
+                          </tr>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">2</td>
+                              <td class="px-4 py-2">Prof. Johnson</td>
+                              <td class="px-4 py-2">8</td>
+                          </tr>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">3</td>
+                              <td class="px-4 py-2">Dr. Lee</td>
+                              <td class="px-4 py-2">5</td>
+                          </tr>
+                          <tr class="border-b border-black">
+                              <td class="px-4 py-2">4</td>
+                              <td class="px-4 py-2">Prof. Brown</td>
+                              <td class="px-4 py-2">7</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
+      </div>      
+    </div>
+    <div class="order-3 md:order-2 col-span-12 lg:mt-5 md:col-span-6 flex justify-center lg:justify-end lg:me-5 overflow-hidden h-[30rem]">
+      <div class="container-fluid w-[80%] bg-[#5f5c5c] rounded-lg border-2 border-[#6f6d6d] mb-5 mt-5 overflow-hidden">
+        <p class="text-xl ps-3 mt-2 mb-0 py-3 bg-[#3c3b3b] text-white font-semibold">Notice Board</p>
+        <div class="flex flex-col container px-12 pb-20 h-full overflow-y-scroll">
+          @for ($i=0; $i<20; $i++)
           <p class="ms-1">• あの日の悲しみさえ あの日の苦しみさえあの日の悲しみさえ あの日の苦しみさえ</p>
           @endfor
         </div>
@@ -192,8 +298,10 @@ document.addEventListener('click', function(event) {
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const data = [
-        { name: 'Requests', value: {{ $requests_percentage }}, color: 'gray' },
-        { name: 'Proposal', value: {{ $proposals_percentage }}, color: 'darkgray' },
+        { name: 'CCS', value: {{ $ccs_percentage }}, color: '#de6e6a' },
+        { name: 'CEA', value: {{ $cea_percentage }}, color: '#f3c96b' },
+        { name: 'CHS', value: {{ $chs_percentage }}, color: '#9ec97f' },
+        { name: 'SHS', value: {{ $shs_percentage }}, color: '#5971c0' },
     ];
 
     function updatePieChart(data) {

@@ -111,6 +111,7 @@ class RegisterController extends Controller
             'position' => $request['position'],
             'purpose' => $request['purpose'],
             'password' => Hash::make($request['password']),
+            'focal_person' => $request['focal_person'],
         ]);
 
         

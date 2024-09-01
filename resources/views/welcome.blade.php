@@ -172,6 +172,16 @@
         </div>
         <div class="w-full text-sm">
 
+        {{-- Focal Person --}}
+        <div class="relative w-full">
+          <span class="absolute inset-y-0 left-0 pl-3 pb-2 flex items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+          </span>
+          <input name="focal_person" type="text" class="pl-10 pr-4 py-1 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500 mb-2"  id="" placeholder="Focal Person">
+        </div>
+
           {{-- Terms of Service --}}
           <div class="flex items-center">
             <input type="checkbox"  id="TOS" class="me-2 rounded">

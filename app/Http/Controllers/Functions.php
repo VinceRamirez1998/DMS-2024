@@ -190,13 +190,25 @@ class Functions extends Controller
 
     public function dashboard(){
         if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident'){
-            $total_requests = Inquiry::count();
-            $total_proposals = Proposals::count();
-            $total = $total_proposals + $total_requests;
-            $requests_percentage = ($total_requests / $total) * 100;
-            $proposals_percentage = ($total_proposals / $total) * 100;
+            // $total_requests = Inquiry::count();
+            // $total_proposals = Proposals::count();
+            // $total = ($total_proposals + $total_requests) ?? 0;
+            // $requests_percentage = ($total > 0) ? (($total_requests / $total) * 100) : 0;
+            // $proposals_percentage = ($total > 0) ? (($total_proposals / $total) * 100) : 0;
+
+            // Dummy Data
+            $ccs = 70;
+            $cea = 72;
+            $shs = 24;
+            $chs = 10;
+            $total = $ccs + $cea + $shs + $chs;
+            $ccs_percentage = ($total > 0) ? (($ccs / $total) * 100) : 0;
+            $cea_percentage = ($total > 0) ? (($cea / $total) * 100) : 0;
+            $shs_percentage = ($total > 0) ? (($shs / $total) * 100) : 0;
+            $chs_percentage = ($total > 0) ? (($chs / $total) * 100) : 0;
+            $total_percentage = ($total > 0) ? (($total / $total) * 100) : 0;
            
-            return view('dashboard', compact('total_requests','total_proposals', 'proposals_percentage', 'requests_percentage'));
+            return view('dashboard', compact('ccs_percentage','cea_percentage','shs_percentage','chs_percentage','total_percentage'));
         }
         elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
             $total_inquiries = Inquiry::where('type', 'inquire')->count();
