@@ -160,7 +160,7 @@
       </div>
       <div class="text-white overflow-y-scroll md:overflow-auto">
         <div class="text-white overflow-y-scroll md:overflow-auto">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
               <!-- Project List Table -->
               <div>
                   <p class="font-bold mt-10 mb-3">Project List</p>
