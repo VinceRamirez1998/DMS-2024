@@ -111,7 +111,7 @@
         </div>
       @endif
     </div>
-  @elseif(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident')
+  @elseif(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident' || auth()->user()->role == 'director')
     <div class="order-1 col-span-12 md:col-span-6 flex justify-center">
       <div class="container flex flex-col p-3">
         <div class="container flex items-center mt-10 justify-center relative">
