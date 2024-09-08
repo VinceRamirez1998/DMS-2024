@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inquiry;
 use App\Models\Proposals;
 use Illuminate\Http\Request;
+use App\Models\RequestComments;
 use App\Models\ProposalComments;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -70,12 +71,9 @@ class Functions extends Controller
             $proposal_comments = ProposalComments::get();
             return view('proposals', compact('proposal','proposal_comments'));
         }else{
-            $months = Inquiry::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
-            ->where('type', 'request')
-            ->groupBy('month', 'month_name')
-            ->orderBy('month')
-            ->get();
-            return view('requests', compact('months'));
+            $requests = Inquiry::get();
+            $requests_comments = RequestComments::get();
+            return view('requests', compact('requests','requests_comments'));
         }
     }
     public function request_month($month){
@@ -110,6 +108,20 @@ class Functions extends Controller
         $proposal->position = '@'. ucfirst(auth()->user()->role);
         $proposal->remarks = $request->remarks;
         $proposal->save();
+        return redirect()->back()->with('success', 'Comment submitted successfully.');
+    }
+
+    public function requestcommentsubmit(Request $request){
+        if($request->remarks == null){
+            return redirect()->back();
+        }
+        $requests = new RequestComments();
+        $requests->request_id = $request->request_id;
+        $requests->username = auth()->user()->username;
+        $requests->title = $request->title;
+        $requests->position = '@'. ucfirst(auth()->user()->role);
+        $requests->remarks = $request->remarks;
+        $requests->save();
         return redirect()->back()->with('success', 'Comment submitted successfully.');
     }
 

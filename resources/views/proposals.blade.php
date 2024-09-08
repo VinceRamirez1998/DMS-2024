@@ -20,12 +20,18 @@
         <div class="grid grid-cols-12 gap-2 pb-3 px-3 md:px-5">
 
             @foreach($proposal->unique('project_title') as $proposal)
-            <div class="col-span-6 md:col-span-3 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
+            <div class="col-span-12 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
                 <div class="flex-1 min-w-0">
                     <!-- Folder link triggers modal by setting a unique ID -->
-                    <a href="{{ route('proposals.folder', ['folder' => $proposal->project_title]) }}" class="flex items-center">
-                        <i class="fa-solid fa-folder text-2xl me-2"></i>
-                        <p class="overflow-hidden whitespace-nowrap text-ellipsis">{{ $proposal->project_title }}</p>
+                    <a href="{{ asset('documents/proposals/'.$proposal->file) }}" target="_blank" class="flex items-center">
+                        @php
+                            $proposalExtension = pathinfo($proposal->file, PATHINFO_EXTENSION); 
+                        @endphp
+                        <i class="fa-solid {{ 
+                            $proposalExtension === 'pdf' ? 'fa-file-pdf' : ($proposalExtension === 'doc' || $proposalExtension === 'docx' ? 'fa-file-lines' : 'fa-file-lines')
+                            }} text-2xl me-2"></i>  
+
+                        <p class="overflow-hidden whitespace-nowrap text-ellipsis">{{ $proposal->file }}</p>
                     </a>
                 </div>
         
@@ -36,11 +42,9 @@
                     </button>
                     
                     <!-- Dropdown Menu -->
-                    <div 
-                        id="dropdown-{{ $proposal->id }}" 
-                        class="hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10"
-                    >
+                    <div id="dropdown-{{ $proposal->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
                         <ul class="py-1">
+                            @if(auth()->user()->role === 'director')
                             <li>
                                 <button class="w-full text-left px-4 py-2 text-sm font-semibold text-green-400 hover:bg-gray-100">
                                     Approve
@@ -51,6 +55,7 @@
                                     Reject
                                 </button>
                             </li>
+                            @endif
                             <li>
                                 <button onclick="openModal('{{ $proposal->id }}'); hideDropdown('{{ $proposal->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     See comments
