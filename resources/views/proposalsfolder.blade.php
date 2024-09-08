@@ -27,7 +27,7 @@
             <div class="col-span-12 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
   
               <div class="flex-1 min-w-0">
-                  <a href="{{ asset('documents/'.$file->file) }}" target="_blank" class="flex items-center">
+                  <a href="{{ asset('documents/proposals/'.$file->file) }}" target="_blank" class="flex items-center">
                     @php
                         $fileExtension = pathinfo($file->file, PATHINFO_EXTENSION); 
                     @endphp

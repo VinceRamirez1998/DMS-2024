@@ -9,7 +9,7 @@ class ProposalComments extends Model
 {
     use HasFactory;
 
-    protected $table = 'proposals_comments';
+    protected $table = 'proposal_comments';
     protected $fillable = [
         'proposal_id',
         'username',

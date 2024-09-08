@@ -30,8 +30,8 @@
                 </div>
         
                 <!-- Vertical Ellipsis Dropdown -->
-                <div class="relative">
-                    <button onclick="toggleDropdown('{{ $proposal->id }}')" class="text-gray-500 hover:text-gray-700">
+                <div class="relative ">
+                    <button onclick="toggleDropdown('{{ $proposal->id }}')" class="text-gray-500 hover:text-gray-700 px-3">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
                     
@@ -42,13 +42,18 @@
                     >
                         <ul class="py-1">
                             <li>
-                                <button onclick="openModal('{{ $proposal->id }}'); hideDropdown('{{ $proposal->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    See comments
+                                <button class="w-full text-left px-4 py-2 text-sm font-semibold text-green-400 hover:bg-gray-100">
+                                    Approve
                                 </button>
                             </li>
                             <li>
-                                <button class="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100">
-                                    Delete
+                                <button class="w-full text-left px-4 py-2 text-sm font-semibold text-red-500 hover:bg-gray-100">
+                                    Reject
+                                </button>
+                            </li>
+                            <li>
+                                <button onclick="openModal('{{ $proposal->id }}'); hideDropdown('{{ $proposal->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    See comments
                                 </button>
                             </li>
                         </ul>
@@ -56,10 +61,7 @@
                 </div>
         
                 <!-- Modal -->
-                <div 
-                    id="modal-{{ $proposal->id }}" 
-                    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-                >
+                <div id="modal-{{ $proposal->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div class="bg-[#282828] text-white rounded-lg shadow-lg w-3/4 max-w-xl">
                         <div class="p-4 border-b flex justify-between items-center">
                             <h2 class="text-lg font-semibold">{{ $proposal->project_title }}</h2>
@@ -68,13 +70,31 @@
                             </button>
                         </div>
                         <div class="p-4">
-                            <!-- Proposal Details Here -->
-                            <p>{{ $proposal->description }}</p>
+                            
+                        @php
+                            $hasComments = false;
+                        @endphp
+
+                        @foreach ($proposal_comments as $comment)
+                            @if ($comment->proposal_id == $proposal->id)
+                                @php
+                                    $hasComments = true;
+                                @endphp
+                                <p><b>{{ ucfirst($comment->position) }}:</b> {{ $comment->remarks }}</p>
+                            @endif
+                        @endforeach
+
+                        @if (!$hasComments)
+                            <p>No comments yet.</p>
+                        @endif
+
                         </div>
-                        <form action="#" method="post">
+                        <form action="{{ route('proposal.comment.submit') }}" method="post">
                         @csrf
                         <div class="flex justify-end p-4 border-t">
-                                <input type="text" class="w-full rounded-3xl text-black" name="" placeholder="Write a comment..." id="">
+                                <input name="remarks" type="text" class="w-full rounded-3xl text-black" placeholder="Write a comment..." id="">
+                                <input type="hidden" name="proposal_id" value="{{ $proposal->id }}">
+                                <input type="hidden" name="title" value="{{ $proposal->project_title }}">
                                 <button class="text-white px-3 py-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-send rotate-45" viewBox="0 0 16 16">
                                         <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
@@ -112,41 +132,7 @@
       </div>
       </div>
     </div>
-
-  
-
 </body>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-      const toggleDropdown = (buttonId, menuId) => {
-          const dropdownButton = document.getElementById(buttonId);
-          const dropdownMenu = document.getElementById(menuId);
-
-          dropdownButton.addEventListener('click', function () {
-              document.querySelectorAll('[id^=dropdownMenu]').forEach(menu => {
-                  if (menu.id !== menuId) {
-                      menu.classList.add('hidden');
-                  }
-              });
-
-              dropdownMenu.classList.toggle('hidden');
-          });
-      };
-
-      @for ($i = 1; $i <= 12; $i++)
-          toggleDropdown('dropdownButton{{ $i }}', 'dropdownMenu{{ $i }}');
-      @endfor
-
-      document.addEventListener('click', function (event) {
-          document.querySelectorAll('[id^=dropdownMenu]').forEach(menu => {
-              const button = document.getElementById(menu.id.replace('Menu', 'Button'));
-              if (!button.contains(event.target) && !menu.contains(event.target)) {
-                  menu.classList.add('hidden');
-              }
-          });
-      });
-  });
-</script>
 
 
 </html>

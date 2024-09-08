@@ -13,7 +13,7 @@
   <div class="flex h-auto">
   @include('layouts.sidenav')
   <div class="w-screen h-full pb-5">
-    <div class="grid grid-cols-12 bg-[#3c3b3b] rounded-lg md:mx-8 md:mt-8 gap-4 m-2 md:m-0 h-auto">
+    <div class="grid grid-cols-12 bg-[{{ (Auth()->user()->role == 'president' || Auth()->user()->role == 'vicepresident') ? '#3c3b3b' : 'bg-white'}}] rounded-lg md:mx-8 md:mt-8 gap-4 m-2 md:m-0 h-auto">
     @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator'|| auth()->user()->role == 'areaspecialist'|| auth()->user()->role == 'centermanagement')
       {{-- Video --}}
       <div class="col-span-12 md:col-span-7">
@@ -76,7 +76,7 @@
           {{-- end of iterate 5 ongoing projects --}}
       </div>
       @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
-        <div class="flex flex-col gap-2 bg-[#bd8889] rounded-md px-0 p-3 border-2 border-red-500 w-100 lg:mb-20">
+        <div class="flex flex-col gap-2 bg-[#bd8889] rounded-md px-0 p-3 border-2 border-red-500 w-100 lg:mb-[7rem]">
           <div class="w-100 bg-red-900 pl-2 lg:pl-5 py-3">
             <p class="text-white text-lg font-bold">Recent Files</p>
           </div>
@@ -241,7 +241,7 @@
         <p class="text-xl ps-3 mt-2 mb-0 py-3 bg-[#3c3b3b] text-white font-semibold">Notice Board</p>
         <div class="flex flex-col container px-12 pb-20 h-full overflow-y-scroll">
           @for ($i=0; $i<20; $i++)
-          <p class="ms-1">• あの日の悲しみさえ あの日の苦しみさえあの日の悲しみさえ あの日の苦しみさえ</p>
+          <p class="ms-1 text-white">• Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum, eveniet. {{ $i }}</p>
           @endfor
         </div>
       </div>

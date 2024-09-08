@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inquiry;
 use App\Models\Proposals;
 use Illuminate\Http\Request;
+use App\Models\ProposalComments;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -66,7 +67,8 @@ class Functions extends Controller
     public function request_page($type){
         if($type == 'proposals'){
             $proposal = Proposals::get();
-            return view('proposals', compact('proposal'));
+            $proposal_comments = ProposalComments::get();
+            return view('proposals', compact('proposal','proposal_comments'));
         }else{
             $months = Inquiry::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name')
             ->where('type', 'request')
@@ -98,6 +100,20 @@ class Functions extends Controller
         return view('proposalsfolder', ['folder' => $folder], compact('file'));
     }
 
+    public function proposalcommentsubmit(Request $request){
+        if($request->remarks == null){
+            return redirect()->back();
+        }
+        $proposal = new ProposalComments();
+        $proposal->proposal_id = $request->proposal_id;
+        $proposal->username = auth()->user()->username;
+        $proposal->title = $request->title;
+        $proposal->position = '@'. ucfirst(auth()->user()->role);
+        $proposal->remarks = $request->remarks;
+        $proposal->save();
+        return redirect()->back()->with('success', 'Comment submitted successfully.');
+    }
+
     public function submitInquiry(Request $request){
         $request->validate([
             'title' => 'required',
@@ -119,6 +135,7 @@ class Functions extends Controller
             $proposal->title = $request->title;
             $proposal->position = $request->position;
             $proposal->location = $request->location;
+            $proposal->status = 'pending';
             $proposal->type = auth()->user()->purpose;
             $proposal->file = $file;
             $proposal->save();

@@ -25,7 +25,7 @@
       {{-- Projects --}}
       
       <div class="col-span-12">
-        <form action="{{ route('submit.inquiry') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('submit.proposals') }}" method="post" enctype="multipart/form-data">
         @csrf
 
         <div class="flex flex-col bg-[#9d4d4d] rounded-md p-3 mx-2 md:mx-10 border-2">
@@ -34,16 +34,16 @@
             <div class="col-span-12 md:col-span-9 flex flex-col px-2">
               <p class="font-bold text-md text-white mb-2">Project Initiatior</p>
               <div class="flex flex-col md:flex-row items-center gap-4">
-                <input name="last_name" type="text" class="w-full  rounded-md p-2 border-2 border-red-500" placeholder="Last Name">
-                <input name="first_name" type="text" class="w-full rounded-md p-2 border-2 border-red-500" placeholder="First Name">
+                <input name="lastname" type="text" class="w-full  rounded-md p-2 border-2 border-red-500" placeholder="Last Name">
+                <input name="firstname" type="text" class="w-full rounded-md p-2 border-2 border-red-500" placeholder="First Name">
               </div>
               <div class="flex flex-col md:flex-row items-center gap-4 mt-5">
                 <div class="w-full">
                   <label for="" class="font-bold text-md text-white mb-2">Email Address</label>
-                  <input name="last_name" type="text" class="w-full  rounded-md p-2 border-2 pt-2 border-red-500" placeholder="Email Address">
+                  <input name="email" type="text" class="w-full  rounded-md p-2 border-2 pt-2 border-red-500" placeholder="Email Address">
                 </div>
                 <div class="w-full">
-                  <label for="" class="font-bold text-md text-white mb-2">Position</label>
+                  <label for="position" class="font-bold text-md text-white mb-2">Position</label>
                   <select name="position" type="text" class="w-full  rounded-md p-2 border-2 pt-2 border-red-500" placeholder="Position">
                     <option value="" disabled selected>Select Position</option>
                     <option value="president">President</option>
@@ -56,10 +56,10 @@
                   </select>
                 </div>
               </div>
-              <label for="" class="font-bold text-md text-white mb-2 mt-5">Project Title</label>
-              <input name="last_name" type="text" class="w-full  rounded-md p-2 border-2 pt-2 border-red-500" placeholder="Enter Project Title">
-              <label for="" class="font-bold text-md text-white mb-2 mt-5">Project Description</label>
-              <textarea name="last_name" type="text" class="w-full h-[10rem]  rounded-md p-2 border-2 pt-2 border-red-500 resize-none" placeholder="Enter Project Description"></textarea>
+              <label for="project_title" class="font-bold text-md text-white mb-2 mt-5">Project Title</label>
+              <input name="project_title" type="text" class="w-full  rounded-md p-2 border-2 pt-2 border-red-500" placeholder="Enter Project Title">
+              <label for="project_description" class="font-bold text-md text-white mb-2 mt-5">Project Description</label>
+              <textarea name="project_description" type="text" class="w-full h-[10rem]  rounded-md p-2 border-2 pt-2 border-red-500 resize-none" placeholder="Enter Project Description"></textarea>
               
               </div>
             

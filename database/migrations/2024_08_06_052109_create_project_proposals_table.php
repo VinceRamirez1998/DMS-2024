@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->nullable();
-            $table->string('proposal')->nullable();
-            $table->string('description')->nullable();
-            $table->string('username')->nullable();
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
-            $table->timestamp('date_created')->nullable();
-            $table->timestamp('date_updated')->nullable();
+            $table->string('email')->nullable();
+            $table->string('project_title')->nullable();
+            $table->string('project_description')->nullable();
+            $table->string('position')->nullable();
+            $table->string('file')->nullable();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
            
         });
     }

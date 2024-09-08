@@ -99,6 +99,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');
     Route::get('/requests/{month}/{folder}', [Functions::class, 'request_folder'])->name('requests.folder');
     Route::get('/proposals/{folder}', [Functions::class, 'proposals_folder'])->name('proposals.folder');
+    Route::post('/proposal/comment/submit', [Functions::class, 'proposalcommentsubmit'])->name('proposal.comment.submit');
 
 
     Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
@@ -106,7 +107,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/settings/profile/update', [Functions::class, 'changeProfile'])->name('settings.profile.update');
 
     Route::post('/inquiry/submit', [Functions::class, 'submitInquiry'])->name('submit.inquiry');
-    Route::post('/proposals/submit', [Functions::class, 'submitProposals'])->name('submit.proposals');
+    Route::post('/proposals/submit', [Functions::class, 'submitProposal'])->name('submit.proposals');
 
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
     Route::post('/proposals/{folder}/option', [Functions::class, 'proposalsoption'])->name('proposals.option');
