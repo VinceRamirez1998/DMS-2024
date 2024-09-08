@@ -95,8 +95,7 @@ class Functions extends Controller
     }
 
     public function proposals_folder($folder){
-        $file = Proposals::where('project_title', $folder)->first();
-        $file = Proposals::where('project_title', $file->project_title)->get();
+        $file = Proposals::where('project_title', $folder)->get();
         return view('proposalsfolder', ['folder' => $folder], compact('file'));
     }
 
