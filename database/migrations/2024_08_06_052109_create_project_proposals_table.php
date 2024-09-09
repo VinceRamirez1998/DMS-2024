@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('project_title')->nullable();
             $table->string('project_description')->nullable();
             $table->string('position')->nullable();
+            $table->string('department')->nullable();
             $table->string('file')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();

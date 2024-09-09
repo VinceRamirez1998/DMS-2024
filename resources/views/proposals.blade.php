@@ -12,7 +12,7 @@
   <div class="flex h-auto">
   @include('layouts.sidenav')
   <div class="w-screen pb-3 min-h-screen p-2 lg:p-10">
-    <div class="bg-[#f6f6f6] rounded-md flex flex-col h-full overflow-hidden">
+    <div class="bg-[#3b3b3b] text-white rounded-md flex flex-col h-full overflow-hidden">
         <p class="font-semibold text-lg my-3 pl-3 md:pl-5 flex items-center">
             <a href="{{ route('projectsandrequests') }}" class="me-3"><i class="fa-solid fa-chevron-left"></i></a>Proposals
         </p>
@@ -27,11 +27,11 @@
                         @php
                             $proposalExtension = pathinfo($proposal->file, PATHINFO_EXTENSION); 
                         @endphp
-                        <i class="fa-solid {{ 
+                        <i class="fa-solid text-black {{ 
                             $proposalExtension === 'pdf' ? 'fa-file-pdf' : ($proposalExtension === 'doc' || $proposalExtension === 'docx' ? 'fa-file-lines' : 'fa-file-lines')
                             }} text-2xl me-2"></i>  
 
-                        <p class="overflow-hidden whitespace-nowrap text-ellipsis">{{ $proposal->file }}</p>
+                        <p class="overflow-hidden text-black whitespace-nowrap text-ellipsis">{{ $proposal->file }}</p>
                     </a>
                 </div>
         
@@ -71,7 +71,7 @@
                         <div class="p-4 border-b flex justify-between items-center">
                             <h2 class="text-lg font-semibold">{{ $proposal->project_title }}</h2>
                             <button onclick="closeModal('{{ $proposal->id }}')" class="text-gray-500 hover:text-gray-700">
-                                <i class="fa-solid fa-times"></i>
+                                <i class="fa-solid fa-times text-white"></i>
                             </button>
                         </div>
                         <div class="p-4">

@@ -12,7 +12,7 @@
   <div class="flex h-auto">
   @include('layouts.sidenav')
   <div class="w-screen pb-3 min-h-screen p-2 lg:p-10">
-    <div class="bg-[#f6f6f6] rounded-md flex flex-col h-full overflow-hidden">
+    <div class="bg-[#3b3b3b] text-white rounded-md flex flex-col h-full overflow-hidden">
         <p class="font-semibold text-lg my-3 pl-3 md:pl-5 flex items-center">
             <a href="{{ route('projectsandrequests') }}" class="me-3"><i class="fa-solid fa-chevron-left"></i></a>Requests
         </p>
@@ -27,11 +27,11 @@
                         @php
                             $requestsExtension = pathinfo($requests->file, PATHINFO_EXTENSION); 
                         @endphp
-                        <i class="fa-solid {{ 
+                        <i class="fa-solid text-black {{ 
                             $requestsExtension === 'pdf' ? 'fa-file-pdf' : ($requestsExtension === 'doc' || $requestsExtension === 'docx' ? 'fa-file-lines' : 'fa-file-lines')
                             }} text-2xl me-2"></i>  
 
-                        <p class="overflow-hidden whitespace-nowrap text-ellipsis">{{ $requests->file }}</p>
+                        <p class="overflow-hidden whitespace-nowrap text-ellipsis text-black">{{ $requests->file }}</p>
                     </a>
                 </div>
         
@@ -61,11 +61,18 @@
                                     See comments
                                 </button>
                             </li>
+                            @if(auth()->user()->role === 'director')
+                            <li>
+                                <button onclick="opensendModal('{{ $requests->id }}');" class="w-full text-[#fab005] font-bold text-left px-4 py-2 text-sm">
+                                    Send
+                                </button>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
         
-                <!-- Modal -->
+                <!-- Comments Modal -->
                 <div id="modal-{{ $requests->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div class="bg-[#282828] text-white rounded-lg shadow-lg w-3/4 max-w-xl">
                         <div class="p-4 border-b flex justify-between items-center">
@@ -111,10 +118,43 @@
                         </form>
                     </div>
                 </div>
+
+                <!-- Comments Modal -->
+                <div id="modal-send-{{ $requests->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div class="bg-[#282828] text-white rounded-lg shadow-lg w-3/4 max-w-xl">
+                        <div class="p-4 border-b flex justify-between items-center">
+                            <h2 class="text-lg font-semibold">Send Request</h2>
+                            <button onclick="closesendModal('{{ $requests->id }}')" class="text-gray-500 hover:text-gray-700">
+                                <i class="fa-solid fa-times"></i>
+                            </button>
+                        </div>
+                        {{-- Comments --}}
+                        
+                        <form id="department" action="" method="post">
+                        @csrf
+                        <div class="flex justify-end p-4 border-t">
+                            <select onchange="selectdepartment()" name="department" type="text" class="w-full rounded-md text-black" placeholder="" id="">
+                                <option value="" selected>Select Department</option>
+                                <option value="ccs">CCS</option>
+                                <option value="cea">CEA</option>
+                                <option value="chs">CHS</option>
+                                <option value="shs">SHS</option>
+                            </select>
+                            <input type="hidden" name="request_id" value="{{ $requests->id }}">
+                        </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         @endforeach
+        {{-- Select Department JS --}}
+        <script>
+            function selectdepartment() {
+                document.getElementById("department").submit();
+            }
+        </script>
         
-        <!-- JavaScript Functions -->
+        <!-- Comment JS -->
         <script>
             function openModal(id) {
                 document.getElementById('modal-' + id).classList.remove('hidden');
@@ -122,6 +162,27 @@
         
             function closeModal(id) {
                 document.getElementById('modal-' + id).classList.add('hidden');
+            }
+        
+            function toggleDropdown(id) {
+                const dropdown = document.getElementById('dropdown-' + id);
+                dropdown.classList.toggle('hidden');
+            }
+        
+            function hideDropdown(id) {
+                const dropdown = document.getElementById('dropdown-' + id);
+                dropdown.classList.add('hidden');
+            }
+        </script>
+
+        <!-- Send JS -->
+        <script>
+            function opensendModal(id) {
+                document.getElementById('modal-send-' + id).classList.remove('hidden');
+            }
+        
+            function closesendModal(id) {
+                document.getElementById('modal-send-' + id).classList.add('hidden');
             }
         
             function toggleDropdown(id) {

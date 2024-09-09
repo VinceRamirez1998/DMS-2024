@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('username')->nullable();
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
+            $table->string('department')->nullable();
             $table->timestamp('date_created')->nullable();
             $table->timestamp('date_updated')->nullable();
         });
