@@ -17,5 +17,6 @@ class Proposals extends Model
         'project_title',
         'project_description',
         'file',
+        'department',
     ];
 }

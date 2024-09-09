@@ -44,18 +44,6 @@
                     <!-- Dropdown Menu -->
                     <div id="dropdown-{{ $requests->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
                         <ul class="py-1">
-                            @if(auth()->user()->role === 'director')
-                            <li>
-                                <button class="w-full text-left px-4 py-2 text-sm font-semibold text-green-400 hover:bg-gray-100">
-                                    Approve
-                                </button>
-                            </li>
-                            <li>
-                                <button class="w-full text-left px-4 py-2 text-sm font-semibold text-red-500 hover:bg-gray-100">
-                                    Reject
-                                </button>
-                            </li>
-                            @endif
                             <li>
                                 <button onclick="openModal('{{ $requests->id }}'); hideDropdown('{{ $requests->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     See comments
@@ -123,24 +111,25 @@
                 <div id="modal-send-{{ $requests->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div class="bg-[#282828] text-white rounded-lg shadow-lg w-3/4 max-w-xl">
                         <div class="p-4 border-b flex justify-between items-center">
-                            <h2 class="text-lg font-semibold">Send Request</h2>
+                            <h2 class="text-lg font-semibold">{{ $requests->title }}</h2>
                             <button onclick="closesendModal('{{ $requests->id }}')" class="text-gray-500 hover:text-gray-700">
                                 <i class="fa-solid fa-times"></i>
                             </button>
                         </div>
+
                         {{-- Comments --}}
-                        
-                        <form id="department" action="" method="post">
+                        <form id="department" action="{{ route('select.department') }}" method="post">
                         @csrf
-                        <div class="flex justify-end p-4 border-t">
-                            <select onchange="selectdepartment()" name="department" type="text" class="w-full rounded-md text-black" placeholder="" id="">
-                                <option value="" selected>Select Department</option>
-                                <option value="ccs">CCS</option>
+                        <div class="flex flex-col justify-end p-4 border-t">
+                            <select name="department" type="text" class="w-full rounded-md text-black" placeholder="">
+                                <option value="ccs" selected>CCS</option>
                                 <option value="cea">CEA</option>
                                 <option value="chs">CHS</option>
                                 <option value="shs">SHS</option>
                             </select>
-                            <input type="hidden" name="request_id" value="{{ $requests->id }}">
+                            <div class="flex justify-end w-full">
+                                <button name="request_id" value="{{ $requests->id }}" class="px-3 py-2 mt-3 text-center bg-[#fab005] text-white font-semibold rounded-md">Send&nbsp;Request</button>
+                            </div>
                         </div>
                         </form>
                     </div>

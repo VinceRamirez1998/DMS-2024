@@ -125,6 +125,13 @@ class Functions extends Controller
         return redirect()->back()->with('success', 'Comment submitted successfully.');
     }
 
+    public function selectdepartment(Request $request){
+        $requests = Inquiry::where('id', $request->request_id)->first();
+        $requests->department = $request->department;
+        $requests->save();
+        return redirect()->back()->with('success', 'Department changed successfully.');
+    }
+
     public function submitInquiry(Request $request){
         $request->validate([
             'title' => 'required',

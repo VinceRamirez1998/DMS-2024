@@ -97,6 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/proposals/{folder}', [Functions::class, 'proposals_folder'])->name('proposals.folder');
     Route::post('/proposal/comment/submit', [Functions::class, 'proposalcommentsubmit'])->name('proposal.comment.submit');
     Route::post('/request/comment/submit', [Functions::class, 'requestcommentsubmit'])->name('request.comment.submit');
+    Route::post('/request/assign/department', [Functions::class, 'selectdepartment'])->name('select.department');
 
 
     Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');

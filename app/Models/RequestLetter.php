@@ -15,6 +15,7 @@ class RequestLetter extends Model
     'username',
     'firstname',
     'lastname',
+    'department',
     'date_created',
     'date_updated',
     ];

@@ -20,6 +20,7 @@ class Inquiry extends Model
         'status',
         'type',
         'remarks',
+        'department',
     ];
     
 }
