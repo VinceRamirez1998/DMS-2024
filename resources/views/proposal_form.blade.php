@@ -65,7 +65,7 @@
             
             <div class="col-span-12 mt-5 md:mt-0 md:col-span-3 flex items-center justify-center">
               <div class="relative w-[480px] h-full">
-                <div id="dropzone" class="dropzone flex items-center py-[120px] h-full border-4 border-solid border-gray-300 bg-[#9d9d9d] rounded-lg p-8 text-center cursor-pointer hover:bg-gray-50">
+                <div id="dropzone" class="dropzone flex justify-center items-center py-[120px] h-full border-4 border-solid border-gray-300 bg-[#9d9d9d] rounded-lg p-8 text-center cursor-pointer hover:bg-gray-50">
                   <p id="status" class="">Drag and drop files here or click to select file</p>
                   <input name="file" type="file" id="fileInput" accept=".doc,.docx,.pdf" hidden>
                 </div>
