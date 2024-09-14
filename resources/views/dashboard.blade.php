@@ -13,7 +13,7 @@
   <div class="flex h-auto">
   @include('layouts.sidenav')
   <div class="w-screen h-full pb-5">
-    <div class="grid grid-cols-12 bg-[{{ (Auth()->user()->role == 'president' || Auth()->user()->role == 'vicepresident') ? '#3c3b3b' : 'bg-white'}}] rounded-lg md:mx-8 md:mt-8 gap-4 m-2 md:m-0 h-auto">
+    <div class="grid grid-cols-12 bg-[{{ (Auth()->user()->role == 'president' || Auth()->user()->role == 'vicepresident' || Auth()->user()->role == 'director' ) ? '#3c3b3b' : 'bg-white'}}] rounded-lg md:mx-8 md:mt-8 gap-4 m-2 md:m-0 h-auto">
     @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator'|| auth()->user()->role == 'areaspecialist'|| auth()->user()->role == 'centermanagement')
       {{-- Video --}}
       <div class="col-span-12 md:col-span-7">
@@ -124,21 +124,21 @@
           <div class="">
             <a href="#" class="flex items-center me-2 text-white">
               <span class="h-4 w-4 bg-[#f3c96b]"></span>
-              <p class="ms-1">{{ intval($ccs_percentage) }}%&nbsp;CCS</p>
+              <p class="ms-1">{{ intval($ccs_percentage ?? 0) }}%&nbsp;CCS</p>
             </a>
             <a href="#" class="flex items-center me-2 text-white">
               <span class="h-4 w-4 bg-[#de6e6a]"></span>
-              <p class="ms-1">{{ intval($cea_percentage) }}%&nbsp;CEA</p>
+              <p class="ms-1">{{ intval($cea_percentage ?? 0) }}%&nbsp;CEA</p>
             </a>
           </div>
           <div class="">
           <a href="#" class="flex items-center me-2 text-white">
             <span class="h-4 w-4 bg-[#5971c0]"></span>
-            <p class="ms-1">{{ intval($chs_percentage) }}%&nbsp;CHS</p>
+            <p class="ms-1">{{ intval($chs_percentage ?? 0) }}%&nbsp;CHS</p>
           </a>
           <a href="#" class="flex items-center me-2 text-white">
             <span class="h-4 w-4 bg-[#9ec97f]"></span>
-            <p class="ms-1">{{ intval($shs_percentage) }}%&nbsp;SHS</p>
+            <p class="ms-1">{{ intval($shs_percentage ?? 0) }}%&nbsp;SHS</p>
           </a>
           </div>
         </div>
@@ -294,7 +294,7 @@ document.addEventListener('click', function(event) {
 
 </script>
 {{-- Piechart --}}
-@if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident')
+@if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident' || auth()->user()->role == 'director')
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const data = [

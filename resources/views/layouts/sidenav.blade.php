@@ -48,8 +48,10 @@
       <a href="/downloadable" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-2 mt-1 fa-regular fa-file-lines text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Downloadable Forms</p></a>
       @endif
       {{-- Dropdown Proposal --}}
+      @if(Auth()->user()->role == 'president' || Auth()->user()->role == 'vicepresident' || Auth()->user()->role == 'director')
       <hr class="menu-content border-t-2 border-t-red-950">
       <button onclick="dropdownproposal()" class="flex flex-nowrap flex-row items-center py-1"><i class="ms-1 mt-1 fa-solid fa-folder text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Repository</p><i id="caret-proposal" class="fa-solid fa-caret-up transition text-white absolute right-5 hidden"></i></button>
+      @endif
       <div id="dropdown-proposal" class="hidden">
         <ul>
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href=""><b>+</b> Projects</a></li>

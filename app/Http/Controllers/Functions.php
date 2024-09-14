@@ -126,6 +126,9 @@ class Functions extends Controller
     }
 
     public function selectdepartment(Request $request){
+        $request->validate([
+            'department' => 'required',
+        ]);
         $requests = Inquiry::where('id', $request->request_id)->first();
         $requests->department = $request->department;
         $requests->save();
@@ -137,8 +140,6 @@ class Functions extends Controller
             'title' => 'required',
             'position' => 'required',
             'location' => 'required',
-            
-
         ]);
 
         if(auth()->user()->purpose == 'request'){
@@ -154,6 +155,7 @@ class Functions extends Controller
             $proposal->position = $request->position;
             $proposal->location = $request->location;
             $proposal->status = 'pending';
+            $proposal->access = 'president';
             $proposal->type = auth()->user()->purpose;
             $proposal->file = $file;
             $proposal->save();
@@ -163,11 +165,28 @@ class Functions extends Controller
             $proposal->title = $request->title;
             $proposal->position = $request->position;
             $proposal->location = $request->location;
+            $proposal->status = 'pending';
+            $proposal->access = 'president';
             $proposal->type = auth()->user()->purpose;
             $proposal->save();
         }
 
-        return redirect()->back()->with('success', 'Proposal submitted.');
+        return redirect()->back()->with('success', 'Inquiry submitted.');
+    }
+
+    public function requesttransfer(Request $request){
+        if(Auth()->user()->role === 'president'){
+            $requests = Inquiry::where('id', $request->id)->first();
+            $requests->access = 'vicepresident';
+            $requests->save();
+        }
+        elseif(Auth()->user()->role === 'vicepresident'){
+            $requests = Inquiry::where('id', $request->id)->first();
+            $requests->access = 'director';
+            $requests->save();
+        }
+     
+        return redirect()->back()->with('success', 'Transferred successfully.');
     }
     
 
@@ -224,7 +243,7 @@ class Functions extends Controller
     }
 
     public function dashboard(){
-        if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident'){
+        if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident' || auth()->user()->role == 'director'){
             // $total_requests = Inquiry::count();
             // $total_proposals = Proposals::count();
             // $total = ($total_proposals + $total_requests) ?? 0;

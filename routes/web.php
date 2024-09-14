@@ -106,6 +106,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/inquiry/submit', [Functions::class, 'submitInquiry'])->name('submit.inquiry');
     Route::post('/proposals/submit', [Functions::class, 'submitProposal'])->name('submit.proposals');
+    Route::post('/request/transfer', [Functions::class, 'requesttransfer'])->name('request.transfer');
 
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
     Route::post('/proposals/{folder}/option', [Functions::class, 'proposalsoption'])->name('proposals.option');

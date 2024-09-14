@@ -31,12 +31,13 @@
                             $requestsExtension === 'pdf' ? 'fa-file-pdf' : ($requestsExtension === 'doc' || $requestsExtension === 'docx' ? 'fa-file-lines' : 'fa-file-lines')
                             }} text-2xl me-2"></i>  
 
-                        <p class="overflow-hidden whitespace-nowrap text-ellipsis text-black">{{ $requests->file }}</p>
+                        <p class="overflow-hidden whitespace-nowrap text-ellipsis text-black"> {{ $requests->title . ' - ' }} <span class="italic text-gray-500"> {{ $requests->file }}</span> </p>
                     </a>
                 </div>
         
                 <!-- Vertical Ellipsis Dropdown -->
-                <div class="relative ">
+                <div class="relative flex">
+                    <p class="text-gray-500 italic">{{ $requests->username }}</p>
                     <button onclick="toggleDropdown('{{ $requests->id }}')" class="text-gray-500 hover:text-gray-700 px-3">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
@@ -54,6 +55,16 @@
                                 <button onclick="opensendModal('{{ $requests->id }}');" class="w-full text-[#fab005] font-bold text-left px-4 py-2 text-sm">
                                     Send
                                 </button>
+                            </li>
+                            @elseif(auth()->user()->role === 'president' ||  auth()->user()->role === 'vicepresident')
+                            <li>
+                                <form action="{{ route('request.transfer') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $requests->id }}">
+                                <button type="submit" class="w-full text-[#fab005] font-bold text-left px-4 py-2 text-sm">
+                                    Send
+                                </button>
+                                </form>
                             </li>
                             @endif
                         </ul>
@@ -122,10 +133,15 @@
                         @csrf
                         <div class="flex flex-col justify-end p-4 border-t">
                             <select name="department" type="text" class="w-full rounded-md text-black" placeholder="">
-                                <option value="ccs" selected>CCS</option>
-                                <option value="cea">CEA</option>
-                                <option value="chs">CHS</option>
-                                <option value="shs">SHS</option>
+                                <option disabled {{ ($requests->department == null) ? 'selected' : '' }} >--Select--</option>
+                                <option value="centermanagerccs" {{ ($requests->department == 'centermanagerccs') ? 'selected' : '' }} >Center Manager - CCS</option>
+                                <option value="centermanagercea" {{ ($requests->department == 'centermanagercea') ? 'selected' : '' }} >Center Manager - CEA</option>
+                                <option value="centermanagerchs" {{ ($requests->department == 'centermanagerchs') ? 'selected' : '' }} >Center Manager - CHS</option>
+                                <option value="centermanagershs" {{ ($requests->department == 'centermanagershs') ? 'selected' : '' }} >Center Manager - SHS</option>
+                                <option value="deanccs" {{ ($requests->department == 'deanccs') ? 'selected' : '' }} >Dean - CCS</option>
+                                <option value="deancea" {{ ($requests->department == 'deancea') ? 'selected' : '' }} >Dean - CEA</option>
+                                <option value="deanchs" {{ ($requests->department == 'deanchs') ? 'selected' : '' }} >Dean - CHS</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - SHS</option>
                             </select>
                             <div class="flex justify-end w-full">
                                 <button name="request_id" value="{{ $requests->id }}" class="px-3 py-2 mt-3 text-center bg-[#fab005] text-white font-semibold rounded-md">Send&nbsp;Request</button>

@@ -19,6 +19,7 @@ class Inquiry extends Model
         'file',
         'status',
         'type',
+        'access',
         'remarks',
         'department',
     ];

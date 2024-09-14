@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'lastname' => ['required','string', ],
             // 'department' => ['required','string','in:ccs,cea,cbs,cas,coe,chm,cit,cssp,law'],
             'position' => ['required','string','max:255'],
-            'purpose' => ['required','string','in:inquiry,sendrequestletter'],
+            'purpose' => ['required','string','in:inquire,request'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required','same:password'],
