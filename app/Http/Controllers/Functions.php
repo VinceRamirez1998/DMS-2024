@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Inquiry;
+use App\Models\Projects;
 use App\Models\Proposals;
 use Illuminate\Http\Request;
+use App\Models\InquiryComments;
 use App\Models\RequestComments;
 use App\Models\ProposalComments;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -70,10 +74,19 @@ class Functions extends Controller
             $proposal = Proposals::get();
             $proposal_comments = ProposalComments::get();
             return view('proposals', compact('proposal','proposal_comments'));
-        }else{
-            $requests = Inquiry::get();
+        }elseif($type == 'requests'){
+            $requests = Inquiry::where('type', 'request')->get();
             $requests_comments = RequestComments::get();
             return view('requests', compact('requests','requests_comments'));
+        }
+        elseif($type == 'inquiries'){
+            $inquiry = Inquiry::where('type', 'inquire')->get();
+            return view('inquiries', compact('inquiry'));
+        }
+        elseif($type == 'projects'){
+            $projects = Projects::all();
+            $proposal_comments = ProposalComments::get();
+            return view('projects', compact('projects','proposal_comments'));
         }
     }
     public function request_month($month){
@@ -92,9 +105,9 @@ class Functions extends Controller
         return view('requestsfolder', ['monthName' => $month, 'folder' => $folder], compact('file', 'month'));
     }
 
-    public function proposals_folder($folder){
-        $file = Proposals::where('project_title', $folder)->get();
-        return view('proposalsfolder', ['folder' => $folder], compact('file'));
+    public function projects_folder($folder){
+        $file = Projects::where('project_title', $folder)->get();
+        return view('projectsfolder', ['folder' => $folder], compact('file'));
     }
 
     public function proposalcommentsubmit(Request $request){
@@ -121,6 +134,14 @@ class Functions extends Controller
         $requests->title = $request->title;
         $requests->position = '@'. ucfirst(auth()->user()->role);
         $requests->remarks = $request->remarks;
+
+        $verifyPurpose = User::where('username', $request->username)->first();
+        if($verifyPurpose->purpose == 'inquire'){
+            $inquire = Inquiry::where('id', $request->request_id)->first();
+            $inquire->reply_status = 'replied';
+            $inquire->save();
+            return redirect()->back();
+        }
         $requests->save();
         return redirect()->back()->with('success', 'Comment submitted successfully.');
     }
@@ -165,6 +186,7 @@ class Functions extends Controller
             $proposal->title = $request->title;
             $proposal->position = $request->position;
             $proposal->location = $request->location;
+            $proposal->inquiry = $request->inquiry;
             $proposal->status = 'pending';
             $proposal->access = 'president';
             $proposal->type = auth()->user()->purpose;
@@ -183,6 +205,21 @@ class Functions extends Controller
         elseif(Auth()->user()->role === 'vicepresident'){
             $requests = Inquiry::where('id', $request->id)->first();
             $requests->access = 'director';
+            $requests->save();
+        }
+     
+        return redirect()->back()->with('success', 'Transferred successfully.');
+    }
+
+    public function inquirytransfer(Request $request){
+        if(Auth()->user()->role === 'president'){
+            $requests->inquiry_id = $request->id;
+            $requests->reply = $request->reply;
+            $requests->save();
+        }
+        elseif(Auth()->user()->role === 'vicepresident'){
+            $requests->inquiry_id = $request->id;
+            $requests->reply = $request->reply;
             $requests->save();
         }
      

@@ -54,10 +54,10 @@
       @endif
       <div id="dropdown-proposal" class="hidden">
         <ul>
-          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href=""><b>+</b> Projects</a></li>
+          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/projects"><b>+</b> Projects</a></li>
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/proposals"><b>+</b> Proposals</a></li>
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/requests"><b>+</b> Requests</a></li>
-          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/inquiry"><b>+</b> Inquiries</a></li>
+          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/inquiries"><b>+</b> Inquiries</a></li>
           @if(Auth()->user()->role == 'coordinator')
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="{{ route('proposal.form') }}">• Upload Proposal</a></li>
           @elseif(Auth()->user()->role == 'areaspecialist' || Auth()->user()->role == 'centermanagement')

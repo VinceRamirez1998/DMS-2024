@@ -23,12 +23,14 @@
           <a href="{{ route('requests', ['type' => 'requests']) }}" class="flex items-center container"><i class="fa-solid fa-folder text-2xl me-2"></i>Requests</a>
         </div>
 
+        <div class="col-span-6 md:col-span-3 bg-slate-200 flex flex-row justify-between items-center px-3 py-2 rounded-md">
+          <a href="{{ route('requests', ['type' => 'inquiries']) }}" class="flex items-center container"><i class="fa-solid fa-folder text-2xl me-2"></i>Inquiries</a>
+        </div>
+
       </div>
     </div>
   </div>
 </div>
-
-  
 
 </body>
 

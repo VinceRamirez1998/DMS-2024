@@ -35,7 +35,7 @@
           <input name="location" type="text" id="location" class="w-full md:w-[370px] rounded-md p-2 border-2 border-red-500" placeholder="">
           @if(Auth()->user()->purpose == 'inquire')
           <label for="inquiry" class="text-lg">Inquiry</label>
-          <textarea type="text" id="inquiry" class="w-full h-[290px] rounded-md p-2 border-2 border-red-500 resize-none" placeholder=""></textarea>
+          <textarea type="text" name="inquiry" id="inquiry" class="w-full h-[290px] rounded-md p-2 border-2 border-red-500 resize-none" placeholder=""></textarea>
           @elseif(Auth()->user()->purpose == 'request')
           <div class="flex items-center justify-center mt-10">
             <div class="relative w-[480px]">

@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Proposals extends Model
+class Projects extends Model
 {
     use HasFactory;
-    protected $table = 'proposals';
+    protected $table = 'projects';
     protected $fillable = [
         'lastname',
         'firstname',
@@ -16,8 +16,8 @@ class Proposals extends Model
         'position',
         'project_title',
         'project_description',
-        'department',
         'file',
-        'previous_department',
+        'phase',
+        'department',
     ];
 }

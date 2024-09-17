@@ -15,13 +15,30 @@
     <div class="bg-[#f6f6f6] rounded-md flex flex-col h-full overflow-hidden">
         <p class="font-semibold text-lg my-3 pl-3 md:pl-5 flex items-center">
             <i class="fa-solid fa-chevron-left mr-3"></i>
-            <a href="{{ route('requests', ['type' => 'proposals']) }}" class="">Proposals</a>
+            <a href="{{ route('requests', ['type' => 'projects']) }}" class="">Projects</a>
             <i class="fa-solid fa-chevron-left mx-3"></i>
             @foreach($file->unique('project_title') as $title)<a disabled> {{ $title->project_title }} </a>@endforeach
         </p>
         <div class="h-screen w-full overflow-y-scroll">
         <div class="grid grid-cols-12 gap-2 pb-3 px-3 md:px-5">
-
+            <div class="flex relative flex-row">
+                <i class="fa-solid fa-circle z-10 text-yellow-200 text-3xl relative flex justify-center items-center">
+                    <p class="absolute text-sm text-black">1</p>
+                </i>
+                <i class="fa-solid fa-circle z-[9] text-3xl ms-10 relative flex justify-center items-center">
+                    <span class="h-[4px] w-[60px] absolute bg-black left-[-60px]"></span>
+                    <p class="absolute text-sm text-white">1</p>
+                </i>
+                <i class="fa-solid fa-circle z-[8]  text-gray-300 text-3xl ms-10 relative flex justify-center items-center">
+                    <span class="h-[4px] w-[60px] absolute bg-black left-[-60px]"></span>
+                    <p class="absolute text-sm text-white">1</p>
+                </i>
+                <i class="fa-solid fa-circle text-3xl ms-10 relative flex justify-center items-center">
+                    <span class="h-[4px] w-[60px] absolute bg-black left-[-60px]"></span>
+                    <p class="absolute text-sm text-white">1</p>
+                </i>
+                
+            </div>
             @foreach($file as $file)
             @if($file->file != null)
             <div class="col-span-12 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
@@ -44,7 +61,7 @@
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
                 <div id="dropdownMenu{{ $file->id }}" class="hidden flex flex-col absolute right-5 top-1 z-10 bg-white border border-gray-400 mt-2 rounded-md">
-                    <form action="{{ route('proposals.option', ['folder' => $file->project_title]) }}" method="POST">
+                    <form action="{{ route('projects.option', ['folder' => $file->project_title]) }}" method="POST">
                         @csrf
                         <button name="option" value="rename" type="button" id="rename-button-{{ $file->id }}" class="p-2">Rename</button>
                         <hr class="border-b border-gray-400">

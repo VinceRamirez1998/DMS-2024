@@ -22,7 +22,10 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('access')->nullable();
             $table->string('department')->nullable();
+            $table->string('inquiry')->nullable();
             $table->string('remarks')->nullable();
+            $table->string('reply_status')->nullable();
+            $table->string('inbox_status')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('inquiry');
     }
 };

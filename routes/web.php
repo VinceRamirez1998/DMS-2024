@@ -94,7 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/{type}', [Functions::class, 'request_page'])->name('requests');
     Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');
     Route::get('/requests/{month}/{folder}', [Functions::class, 'request_folder'])->name('requests.folder');
-    Route::get('/proposals/{folder}', [Functions::class, 'proposals_folder'])->name('proposals.folder');
+    Route::get('/project/{folder}', [Functions::class, 'projects_folder'])->name('projects.folder');
     Route::post('/proposal/comment/submit', [Functions::class, 'proposalcommentsubmit'])->name('proposal.comment.submit');
     Route::post('/request/comment/submit', [Functions::class, 'requestcommentsubmit'])->name('request.comment.submit');
     Route::post('/request/assign/department', [Functions::class, 'selectdepartment'])->name('select.department');
@@ -107,12 +107,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/inquiry/submit', [Functions::class, 'submitInquiry'])->name('submit.inquiry');
     Route::post('/proposals/submit', [Functions::class, 'submitProposal'])->name('submit.proposals');
     Route::post('/request/transfer', [Functions::class, 'requesttransfer'])->name('request.transfer');
+    Route::post('/inquiry/transfer', [Functions::class, 'inquirytransfer'])->name('inquiry.transfer');
 
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
-    Route::post('/proposals/{folder}/option', [Functions::class, 'proposalsoption'])->name('proposals.option');
+    Route::post('/projects/{folder}/option', [Functions::class, 'projectsoption'])->name('projects.option');
 });
 
-// Home Route (Accessible to unauthenticated users)
+// Home Route
 Route::get('/home', [HomeController::class, 'index'])
     ->middleware('redirect.verified')
     ->name('home');
