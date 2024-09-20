@@ -97,8 +97,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{folder}', [Functions::class, 'projects_folder'])->name('projects.folder');
     Route::post('/proposal/comment/submit', [Functions::class, 'proposalcommentsubmit'])->name('proposal.comment.submit');
     Route::post('/request/comment/submit', [Functions::class, 'requestcommentsubmit'])->name('request.comment.submit');
+    Route::post('/inquiry/comment/submit', [Functions::class, 'inquirycommentsubmit'])->name('inquiry.comment.submit');
     Route::post('/request/assign/department', [Functions::class, 'selectdepartment'])->name('select.department');
-
 
     Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
     Route::post('/settings/contact/update', [Functions::class, 'changeContact'])->name('settings.contact.update');
@@ -108,7 +108,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/proposals/submit', [Functions::class, 'submitProposal'])->name('submit.proposals');
     Route::post('/request/transfer', [Functions::class, 'requesttransfer'])->name('request.transfer');
     Route::post('/inquiry/transfer', [Functions::class, 'inquirytransfer'])->name('inquiry.transfer');
-
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
     Route::post('/projects/{folder}/option', [Functions::class, 'projectsoption'])->name('projects.option');
 });

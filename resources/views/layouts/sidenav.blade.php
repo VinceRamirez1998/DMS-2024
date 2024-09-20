@@ -68,7 +68,7 @@
       {{-- Inquiry --}}
       @if(Auth()->user()->position != null)
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="/inquiry" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-envelope text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">Inquiry</p></a>
+      <a href="/inquiry" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-envelope text-2xl text-white pb-[-15px] overflow-hidden"></i><p class="menu-content text-lg text-white text-extrabold ms-2">{{ (Auth()->user()->purpose == 'inquire') ? 'Inquiries' : 'Requests' }}</p></a>
       @endif
 
       {{-- Notification --}}

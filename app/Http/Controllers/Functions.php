@@ -81,7 +81,8 @@ class Functions extends Controller
         }
         elseif($type == 'inquiries'){
             $inquiry = Inquiry::where('type', 'inquire')->get();
-            return view('inquiries', compact('inquiry'));
+            $inquiry_comments = InquiryComments::get();
+            return view('inquiries', compact('inquiry','inquiry_comments'));
         }
         elseif($type == 'projects'){
             $projects = Projects::all();
@@ -143,6 +144,26 @@ class Functions extends Controller
             return redirect()->back();
         }
         $requests->save();
+        return redirect()->back()->with('success', 'Comment submitted successfully.');
+    }
+
+    public function inquirycommentsubmit(Request $request){
+        if($request->reply == null){
+            return redirect()->back();
+        }
+        // dd($request->all());
+        $inquiry = new InquiryComments();
+        $inquiry->inquiry_id = $request->request_id;
+        $inquiry->username = auth()->user()->username;
+        $inquiry->position = '@'. ucfirst(auth()->user()->role);
+        $inquiry->reply = $request->reply;
+
+     
+        $inquire_notif = Inquiry::where('id', $request->request_id)->first();
+        $inquire_notif->reply_status = 'replied';
+        $inquire_notif->save();
+        
+        $inquiry->save();
         return redirect()->back()->with('success', 'Comment submitted successfully.');
     }
 

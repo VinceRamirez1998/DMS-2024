@@ -12,7 +12,9 @@ class InquiryComments extends Model
     protected $fillable = [
         'id',
         'inquiry_id',
+        'username',
         'reply',
+        'position',
         'created_at',
         'updated_at',
     ];

@@ -46,7 +46,7 @@
                     <div id="dropdown-{{ $requests->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
                         <ul class="py-1">
                             <li>
-                                <button onclick="openModal('{{ $requests->id }}'); hideDropdown('{{ $requests->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <button onclick="openModalComments('{{ $requests->id }}'); hideDropdown('{{ $requests->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     See comments
                                 </button>
                             </li>
@@ -134,14 +134,25 @@
                         <div class="flex flex-col justify-end p-4 border-t">
                             <select name="department" type="text" class="w-full rounded-md text-black" placeholder="">
                                 <option disabled {{ ($requests->department == null) ? 'selected' : '' }} >--Select--</option>
-                                <option value="centermanagerccs" {{ ($requests->department == 'centermanagerccs') ? 'selected' : '' }} >Center Manager - CCS</option>
-                                <option value="centermanagercea" {{ ($requests->department == 'centermanagercea') ? 'selected' : '' }} >Center Manager - CEA</option>
-                                <option value="centermanagerchs" {{ ($requests->department == 'centermanagerchs') ? 'selected' : '' }} >Center Manager - CHS</option>
-                                <option value="centermanagershs" {{ ($requests->department == 'centermanagershs') ? 'selected' : '' }} >Center Manager - SHS</option>
+                                @if(auth()->user()->role == 'director')
+                                <option value="centermanager" {{ ($requests->department == 'centermanager') ? 'selected' : '' }} >Center Manager</option>
+                                <option value="areaspecialist" {{ ($requests->department == 'areaspecialist') ? 'selected' : '' }} >Area Specialist</option>
                                 <option value="deanccs" {{ ($requests->department == 'deanccs') ? 'selected' : '' }} >Dean - CCS</option>
                                 <option value="deancea" {{ ($requests->department == 'deancea') ? 'selected' : '' }} >Dean - CEA</option>
                                 <option value="deanchs" {{ ($requests->department == 'deanchs') ? 'selected' : '' }} >Dean - CHS</option>
                                 <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - SHS</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CHTM</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - COE</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CBS</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CSSP</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - LHS</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CSSP</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CAS</option>
+                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CIT</option>
+                                <option value="graduateschool" {{ ($requests->department == 'graduateschool') ? 'selected' : '' }} >Dean - Graduate School</option>
+                                @elseif(auth()->user()->role == 'areaspecialist')
+                                <option value="coordinator" {{ ($requests->department == 'coordinator') ? 'selected' : '' }} >Coordinator</option>
+                                @endif
                             </select>
                             <div class="flex justify-end w-full">
                                 <button name="request_id" value="{{ $requests->id }}" class="px-3 py-2 mt-3 text-center bg-[#fab005] text-white font-semibold rounded-md">Send&nbsp;Request</button>
