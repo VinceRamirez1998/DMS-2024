@@ -78,8 +78,7 @@ class Functions extends Controller
             $requests = Inquiry::where('type', 'request')->get();
             $requests_comments = RequestComments::get();
             return view('requests', compact('requests','requests_comments'));
-        }
-        elseif($type == 'inquiries'){
+        }elseif($type == 'inquiries'){
             $inquiry = Inquiry::where('type', 'inquire')->get();
             $inquiry_comments = InquiryComments::get();
             return view('inquiries', compact('inquiry','inquiry_comments'));
@@ -370,6 +369,18 @@ class Functions extends Controller
             $requests->delete();
         }
         return redirect()->back();
+    }
+    public function progressbar(Request $request){
+        $project = Projects::where('project_title', $request->title)->get();
+        foreach($project as $project){
+            if($project->phase != 4){
+                $project->phase += 1;
+                $project->save();
+            }
+        }
+        return redirect()->back();
+        
+
     }
 
 }

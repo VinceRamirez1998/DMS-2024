@@ -21,23 +21,34 @@
         </p>
         <div class="h-screen w-full overflow-y-scroll">
         <div class="grid grid-cols-12 gap-2 pb-3 px-3 md:px-5">
-            <div class="flex relative flex-row">
-                <i class="fa-solid fa-circle z-10 text-yellow-200 text-3xl relative flex justify-center items-center">
-                    <p class="absolute text-sm text-black">1</p>
-                </i>
-                <i class="fa-solid fa-circle z-[9] text-3xl ms-10 relative flex justify-center items-center">
-                    <span class="h-[4px] w-[60px] absolute bg-black left-[-60px]"></span>
-                    <p class="absolute text-sm text-white">1</p>
-                </i>
-                <i class="fa-solid fa-circle z-[8]  text-gray-300 text-3xl ms-10 relative flex justify-center items-center">
-                    <span class="h-[4px] w-[60px] absolute bg-black left-[-60px]"></span>
-                    <p class="absolute text-sm text-white">1</p>
-                </i>
-                <i class="fa-solid fa-circle text-3xl ms-10 relative flex justify-center items-center">
-                    <span class="h-[4px] w-[60px] absolute bg-black left-[-60px]"></span>
-                    <p class="absolute text-sm text-white">1</p>
-                </i>
-                
+            <div class="col-span-12 flex w-full">
+                <div class="flex relative flex-row">
+                    <i class="fa-solid fa-circle z-10 {{ ($title->phase >= 1 && $title->phase <= 4) ? 'text-yellow-200' : '' }} text-3xl relative flex justify-center items-center">
+                        <p class="absolute text-sm text-white">{!! ($title->phase >= 1 && $title->phase <= 4) ? '<i class="fa-solid fa-check"></i>' : '1' !!}</p>
+                    </i>
+                    <i class="fa-solid fa-circle z-[9] {{ ($title->phase >= 2 && $title->phase <= 4) ? 'text-yellow-200' : '' }} text-3xl ms-10 relative flex justify-center items-center">
+                        <span class="h-[4px] w-[60px] {{ ($title->phase >= 2 && $title->phase <= 4) ? 'bg-yellow-200' : '' }} absolute bg-black left-[-60px]"></span>
+                        <p class="absolute text-sm text-white">{!! ($title->phase >= 2 && $title->phase <= 4) ? '<i class="fa-solid fa-check"></i>' : '2' !!}</p>
+                    </i>
+                    <i class="fa-solid fa-circle z-[8] {{ ($title->phase >= 3 && $title->phase <= 4) ? 'text-yellow-200' : '' }} text-3xl ms-10 relative flex justify-center items-center">
+                        <span class="h-[4px] w-[60px] {{ ($title->phase >= 3 && $title->phase <= 4) ? 'bg-yellow-200' : '' }} absolute bg-black left-[-60px]"></span>
+                        <p class="absolute text-sm text-white">{!! ($title->phase >= 3 && $title->phase <= 4) ? '<i class="fa-solid fa-check"></i>' : '3' !!}</p>
+                    </i>
+                    <i class="fa-solid fa-circle {{ ($title->phase >= 4 && $title->phase <= 4) ? 'text-yellow-200' : '' }} text-3xl ms-10 relative flex justify-center items-center">
+                        <span class="h-[4px] w-[60px] {{ ($title->phase >= 4 && $title->phase <= 4) ? 'bg-yellow-200' : '' }} absolute bg-black left-[-60px]"></span>
+                        <p class="absolute text-sm text-white">{!! ($title->phase >= 4 && $title->phase <= 4) ? '<i class="fa-solid fa-check"></i>' : '4' !!}</p>
+                    </i>
+                </div>
+                <div class="flex w-full justify-end">
+                    <form action="{{ route('progress.forward') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="title" value="{{ $title->project_title }}">
+                        <input type="hidden" name="phase" value="{{ $title->phase }}">
+                        @if ($title->phase != 4)
+                        <button class="bg-[#ff9900] text-white font-bold py-2 px-5 rounded-md">Next</button>
+                        @endif
+                    </form>
+                </div>
             </div>
             @foreach($file as $file)
             @if($file->file != null)

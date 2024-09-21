@@ -110,6 +110,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/inquiry/transfer', [Functions::class, 'inquirytransfer'])->name('inquiry.transfer');
     Route::post('/requests/{month}/option', [Functions::class, 'requestsoption'])->name('requests.option');
     Route::post('/projects/{folder}/option', [Functions::class, 'projectsoption'])->name('projects.option');
+
+    Route::post('/projects/progress/forward', [Functions::class, 'progressbar'])->name('progress.forward');
 });
 
 // Home Route
