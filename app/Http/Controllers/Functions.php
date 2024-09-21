@@ -77,7 +77,34 @@ class Functions extends Controller
         }elseif($type == 'requests'){
             $requests = Inquiry::where('type', 'request')->get();
             $requests_comments = RequestComments::get();
-            return view('requests', compact('requests','requests_comments'));
+
+            if(auth()->user()->role == 'deanccs'){
+                $faculty = User::where('role','facultyccs')->get();
+            }elseif(auth()->user()->role == 'deanccs'){
+                $faculty = User::where('role','facultycea')->get();
+            }elseif(auth()->user()->role == 'deancea'){
+                $faculty = User::where('role','facultychs')->get();
+            }elseif(auth()->user()->role == 'deanchs'){
+                $faculty = User::where('role','facultyshs')->get();
+            }elseif(auth()->user()->role == 'deanshs'){
+                $faculty = User::where('role','facultychtm')->get();
+            }elseif(auth()->user()->role == 'deanchtm'){
+                $faculty = User::where('role','facultycoe')->get();
+            }elseif(auth()->user()->role == 'deancoe'){
+                $faculty = User::where('role','facultycbs')->get();
+            }elseif(auth()->user()->role == 'deancbs'){
+                $faculty = User::where('role','facultycssp')->get();
+            }elseif(auth()->user()->role == 'deanlhs'){
+                $faculty = User::where('role','facultylhs')->get();
+            }elseif(auth()->user()->role == 'deancas'){
+                $faculty = User::where('role','facultycas')->get();
+            }elseif(auth()->user()->role == 'deancit'){
+                $faculty = User::where('role','facultycit')->get();
+            }else{
+                $faculty = null;
+            }
+
+            return view('requests', compact('requests','requests_comments','faculty'));
         }elseif($type == 'inquiries'){
             $inquiry = Inquiry::where('type', 'inquire')->get();
             $inquiry_comments = InquiryComments::get();
@@ -134,7 +161,6 @@ class Functions extends Controller
         $requests->title = $request->title;
         $requests->position = '@'. ucfirst(auth()->user()->role);
         $requests->remarks = $request->remarks;
-
         $verifyPurpose = User::where('username', $request->username)->first();
         if($verifyPurpose->purpose == 'inquire'){
             $inquire = Inquiry::where('id', $request->request_id)->first();

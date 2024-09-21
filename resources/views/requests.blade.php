@@ -70,13 +70,14 @@
                         </ul>
                     </div>
                 </div>
+
         
                 <!-- Comments Modal -->
-                <div id="modal-{{ $requests->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div id="modal-comments-{{ $requests->id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div class="bg-[#282828] text-white rounded-lg shadow-lg w-3/4 max-w-xl">
                         <div class="p-4 border-b flex justify-between items-center">
                             <h2 class="text-lg font-semibold">{{ $requests->title }}</h2>
-                            <button onclick="closeModal('{{ $requests->id }}')" class="text-gray-500 hover:text-gray-700">
+                            <button onclick="closeModalComments('{{ $requests->id }}')" class="text-gray-500 hover:text-gray-700">
                                 <i class="fa-solid fa-times"></i>
                             </button>
                         </div>
@@ -108,10 +109,11 @@
                                 <input name="remarks" type="text" class="w-full rounded-3xl text-black" placeholder="Write a comment..." id="">
                                 <input type="hidden" name="request_id" value="{{ $requests->id }}">
                                 <input type="hidden" name="title" value="{{ $requests->title }}">
+                                <input type="hidden" name="username" value="{{ $requests->username }}">
                                 <button class="text-white px-3 py-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-send rotate-45" viewBox="0 0 16 16">
                                         <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
-                                      </svg>
+                                    </svg>
                                 </button>
                             </div>
                         </form>
@@ -175,9 +177,17 @@
             function openModal(id) {
                 document.getElementById('modal-' + id).classList.remove('hidden');
             }
+
+            function openModalComments(id) {
+                document.getElementById('modal-comments-' + id).classList.remove('hidden');
+            }
         
             function closeModal(id) {
                 document.getElementById('modal-' + id).classList.add('hidden');
+            }
+
+            function closeModalComments(id) {
+                document.getElementById('modal-comments-' + id).classList.add('hidden');
             }
         
             function toggleDropdown(id) {
