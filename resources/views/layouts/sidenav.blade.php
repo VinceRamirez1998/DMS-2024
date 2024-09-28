@@ -60,8 +60,9 @@
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/inquiries"><b>+</b> Inquiries</a></li>
           @if(Auth()->user()->role == 'coordinator')
           <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="{{ route('proposal.form') }}">• Upload Proposal</a></li>
-          @elseif(Auth()->user()->role == 'areaspecialist' || Auth()->user()->role == 'centermanagement')
-          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/projectsandrequests">• Projects and Requests</a></li>
+          @elseif(Auth()->user()->role == 'areaspecialist' || Auth()->user()->role == 'centermanager')
+          <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="{{ route('proposal.form') }}">• Upload Proposal</a></li>
+          {{-- <li class="ps-5 text-white hover:bg-red-800 py-1"><a href="/projectsandrequests">• Projects and Requests</a></li> --}}
           @endif
         </ul>
       </div>

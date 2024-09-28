@@ -23,7 +23,7 @@
             <div class="col-span-12 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
                 <div class="flex-1 min-w-0">
                     <!-- Folder link triggers modal by setting a unique ID -->
-                    <a href="{{ asset('documents/inquiry/'.$requests->file) }}" target="_blank" class="flex items-center">
+                    <a href="{{ asset('documents/requests/'.$requests->file) }}" target="_blank" class="flex items-center">
                         @php
                             $requestsExtension = pathinfo($requests->file, PATHINFO_EXTENSION); 
                         @endphp

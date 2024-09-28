@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Inquiry;
-use App\Models\InquiryComments;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Inquiry extends Model
+class Requests extends Model
 {
     use HasFactory;
 
-    protected $table = 'inquiry';
+    protected $table = 'requests';
     protected $fillable = [
         'username',
         'title',

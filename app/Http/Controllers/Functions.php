@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Inquiry;
 use App\Models\Projects;
+use App\Models\Requests;
 use App\Models\Proposals;
 use Illuminate\Http\Request;
 use App\Models\InquiryComments;
 use App\Models\RequestComments;
 use App\Models\ProposalComments;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -75,7 +77,19 @@ class Functions extends Controller
             $proposal_comments = ProposalComments::get();
             return view('proposals', compact('proposal','proposal_comments'));
         }elseif($type == 'requests'){
-            $requests = Inquiry::where('type', 'request')->get();
+            if(Auth::user()->role == 'president'){
+                $requests = Requests::where('access', 'president')->where('type', 'request')->get();
+            }elseif(Auth::user()->role == 'vicepresident'){
+                $requests = Requests::where('access', 'vicepresident')->where('type', 'request')->get();
+            }elseif(Auth::user()->role == 'director'){
+                $requests = Requests::where('access', 'director')->get();
+            }elseif(Auth::user()->role == 'centermanager'){
+                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'director')->orWhere('access', 'centermanager')->where('type', 'request')->get();
+            }elseif(Auth::user()->role == 'areaspecialist'){
+                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'director')->orWhere('access', 'centermanager')->orWhere('access', 'areaspecialist')->where('type', 'request')->get();
+            }elseif(Auth::user()->role == 'dean'){
+                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'director')->orWhere('access', 'centermanager')->orWhere('access', 'areaspecialist')->orWhere('access', 'dean')->where('type', 'request')->get();
+            }
             $requests_comments = RequestComments::get();
 
             if(auth()->user()->role == 'deanccs'){
@@ -215,8 +229,8 @@ class Functions extends Controller
             ]);
             // File
             $file = $request->title . '-'. auth()->user()->username . '_' . date('m_d_Y_s') . '.' . $request->file->extension();
-            $request->file->move(public_path('documents/inquiry'), $file);
-            $proposal = new Inquiry();
+            $request->file->move(public_path('documents/requests'), $file);
+            $proposal = new Requests();
             $proposal->username = auth()->user()->username;
             $proposal->title = $request->title;
             $proposal->position = $request->position;
@@ -244,12 +258,12 @@ class Functions extends Controller
 
     public function requesttransfer(Request $request){
         if(Auth()->user()->role === 'president'){
-            $requests = Inquiry::where('id', $request->id)->first();
+            $requests = Requests::where('id', $request->id)->first();
             $requests->access = 'vicepresident';
             $requests->save();
         }
         elseif(Auth()->user()->role === 'vicepresident'){
-            $requests = Inquiry::where('id', $request->id)->first();
+            $requests = Requests::where('id', $request->id)->first();
             $requests->access = 'director';
             $requests->save();
         }
