@@ -35,7 +35,8 @@
                 </div>
         
                 <!-- Vertical Ellipsis Dropdown -->
-                <div class="relative ">
+                <div class="relative flex">
+                    <p class="text-slate-500">{{ $projects->phase == 4 ? 'Completed' : 'On-going' }}</p>
                     <button onclick="toggleDropdown('{{ $projects->id }}')" class="text-gray-500 hover:text-gray-700 px-3">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
