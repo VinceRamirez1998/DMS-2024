@@ -20,15 +20,56 @@
         {{-- Users and Coordinator --}}
         @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
         <iframe class="p-2 bg-[#FAF9F6] w-[100%] md:w-[620px] h-100 md:h-[349px] shadow-xl" src="https://www.youtube.com/embed/bc4v0ZgfI1w?autoplay=0&loop=1&playlist=bc4v0ZgfI1w&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        {{-- Area Specialist and Center Management --}}
-        @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
-        <div class="grid grid-cols-4 grid-rows-8 gap-4 h-full lg:px-20">
-          <div class="col-span-2 row-span-4 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">{{ $total_inquiries ?? '0' }}</p><p class="text-lg font-semibold mt-5 pb-5">Total Inquiries</p></div>
-          <div class="col-span-2 row-span-4 col-start-3 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">{{ $total_requests ?? '0' }}</p><p class="text-lg font-semibold mt-5 pb-5">Total Requests</p></div>
-          <div class="col-span-2 row-span-4 row-start-5 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5 text-center">Total On-going Projects</p></div>
-          <div class="col-span-2 row-span-4 col-start-3 row-start-5 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5 text-center">Total Completed Projects</p></div>
-        </div>
-        @endif
+    
+          {{-- Area Specialist and Center Management --}}
+          @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
+            <div class="flex flex-col items-start lg:px-20 h-full space-y-10 ">
+              
+              <!-- Video Placeholder -->
+              <div class="w-full flex justify-center items-center bg-[#bd8889] rounded-md shadow-xl shadow-black/50 lg:w-3/4">
+                <!-- Placeholder or Embedded Video -->
+                <iframe class="p-2 w-full h-[300px] lg:h-[400px] rounded-md" 
+                        src="https://www.youtube.com/embed/hwTrdzc6NmY?autoplay=1&loop=1&playlist=hwTrdzc6NmY" 
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media" 
+                        allowfullscreen>
+                </iframe>
+              </div>
+
+              <!-- Grid Section Under Video -->
+              <div class="grid grid-cols-3 gap-4 w-full lg:w-3/4">
+              <!-- Total Inquiries -->
+              <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
+                <i class="fas fa-question-circle text-6xl text-[#800000] mr-12 group-hover:text-white"></i>
+                <div class="flex flex-col">
+                  <p class="text-4xl font-extrabold text-gray-800 group-hover:text-white">{{ $total_inquiries ?? '0' }}</p>
+                  <p class="text-lg font-semibold text-gray-600 group-hover:text-white">INQUIRIES</p>
+                </div>
+              </div>
+
+              <!-- Total Requests -->
+              <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
+                <i class="fas fa-plane text-6xl text-[#800000] mr-12 group-hover:text-white"></i>
+                <div class="flex flex-col">
+                  <p class="text-4xl font-extrabold text-gray-800 group-hover:text-white">{{ $total_requests ?? '0' }}</p>
+                  <p class="text-lg font-semibold text-gray-600 group-hover:text-white">REQUEST</p>
+                </div>
+              </div>
+
+              <!-- Total Project List -->
+              <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
+                <i class="fas fa-list text-6xl text-[#800000] mr-12 group-hover:text-white"></i>
+                <div class="flex flex-col">
+                  <p class="text-4xl font-extrabold text-gray-800 group-hover:text-white">2</p>
+                  <p class="text-lg font-semibold text-gray-600 group-hover:text-white">PROJECT LIST</p>
+                </div>
+              </div>
+            </div>
+
+
+            </div>
+          @endif
+
       </div>
       {{-- Announcement --}}
       <div class="col-span-12 md:col-span-5 bg-[#FAF9F6] rounded-md border-2 border-red-500 shadow-xl">
@@ -98,7 +139,7 @@
           {{-- end of iterate 5 ongoing projects --}}
       </div>
       @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
-        <div class="flex flex-col gap-2 bg-[#FAF9F6] rounded-md px-0 p-3 border-2 border-red-500 w-100 lg:mb-[7rem] shadow-lg">
+        <div class="flex flex-col gap-2 bg-[#FAF9F6] rounded-md px-0 p-3 border-2 border-red-500 ml-20 w-100 lg:mb-[7rem] shadow-lg">
           <div class="w-100 bg-[#800000] pl-2 lg:pl-5 py-3">
             <p class="text-white text-lg font-bold">Recent Files</p>
           </div>
