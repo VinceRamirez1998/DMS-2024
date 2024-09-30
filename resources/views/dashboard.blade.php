@@ -37,34 +37,36 @@
               </div>
 
               <!-- Grid Section Under Video -->
-              <div class="grid grid-cols-3 gap-4 w-full lg:w-3/4">
-              <!-- Total Inquiries -->
-              <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
-                <i class="fas fa-question-circle text-6xl text-[#800000] mr-12 group-hover:text-white"></i>
-                <div class="flex flex-col">
-                  <p class="text-4xl font-extrabold text-gray-800 group-hover:text-white">{{ $total_inquiries ?? '0' }}</p>
-                  <p class="text-lg font-semibold text-gray-600 group-hover:text-white">INQUIRIES</p>
-                </div>
-              </div>
+<div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 gap-4 w-full lg:w-3/4">
+  
+  <!-- Total Inquiries -->
+  <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
+    <i class="fas fa-question-circle text-5xl text-[#800000] mr-12 lg:mr-2 group-hover:text-white"></i>
+    <div class="flex flex-col">
+      <p class="text-3xl font-extrabold text-gray-800 group-hover:text-white">{{ $total_inquiries ?? '0' }}</p>
+      <p class="text-md font-semibold text-gray-600 group-hover:text-white">INQUIRIES</p>
+    </div>
+  </div>
 
-              <!-- Total Requests -->
-              <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
-                <i class="fas fa-plane text-6xl text-[#800000] mr-12 group-hover:text-white"></i>
-                <div class="flex flex-col">
-                  <p class="text-4xl font-extrabold text-gray-800 group-hover:text-white">{{ $total_requests ?? '0' }}</p>
-                  <p class="text-lg font-semibold text-gray-600 group-hover:text-white">REQUEST</p>
-                </div>
-              </div>
+  <!-- Total Requests -->
+  <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
+    <i class="fas fa-plane text-5xl text-[#800000] mr-12 lg:mr-4 group-hover:text-white"></i>
+    <div class="flex flex-col">
+      <p class="text-3xl font-extrabold text-gray-800 group-hover:text-white">{{ $total_requests ?? '0' }}</p>
+      <p class="text-md font-semibold text-gray-600 group-hover:text-white">REQUEST</p>
+    </div>
+  </div>
 
-              <!-- Total Project List -->
-              <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
-                <i class="fas fa-list text-6xl text-[#800000] mr-12 group-hover:text-white"></i>
-                <div class="flex flex-col">
-                  <p class="text-4xl font-extrabold text-gray-800 group-hover:text-white">2</p>
-                  <p class="text-lg font-semibold text-gray-600 group-hover:text-white">PROJECT LIST</p>
-                </div>
-              </div>
-            </div>
+  <!-- Total Project List -->
+  <div class="flex justify-center items-center rounded-md border-2 border-red-500 bg-gray-100 p-4 shadow-lg transition duration-300 hover:bg-[#800000] group">
+    <i class="fas fa-list text-5xl text-[#800000] mr-12 lg:mr-4 group-hover:text-white"></i>
+    <div class="flex flex-col">
+      <p class="text-3xl font-extrabold text-gray-800 group-hover:text-white">2</p>
+      <p class="text-md font-semibold text-gray-600 group-hover:text-white">PROJECT LIST</p>
+    </div>
+  </div>
+</div>
+
 
 
             </div>
@@ -139,8 +141,8 @@
           {{-- end of iterate 5 ongoing projects --}}
       </div>
       @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
-        <div class="flex flex-col gap-2 bg-[#FAF9F6] rounded-md px-0 p-3 border-2 border-red-500 ml-20 w-100 lg:mb-[7rem] shadow-lg">
-          <div class="w-100 bg-[#800000] pl-2 lg:pl-5 py-3">
+        <div class="flex flex-col gap-2 bg-[#FAF9F6] rounded-md px-0 p-3 border-2 border-red-500 lg:ml-20 w-100% lg:mb-[7rem] shadow-lg">
+          <div class="w-100% bg-[#800000] pl-2 lg:pl-5 py-3">
             <p class="text-white text-lg font-bold">Recent Files</p>
           </div>
           {{-- Table with title --}}
