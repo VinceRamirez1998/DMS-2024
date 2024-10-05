@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProjectProposalsResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = ProjectProposals::class;
     public static function getNavigationBadge(): string
     {

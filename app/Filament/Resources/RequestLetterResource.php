@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RequestLetterResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = RequestLetter::class;
     public static function getNavigationBadge(): string
     {
