@@ -22,7 +22,7 @@
               <div class="col-span-12 bg-slate-200 flex justify-between items-center px-3 py-2 rounded-md">
                 <div class="flex-1 min-w-0">
                   <!-- Folder link triggers modal by setting a unique ID -->
-                  <a href="#" target="_blank" class="flex items-center">
+                  <a onclick="openModal('{{ $inquiry->id }}'); hideDropdown('{{ $inquiry->id }}')" class="cursor-pointer flex items-center">
                     <i class="fa-solid text-black fa-solid fa-feather text-2xl me-2"></i>  
                     <p class="overflow-hidden whitespace-nowrap text-ellipsis text-black">
                       {{ $inquiry->title . ' - '}} 
@@ -62,7 +62,7 @@
                       </li>
                       @elseif(auth()->user()->role === 'president' ||  auth()->user()->role === 'vicepresident')
                       <li>
-                        <form action="{{ route('request.transfer') }}" method="post">
+                        <form action="{{ route('inquiry.transfer') }}" method="post">
                           @csrf
                           <input type="hidden" name="id" value="{{ $inquiry->id }}">
                           <button type="submit" class="w-full text-[#fab005] font-bold text-left px-4 py-2 text-sm">
@@ -109,6 +109,7 @@
                         </div>
                         <div class="flex flex-row">
                         <input type="hidden" name="username" value={{ $inquiry->username }}>
+                        <input type="hidden" name="message" value="{{ $inquiry->inquiry }}">
                         <input name="reply" type="text" class="w-full rounded-md bg-[#454845]" placeholder="Reply...">
                         <input type="hidden" name="request_id" value="{{ $inquiry->id }}">
                         <input type="hidden" name="title" value="{{ $inquiry->title }}">

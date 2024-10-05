@@ -36,7 +36,6 @@
                 <p class="ml-auto">07/24</p>
             </div>
             @endfor
-    
         </div>
     </div>
         

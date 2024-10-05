@@ -8,6 +8,7 @@ use App\Models\Projects;
 use App\Models\Requests;
 use App\Models\Proposals;
 use Illuminate\Http\Request;
+use App\Models\Notifications;
 use App\Models\InquiryComments;
 use App\Models\RequestComments;
 use App\Models\ProposalComments;
@@ -190,7 +191,6 @@ class Functions extends Controller
         if($request->reply == null){
             return redirect()->back();
         }
-        // dd($request->all());
         $inquiry = new InquiryComments();
         $inquiry->inquiry_id = $request->request_id;
         $inquiry->username = auth()->user()->username;
@@ -201,8 +201,18 @@ class Functions extends Controller
         $inquire_notif = Inquiry::where('id', $request->request_id)->first();
         $inquire_notif->reply_status = 'replied';
         $inquire_notif->save();
-        
         $inquiry->save();
+
+
+        $notification = new Notifications();
+        $notification->inquiry_no = $request->request_id;
+        $notification->sender = '@' . ucfirst(auth()->user()->role);
+        $notification->receiver = $request->username;
+        $notification->title = $request->title;
+        $notification->message = $request->reply;
+        $notification->status = 'unread';
+        $notification->save();
+
         return redirect()->back()->with('success', 'Comment submitted successfully.');
     }
 
@@ -272,17 +282,14 @@ class Functions extends Controller
     }
 
     public function inquirytransfer(Request $request){
-        if(Auth()->user()->role === 'president'){
+        dd($request->all());
+        if($request->reply != null){
             $requests->inquiry_id = $request->id;
             $requests->reply = $request->reply;
             $requests->save();
+
         }
-        elseif(Auth()->user()->role === 'vicepresident'){
-            $requests->inquiry_id = $request->id;
-            $requests->reply = $request->reply;
-            $requests->save();
-        }
-     
+
         return redirect()->back()->with('success', 'Transferred successfully.');
     }
     
