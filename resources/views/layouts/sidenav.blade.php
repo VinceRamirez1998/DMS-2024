@@ -74,9 +74,14 @@
 
       {{-- Notification --}}
       <hr class="menu-content border-t-2 border-t-red-950">
-      <a href="/notification" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-bell text-2xl text-white pb-[-15px] overflow-hidden relative">
+      <a href="{{ route('notifications') }}" class="flex flex-nowrap items-center hover:bg-red-800 py-1"><i class="ms-1 mt-1 fa-regular fa-bell text-2xl text-white pb-[-15px] overflow-hidden relative">
         {{-- If there is notification --}}
-        {{-- <span class="p-1 rounded-full bg-yellow-300 absolute top-[7px] right-0"></span> --}}
+        @php
+            $notifications = App\Models\Notifications::where('status', 'unread')->get();
+        @endphp
+        @if ($notifications->count() > 0)
+        <span class="p-1 rounded-full bg-yellow-300 absolute top-[7px] right-0"></span>
+        @endif
 
       </i><p class="menu-content text-lg text-white text-extrabold ms-2">Notification</p></a>
       {{-- Settings --}}

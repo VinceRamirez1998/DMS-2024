@@ -292,6 +292,42 @@ class Functions extends Controller
 
         return redirect()->back()->with('success', 'Transferred successfully.');
     }
+
+    public function notifications(){
+        $notifications = Notifications::where('receiver', auth()->user()->username)->get();
+        return view('notification', compact('notifications'));
+    }
+
+    public function notificationroute($route){
+        $notifications = Notifications::where('status', $route)->get();
+    
+        return view('notification', ['route' => $route, 'notifications' => $notifications]);
+
+    }
+
+    public function notificationupdate(Request $request)
+    {
+        if ($request->category == 'delete') {
+            foreach ($request->id as $id) {
+                $notifications = Notifications::where('id', $id)->first();
+                $notifications->delete();
+            }
+        }elseif ($request->category == 'markasread') {
+            foreach ($request->id as $id) {
+                $notifications = Notifications::where('id', $id)->first();
+                $notifications->status = 'read';
+                $notifications->save();
+            }
+        }elseif ($request->read) {
+                $notifications = Notifications::where('id', $request->read)->first();
+                $notifications->status = 'read';
+                $notifications->save();
+        }elseif($request->category){
+                $notifications = Notifications::where('status', $request->category)->first();
+        }
+        return redirect()->back()->with('notifications');
+    }
+    
     
 
     public function requestsoption(Request $request, $month){

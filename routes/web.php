@@ -85,9 +85,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/settings/profile', function () {
         return view('settingsprofile');
     })->name('settings.profile');
-    Route::get('/notification', function () {
-        return view('notification');
-    })->name('notification');
+    Route::get('/notifications', [Functions::class, 'notifications'])->name('notifications');
     Route::get('/projectsandrequests', function () {
         return view('projectsandrequests');
     })->name('projectsandrequests');
@@ -112,6 +110,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/projects/{folder}/option', [Functions::class, 'projectsoption'])->name('projects.option');
 
     Route::post('/projects/progress/forward', [Functions::class, 'progressbar'])->name('progress.forward');
+
+    Route::post('/notification/update', [Functions::class, 'notificationupdate'])->name('notification.update');
+    Route::get('/notification/{route}', [Functions::class, 'notificationroute'])->name('notification.route');
 });
 
 // Home Route
