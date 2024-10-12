@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use App\Models\NewsAndEvents;
 
 class AnnouncementController extends Controller
 {
@@ -11,8 +12,10 @@ class AnnouncementController extends Controller
     {
         // Fetch all announcements
         $announcements = Announcement::all();
+        $newsAndEvents = NewsAndEvents::all(); 
+    
         
         // Return the welcome view with announcements
-        return view('welcome', compact('announcements'));
+        return view('welcome', compact('announcements', 'newsAndEvents'));
     }
 }

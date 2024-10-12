@@ -29,8 +29,7 @@ class NewsAndEventsResource extends Resource
                     ->maxLength(255),
                 Forms\Components\RichEditor::make('content')
                     ->required()
-                    ->columnSpan(2)
-                    ->maxLength(255),
+                    ->columnSpan(2),
                 Forms\Components\DateTimePicker::make('created_at')
                     ->required()
             ]);
@@ -48,7 +47,11 @@ class NewsAndEventsResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('content')
-                    ->searchable(),
+                    ->html()
+                    ->searchable()
+                    ->formatStateUsing(function ($state) {
+                        return \Illuminate\Support\Str::limit($state, 50); // limits to 100 characters
+                    }),
                     Tables\Columns\TextColumn::make('created_at')
                 ->dateTime('d-M-Y g:i A') // Format as 15-Sep-2024 5:04 PM
                 ->timezone('Asia/Manila') // Set the timezone
@@ -58,7 +61,7 @@ class NewsAndEventsResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -68,7 +71,6 @@ class NewsAndEventsResource extends Resource
                 ]),
             ]);
     }
-
     public static function getRelations(): array
     {
         return [
