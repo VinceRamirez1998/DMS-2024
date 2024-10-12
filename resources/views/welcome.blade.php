@@ -205,15 +205,13 @@
 </div>
 
 
-
 <div class="grid grid-cols-6 lg:gap-x-4 pt-2 px-5">
 
   {{-- Announcement Header --}}
-  <form action="" method="POST">
-    @csrf
+  <form action="" method="GET">
     <div class="col-span-6 lg:col-span-5 flex">
-      <button type="button" id="newsButton" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900" style="padding-left: 8px; padding-right: 0px;">News & Updates</button>
-      <button type="button" id="announcementButton" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</button>
+      <a href="{{ route('home', ['section' => 'announcements']) }}" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900">News & Updates</a>
+      <a href="{{ route('home', ['section' => 'news']) }}" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</a>
     </div>
   </form>
 
@@ -221,34 +219,32 @@
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
   
   {{-- Announcements Section --}}
-  <div id="announcementsSection" class="col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
+  <div id="announcementsSection" class="{{ $section === 'announcements' ? '' : 'hidden' }} col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
     @foreach($announcements as $announcement)
         <div class="announcement-item cursor-pointer" 
              data-title="{{ $announcement->title }}" 
              data-content="{!! $announcement->content !!}">
              
-            <!-- Display Title -->
             <h3 class="font-bold">{{ $announcement->title }}</h3>
         </div>
     @endforeach
+    
+   
   </div>
 
-   
-
   {{-- News and Events Block --}}
-  <div id="newsSection" class="hidden col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
+  <div id="newsSection" class="{{ $section === 'news' ? '' : 'hidden' }} col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
     @foreach($newsAndEvents as $news)
         <div class="news-item cursor-pointer" 
              data-title="{{ $news->title }}" 
              data-content="{!! $news->content !!}">
              
-            <!-- Display Title -->
             <h3 class="font-bold">{{ $news->title }}</h3>
         </div>
     @endforeach
-  </div>
-
+    
    
+  </div>
 
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
 </div>
@@ -261,8 +257,6 @@
       <button id="closeModal" class="mt-4 bg-red-500 text-white p-2 rounded">Close</button>
   </div>
 </div>
-
-
 
 
 
@@ -366,6 +360,25 @@
 </script>
 
 
+<script>
+  // Show modal for announcement items
+  document.querySelectorAll('.announcement-item').forEach(item => {
+      item.addEventListener('click', function() {
+          const title = this.getAttribute('data-title');
+          const content = this.getAttribute('data-content');
+
+          document.getElementById('modalTitle').innerText = title;
+          document.getElementById('modalContent').innerText = content;
+
+          document.getElementById('announcementModal').classList.remove('hidden');
+      });
+  });
+
+  // Close modal
+  document.getElementById('closeModal').addEventListener('click', function() {
+      document.getElementById('announcementModal').classList.add('hidden');
+  });
+</script>
 </body>
 
 </html>
