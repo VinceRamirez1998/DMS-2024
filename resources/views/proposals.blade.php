@@ -45,16 +45,19 @@
                     <div id="dropdown-{{ $proposal->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
                         <ul class="py-1">
                             @if(auth()->user()->role === 'director')
+                            <form action="{{ route('proposal.submit') }}" method="POST">
+                            @csrf
                             <li>
-                                <button class="w-full text-left px-4 py-2 text-sm font-semibold text-green-400 hover:bg-gray-100">
+                                <button name="type" value="approve" class="w-full text-left px-4 py-2 text-sm font-semibold text-green-400 hover:bg-gray-100">
                                     Approve
                                 </button>
                             </li>
                             <li>
-                                <button class="w-full text-left px-4 py-2 text-sm font-semibold text-red-500 hover:bg-gray-100">
+                                <button name="type" value="reject" class="w-full text-left px-4 py-2 text-sm font-semibold text-red-500 hover:bg-gray-100">
                                     Reject
                                 </button>
                             </li>
+                            </form>
                             @endif
                             <li>
                                 <button onclick="openModal('{{ $proposal->id }}'); hideDropdown('{{ $proposal->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
