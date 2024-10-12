@@ -128,3 +128,4 @@ Auth::routes(['verify' => true]);
 // Annoucements
 Route::get('/', [AnnouncementController::class, 'index'])->name('home');
 Route::get('/email/verify', [AnnouncementController::class, 'verify'])->name('verify');
+Route::get('/email/verification-notice', [AnnouncementController::class, 'verificationNotice'])->name('verification.notice');

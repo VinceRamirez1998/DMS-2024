@@ -42,11 +42,11 @@
 
 <div class="grid grid-cols-6 lg:gap-x-4 pt-2 px-5">
 
-  {{-- Announcement Header --}}
-  <form action="" method="GET">
+  {{-- Announcement Header --}}   
+  <form action="" method="POST">      
     <div class="col-span-6 lg:col-span-5 flex">
-      <a href="{{ route('verify', ['section' => 'announcements']) }}" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900">News & Updates</a>
-      <a href="{{ route('verify', ['section' => 'news']) }}" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</a>
+      <a href="{{ route('verify', ['section' => 'news']) }}" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900"  style="padding-left: 8px; padding-right: 0px;">News & Updates</a>
+      <a href="{{ route('verify', ['section' => 'announcements']) }}" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</a>
     </div>
   </form>
 
@@ -92,6 +92,8 @@
       <button id="closeModal" class="mt-4 bg-red-500 text-white p-2 rounded">Close</button>
   </div>
 </div>
+
+
 {{-- Annoncements --}}
 <script>
   // Function to show the modal

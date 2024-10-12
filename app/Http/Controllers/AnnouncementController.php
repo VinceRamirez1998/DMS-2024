@@ -10,13 +10,17 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        // Fetch all announcements
+        // Fetch all announcements and news/events
         $announcements = Announcement::all();
         $newsAndEvents = NewsAndEvents::all();
         
-        // Return the welcome view with announcements
-        return view('welcome', compact('announcements', 'newsAndEvents'));
+        // Define the default section
+        $section = 'announcements'; // or whatever default you want
+    
+        // Return the welcome view with announcements and section
+        return view('welcome', compact('announcements', 'newsAndEvents', 'section'));
     }
+    
 
     public function verify(Request $request)
     {
@@ -30,4 +34,6 @@ class AnnouncementController extends Controller
         // Return the verify view with the fetched data
         return view('auth.verify', compact('announcements', 'newsAndEvents', 'section'));
     }
+
+    
 }
