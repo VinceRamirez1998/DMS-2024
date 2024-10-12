@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\AnnouncementController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -122,3 +124,6 @@ Route::get('/home', [HomeController::class, 'index'])
 
 
 Auth::routes(['verify' => true]);
+
+// Annoucements
+Route::get('/', [AnnouncementController::class, 'index'])->name('home');

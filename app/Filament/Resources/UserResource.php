@@ -112,8 +112,8 @@ class UserResource extends Resource
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('position')
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('position')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('purpose')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')

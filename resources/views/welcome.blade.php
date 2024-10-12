@@ -212,23 +212,19 @@
   <form action="" method="POST">
     @csrf
   <div class="col-span-6 lg:col-span-5 flex">
-      <button name="content" value="news" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white border-solid border-r-2 border-rose-900">News</button>
+    <button name="content" value="newsandupdates" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900" style="padding-left: 8px; padding-right: 0px;">News & Updates</button>
       <button name="content" value="announcement" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</button>
-      <button name="content" value="events" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white  border-solid border-l-2 border-rose-900">Events</button>
     </div>
   </form>
   
-  {{-- Block --}}
-  <div class="hidden md:block col-span-12 lg:col-start-6"></div>
-  <div class="col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
-    <p><span class="me-1">•</span>12345</p>
-    <p><span class="me-1">•</span>12345</p>
-    <p><span class="me-1">•</span>12345</p>
-    <p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, voluptate.</p>
-    <p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur molestiae sint ratione a commodi perferendis architecto</p>
-    <p><span class="me-1">•</span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis deleniti doloremque accusamus cum sit.</p>
-  </div>
-  <div class="hidden md:block col-span-12 lg:col-start-6"></div>
+   {{-- Block --}}
+   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
+   <div class="col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
+     @foreach($announcements as $announcement)
+       <p><span class="me-1">•</span>{{ $announcement->content }}</p>
+     @endforeach
+   </div>
+   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
 </div>
 
 <script>
