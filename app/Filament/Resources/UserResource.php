@@ -33,25 +33,44 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('role')
-                    ->maxLength(255),
                 Forms\Components\FileUpload::make('profile_picture')
-                    ->image(),
+                ->image(),
+                Forms\Components\TextInput::make('username')
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('firstname')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('lastname')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('username')
-                    ->maxLength(255),
+                Select::make('department')
+                    ->label('Department')
+                    ->options([
+                        'CCS' => 'CCS',
+                        'CEA' => 'CEA',
+                        'CHS' => 'CHS',
+                        'SHS' => 'SHS',
+                        'CHTM' => 'CHTM',
+                        'COE' => 'COE',
+                        'CBS' => 'CBS',
+                        'CSSP' => 'CSSP',
+                        'LHS' => 'LHS',
+                        'CSSP' => 'CSSP',
+                        'CAS' => 'CAS',
+                        'CIT' => 'CIT',
+                        'GS' => 'GS',
+                    ]),
+                    Select::make('role')
+                    ->label('Roles')
+                    ->options([
+                        'dean' => 'Dean',
+                        'facultyextensionist' => 'Faculty Extensionist',
+                    ]),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('position')
-                    ->maxLength(255),
+                // Forms\Components\TextInput::make('position')
+                //     ->maxLength(255),
                 Forms\Components\TextInput::make('purpose')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
@@ -64,6 +83,8 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('focal_person')
+                    ->maxLength(255),
             ]);
     }
 
@@ -72,10 +93,11 @@ class UserResource extends Resource
         return $table
             ->columns([
               
-         
                 Tables\Columns\ImageColumn::make('profile_picture')
                     ->searchable()
                     ->label('Image'),
+                Tables\Columns\TextColumn::make('username')
+                        ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('firstname')
@@ -83,8 +105,6 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('lastname')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('username')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
@@ -97,6 +117,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('purpose')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('focal_person')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -111,7 +133,9 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -134,5 +158,10 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('role','!=', 'Admin');
     }
 }
