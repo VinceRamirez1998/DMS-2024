@@ -19,7 +19,7 @@ use App\Filament\Resources\RoleResource\RelationManagers;
 class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
-
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
