@@ -38,7 +38,7 @@
                   <button type="submit" name="read" value="{{ $notification->id }}" class="text-left">Subject: {{ $notification->title }}</button>
                   <p class="text-xs mb-1">From: <span class="italic">{{ $notification->sender }}</span></p>
                   <hr class="border-t border-gray-900 my-2">
-                  <p class="text-sm">{{ $notification->message }}</p>
+                  <p class="text-sm">{!! $notification->message !!}</p>
                 </div>
                 <p class="ml-auto">{{ $notification->created_at->format('m/y') }}</p>
             </div>

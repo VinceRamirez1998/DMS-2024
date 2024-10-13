@@ -294,12 +294,12 @@ class Functions extends Controller
     }
 
     public function notifications(){
-        $notifications = Notifications::where('receiver', auth()->user()->username)->get();
+        $notifications = Notifications::where('receiver', auth()->user()->username)->orderBy('created_at', 'desc')->get();
         return view('notification', compact('notifications'));
     }
 
     public function notificationroute($route){
-        $notifications = Notifications::where('status', $route)->get();
+        $notifications = Notifications::where('status', $route)->orderBy('created_at', 'desc')->get();
     
         return view('notification', ['route' => $route, 'notifications' => $notifications]);
 
@@ -370,6 +370,7 @@ class Functions extends Controller
         $file = $request->project_title . '-'. auth()->user()->username . '_proposal_' . date('m_d_Y_s') . '.' . $request->file->extension();
         $request->file->move(public_path('documents/proposals'), $file);
         $proposal = new Proposals();
+        $proposal = Auth()->user()->id;
         $proposal->lastname = $request->lastname;
         $proposal->firstname = $request->firstname;
         $proposal->email = $request->email;
@@ -453,6 +454,7 @@ class Functions extends Controller
         }
         return redirect()->back();
     }
+
     public function progressbar(Request $request){
         $project = Projects::where('project_title', $request->title)->get();
         foreach($project as $project){
@@ -462,8 +464,47 @@ class Functions extends Controller
             }
         }
         return redirect()->back();
-        
-
     }
+
+    public function proposalsubmit(Request $request){
+        if($request->type == 'approve'){
+            $proposal = Proposals::where('id', $request->proposal)->first();
+            $project = new Projects();
+            $project->user_id =  $proposal->id;
+            $project->firstname = $proposal->firstname;
+            $project->lastname = $proposal->lastname;
+            $project->email = $proposal->email;
+            $project->project_title = $proposal->project_title;
+            $project->project_description = $proposal->project_description;
+            $project->position = $proposal->position;
+            $project->file = $proposal->file;
+            $project->phase = 2;
+            $project->save();
+            $proposal = Proposals::where('id', $request->proposal)->delete();
+            $notification = Notifications::create([
+                'inquiry_no' => $proposal->id,
+                'sender' => auth()->user()->id,
+                'receiver' => $request->user_id,
+                'title' => "Proposal Accepted",
+                'message' => "Dear " . $proposal->firstname . ",<br><br>Your proposal for " . $proposal->project_title . " has been accepted.",
+                'status' => 'unread',
+            ]);
+        }elseif($request->type == 'reject'){
+            $proposal = Proposals::where('id', $request->proposal)->first();
+            $notification = Notifications::create([
+                'inquiry_no' => $proposal->id,
+                'sender' => auth()->user()->id,
+                'receiver' => $request->user_id,
+                'title' => "Proposal Rejected",
+                'message' => "Dear " . $proposal->firstname . ",<br><br>I hope this message finds you well. After careful consideration, we regret to inform you that your proposal has not been approved at this time. Unfortunately, we are unable to provide specific feedback regarding the decision.<br><br>We appreciate your effort and interest, and we encourage you to continue sharing your ideas with us in the future.<br><br>Thank you for your understanding.",
+                'status' => 'unread',
+            ]);
+            $proposal = Proposals::where('id', $request->proposal)->delete();
+        }
+
+        return redirect()->back();
+    }
+
+
 
 }

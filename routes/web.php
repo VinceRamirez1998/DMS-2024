@@ -97,6 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/request/comment/submit', [Functions::class, 'requestcommentsubmit'])->name('request.comment.submit');
     Route::post('/inquiry/comment/submit', [Functions::class, 'inquirycommentsubmit'])->name('inquiry.comment.submit');
     Route::post('/request/assign/department', [Functions::class, 'selectdepartment'])->name('select.department');
+    Route::post('/proposal/submit', [Functions::class, 'proposalsubmit'])->name('proposal.submit');
 
     Route::post('/settings/password/update', [Functions::class, 'changePassword'])->name('settings.password.update');
     Route::post('/settings/contact/update', [Functions::class, 'changeContact'])->name('settings.contact.update');
