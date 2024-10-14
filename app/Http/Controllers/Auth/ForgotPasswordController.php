@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
+use App\Models\NewsAndEvents;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ForgotPasswordController extends Controller
 {
@@ -13,7 +15,15 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('auth.passwords.email');
+        // Fetch all announcements and news/events
+        $announcements = Announcement::all();
+        $newsAndEvents = NewsAndEvents::all();
+        
+        // Define the default section
+        $section = 'announcements'; // or whatever default you want
+    
+        // Return the view with the fetched data, including the section
+        return view('auth.passwords.email', compact('announcements', 'newsAndEvents', 'section'));
     }
 
     

@@ -45,7 +45,7 @@
   {{-- Announcement Header --}}   
   <form action="" method="POST">      
     <div class="col-span-6 lg:col-span-5 flex">
-      <a href="{{ route('verification.notice', ['section' => 'news']) }}" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900"  style="padding-left: 8px; padding-right: 0px;">News & Updates</a>
+      <a href="{{ route('verification.notice', ['section' => 'news']) }}" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900"  style="padding-left: 8px; padding-right: 0px; white-space: nowrap;">News & Events</a>
       <a href="{{ route('verification.notice', ['section' => 'announcements']) }}" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</a>
     </div>
   </form>
