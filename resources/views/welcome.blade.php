@@ -222,6 +222,9 @@
   
   {{-- Announcements Section --}}
   <div id="announcementsSection" class="col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
+    @if($announcements->isEmpty())
+        <p class="text-center">No Announcements</p>
+    @else
     @foreach($announcements as $announcement)
         <div class="announcement-item cursor-pointer" 
              data-title="{{ $announcement->title }}" 
@@ -229,17 +232,22 @@
             <h3 class="font-bold">{{ $announcement->title }}</h3>
         </div>
     @endforeach
+    @endif
   </div>
 
   {{-- News and Events Block --}}
   <div id="newsSection" class="hidden col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
-    @foreach($newsAndEvents as $news)
-        <div class="news-item cursor-pointer" 
-             data-title="{{ $news->title }}" 
-             data-content="{!! $news->content !!}">
-            <h3 class="font-bold">{{ $news->title }}</h3>
-        </div>
-    @endforeach
+    @if($newsAndEvents->isEmpty())
+        <p class="text-center">No News and Events</p>
+    @else
+        @foreach($newsAndEvents as $news)
+            <div class="news-item cursor-pointer" 
+                 data-title="{{ $news->title }}" 
+                 data-content="{!! $news->content !!}">
+                <h3 class="font-bold">{{ $news->title }}</h3>
+            </div>
+        @endforeach
+    @endif
   </div>
 
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>

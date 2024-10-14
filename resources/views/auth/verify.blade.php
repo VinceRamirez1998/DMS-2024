@@ -45,8 +45,8 @@
   {{-- Announcement Header --}}   
   <form action="" method="POST">      
     <div class="col-span-6 lg:col-span-5 flex">
-      <a href="{{ route('verify', ['section' => 'news']) }}" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900"  style="padding-left: 8px; padding-right: 0px;">News & Updates</a>
-      <a href="{{ route('verify', ['section' => 'announcements']) }}" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</a>
+      <a href="{{ route('verification.notice', ['section' => 'news']) }}" class="bg-red-900 flex-grow p-3 py-1 text-white border-solid border-r-2 border-rose-900"  style="padding-left: 8px; padding-right: 0px;">News & Updates</a>
+      <a href="{{ route('verification.notice', ['section' => 'announcements']) }}" class="bg-red-900 col-span-2 p-3 lg:px-4 py-1 text-white">Announcement</a>
     </div>
   </form>
 
@@ -55,6 +55,9 @@
   
   {{-- Announcements Section --}}
   <div id="announcementsSection" class="{{ $section === 'announcements' ? '' : 'hidden' }} col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
+    @if($announcements->isEmpty())
+        <p class="text-center">No Announcements</p>
+    @else
     @foreach($announcements as $announcement)
         <div class="announcement-item cursor-pointer" 
              data-title="{{ $announcement->title }}" 
@@ -63,12 +66,14 @@
             <h3 class="font-bold">{{ $announcement->title }}</h3>
         </div>
     @endforeach
-    
-  
+    @endif
   </div>
 
   {{-- News and Events Block --}}
   <div id="newsSection" class="{{ $section === 'news' ? '' : 'hidden' }} col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
+    @if($newsAndEvents->isEmpty())
+        <p class="text-center">No News & Events</p>
+    @else
     @foreach($newsAndEvents as $news)
         <div class="news-item cursor-pointer" 
              data-title="{{ $news->title }}" 
@@ -77,8 +82,7 @@
             <h3 class="font-bold">{{ $news->title }}</h3>
         </div>
     @endforeach
-    
-   
+    @endif
   </div>
 
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>

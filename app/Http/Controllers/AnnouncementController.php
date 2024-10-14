@@ -22,8 +22,8 @@ class AnnouncementController extends Controller
     }
     
 
-    public function verify(Request $request)
-    {
+    public function verificationNotice(Request $request)
+{
         // Fetch all announcements and news/events
         $announcements = Announcement::all();
         $newsAndEvents = NewsAndEvents::all();
