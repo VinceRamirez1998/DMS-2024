@@ -9,6 +9,7 @@
   @vite('resources/css/app.css')
   <title>DHVSU</title>
 </head>
+
 <body>
   <div class="flex h-auto">
   @include('layouts.sidenav')
@@ -30,25 +31,38 @@
         </div>
         @endif
       </div>
-      {{-- Announcement --}}
+      {{-- Notice Board --}}
       <div class="col-span-12 md:col-span-5 bg-[#FAF9F6] rounded-md border-2 border-red-500 shadow-xl">
-        <div class="container-fluid w-100">
-          <p class="text-2xl ps-3 mt-2 mb-0 py-3 bg-[#800000] text-white font-bold">Notice Board</p>
-          <div class="flex flex-col container px-7 h-[277px] overflow-y-scroll">
+    <div class="container-fluid w-100">
+        <p class="text-2xl ps-3 mt-2 mb-0 py-3 bg-[#800000] text-white font-bold">Notice Board</p>
+        <div class="flex flex-col container px-7 h-[277px] overflow-y-scroll">
 
-            {{-- Iterate announcements --}}
-            @for ($i=1; $i<=8; $i++)
-            <a href="https://dhvsu.edu.ph/announcements-and-advisories/advisory-september-16-2024" class="text-red-700 hover:underline text-sm">
-              <p class="text-[1.5rem]">
-                {{ "•"}} <span class="me-1"></span>Advisory | September 16, 2024
-              </p>
-            </a>
-            @endfor
-            {{-- end of iteration --}}
+            {{-- Check if there are notices --}}
+            @if ($notices->isEmpty())
+                <p class="text-center text-red-600 my-auto">No announcements available at the moment.</p>
+            @else
+                {{-- Iterate notices --}}
+                @foreach ($notices as $notice)
+                <div class="cursor-pointer text-red-700 hover:underline text-sm notice-item" 
+                    data-title="{{ $notice->title }}" 
+                    data-image="{{ asset('storage/' . $notice->image) }}" 
+                    data-content="{!! $notice->content !!}" 
+                    data-created-at="{{ $notice->created_at->format('F d, Y') }}">
+                    <p class="text-[1.5rem]">
+                        {{ "•"}} <span class="me-1"></span>{{ $notice->title }} | {{ $notice->created_at->format('F d, Y') }}
+                    </p>
+                </div>
+                @endforeach
+                {{-- end of iteration --}}
+            @endif
 
-          </div>
         </div>
-      </div>
+    </div>
+</div>
+
+
+
+
       {{-- Projects --}}
       <div class="col-span-12 mb-3">
       @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
@@ -350,6 +364,68 @@ document.addEventListener('click', function(event) {
 });
 </script>
 @endif
+
+<!-- Modal -->
+<!-- Modal -->
+<div id="noticeModal" class="modal fixed inset-0 hidden bg-black bg-opacity-70 flex items-center justify-center">
+    <div class="modal-content bg-white rounded-lg shadow-lg p-6 w-[800px] max-h-[60vh] overflow-y-auto">
+        <span class="close-modal cursor-pointer text-red-500 float-right text-2xl hover:text-red-700 transition duration-200">&times;</span>
+        
+        <div class="flex mb-4"> <!-- Flex container for image and text -->
+            <img id="modalImage" src="" alt="" class="w-1/3 h-auto max-h-48 object-cover rounded-md mr-4 shadow-md" /> <!-- Image with shadow -->
+            <div class="flex flex-col w-2/3"> <!-- Text container -->
+                <h2 id="modalTitle" class="text-2xl font-bold text-white mb-1 bg-red-800 p-2 rounded-md"></h2> <!-- Bold title -->
+                <div class="flex justify-between items-center bg-gray-800 p-2 rounded-md mb-4"> <!-- Flex for title and created_at -->
+                    <p id="modalCreatedAt" class="text-white text-sm"></p> <!-- Created_at -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="modalContent" class="text-gray-700 leading-relaxed">
+            { $notice->content } <!-- Ensure content is rendered as HTML -->
+        </div>
+    </div>
+</div>
+
+  
+
+
+
+<!-- Add the following script at the bottom of your body -->
+<script>
+ const noticeItems = document.querySelectorAll('.notice-item');
+const modal = document.getElementById('noticeModal');
+const modalImage = document.getElementById('modalImage');
+const modalTitle = document.getElementById('modalTitle');
+const modalCreatedAt = document.getElementById('modalCreatedAt');
+const modalContent = document.getElementById('modalContent');
+const closeModal = document.querySelector('.close-modal');
+noticeItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const title = item.getAttribute('data-title');
+        const image = item.getAttribute('data-image');
+        const content = item.getAttribute('data-content');
+        const createdAt = item.getAttribute('data-created-at');
+
+        modalTitle.textContent = title;
+        modalImage.src = image;
+        modalCreatedAt.textContent = createdAt;
+        modalContent.innerHTML = content; // Use innerHTML to insert raw HTML
+
+        modal.classList.remove('hidden');
+    });
+});
+
+closeModal.addEventListener('click', () => {
+    modal.classList.add('hidden');
+});
+
+modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        modal.classList.add('hidden');
+    }
+});
+</script>
 </body>
 
 </html>

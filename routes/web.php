@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\NoticeBoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,4 +130,6 @@ Auth::routes(['verify' => true]);
 // Annoucements
 Route::get('/', [AnnouncementController::class, 'index'])->name('home');
 Route::get('/email/verification-notice', [AnnouncementController::class, 'verificationNotice'])->name('verification.notice');
+Route::get('/dashboard', [NoticeBoardController::class, 'index'])->name('dashboard.index');
+
 
