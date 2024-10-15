@@ -219,7 +219,13 @@
 
   {{-- Block --}}
   <div class="hidden md:block col-span-12 lg:col-start-6"></div>
-  
+  @php
+    $announcements = App\Models\Announcement::all();
+    $newsAndEvents = App\Models\NewsAndEvents::all();
+    
+    // Get the section from the request, defaulting to 'announcements'
+    $section = request()->get('section', 'announcements');
+  @endphp
   {{-- Announcements Section --}}
   <div id="announcementsSection" class="col-span-12 lg:col-span-5 flex flex-col mb-3 bg-gray-300 p-2 border-2 rounded-r rounded-bl border-gray-800">
     @if($announcements->isEmpty())

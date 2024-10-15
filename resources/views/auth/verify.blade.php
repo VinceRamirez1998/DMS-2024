@@ -15,7 +15,13 @@
   <div class="col-span-12 order-2 lg:order-1 lg:col-span-5">
       <img src="{{ asset('../img/hero.png') }}" alt="" class="w-full h-full object-cover rounded">
   </div>
-
+  @php
+    $announcements = App\Models\Announcement::all();
+    $newsAndEvents = App\Models\NewsAndEvents::all();
+    
+    // Get the section from the request, defaulting to 'announcements'
+    $section = request()->get('section', 'announcements');
+  @endphp
   {{-- RESET PASSWORD FORM--}}
   <div id="loginForm" class="toggleForm col-span-12 order-1 p-5 lg:order-2 lg:col-start-6 bg-gray-100 rounded border-2 border-gray-400">
     <p class="text-lg font-semibold mb-2">Email Verification</p>
