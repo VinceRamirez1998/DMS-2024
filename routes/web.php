@@ -129,8 +129,8 @@ Route::get('/home', [HomeController::class, 'index'])
 Auth::routes(['verify' => true]);
 
 // Annoucements
-Route::get('/', [AnnouncementController::class, 'index'])->name('home');
-Route::get('/email/verification-notice', [AnnouncementController::class, 'verificationNotice'])->name('verification.notice');
-Route::get('/dashboard', [Functions::class, 'dashboard'])->name('dashboard.index');
+// Route::get('/', [AnnouncementController::class, 'index'])->name('home');
+// Route::get('/email/verification-notice', [AnnouncementController::class, 'verificationNotice'])->name('verification.notice');
+// Route::get('/dashboard', [Functions::class, 'dashboard'])->name('dashboard.index');
 
 
