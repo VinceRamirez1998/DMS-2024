@@ -70,13 +70,18 @@
           <a href="{{ route('repository',['category' => 'ongoing']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</a>
           <a href="{{ route('repository',['category' => 'completed']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">Completed Projects</a>
         </div>
-        <div class="flex flex-col gap-2 bg-[#eeeeee] rounded-md p-3 border-2 border-red-500">
+        <div class="flex flex-col gap-2 h-full bg-[#eeeeee] {{ $projects->isEmpty() ? 'text-center align-center' : '' }} rounded-md p-3 border-2 border-red-500">
         
           {{-- Iterate 5 ongoing projects --}}
-          @for ($i=0; $i<5; $i++)
+          @if($projects->isEmpty())
+          <p class="text-center text-red-600 my-auto py-[13vh]">No projects available at the moment.</p>
+          @else
+          @foreach($projects as $key => $project)
           <div class="ms-1 py-2 px-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleOngoingBtn" onclick="toggleOngoingContent('ongoingContent{{ $i }}')"><p>Upgrading Skills through ICT Program</p></button>
-          <div id="ongoingContent{{$i}}" class="grid grid-col-12 md:ml-5 text-justify md:text-left mt-5 hidden transition-all duration-500">
+          <button id="toggleOngoingBtn" onclick="toggleOngoingContent('ongoingContent{{ $key }}')">
+            <p>{{ $project->project_title }}</p>
+          </button>
+          <div id="ongoingContent{{$key}}" class="grid grid-col-12 md:ml-5 text-justify md:text-left mt-5 hidden transition-all duration-500">
             <p class="text-sm font-normal">One of the objectives of the DHVSU-UESO is to assist communities that are eager for development and innovation. As part of the extension project of the College of Computing Studies at Potrero National High School, we conducted a preliminary visit and assessed the need of the community and to check their computers that will be utilized for the “Upgrading Skills through ICT Training Program” on October 2019.
             <br><br>
                 The skills to be developed among its beneficiaries one of the following:
@@ -105,7 +110,8 @@
             <img src="{{ asset('../img/DHVSU_Logo.png') }}" alt="Project Basa Photo" class="max-w-[50%] max-h-[70rem]">
           </div>
         </div>
-          @endfor
+          @endforeach
+          @endif
 
 
 
@@ -276,13 +282,24 @@
       <div class="container-fluid w-[80%] bg-[#FAF9F6] rounded-lg border-2 border-[#800000] mb-5 mt-5 overflow-hidden shadow-lg">
         <p class="text-xl ps-3 mt-2 mb-0 py-3 bg-[#800000] text-white font-semibold">Notice Board</p>
         <div class="flex flex-col container px-12 pb-20 h-full overflow-y-scroll">
-          @for ($i=1; $i<=10; $i++)
-          <a href="https://dhvsu.edu.ph/announcements-and-advisories/advisory-september-16-2024" class="text-red-700 hover:underline text-3xl">
-              <p class="text-[1.5rem]">
-                {{ "•" }} <span class="me-1"></span>Advisory | September 16, 2024
-              </p>
-            </a>
-          @endfor
+          {{-- Check if there are notices --}}
+          @if ($notices->isEmpty())
+              <p class="text-center text-red-600 my-auto">No announcements available at the moment.</p>
+          @else
+              {{-- Iterate notices --}}
+              @foreach ($notices as $notice)
+              <div class="cursor-pointer text-red-700 hover:underline text-sm notice-item" 
+                  data-title="{{ $notice->title }}" 
+                  data-image="{{ asset('storage/' . $notice->image) }}" 
+                  data-content="{!! $notice->content !!}" 
+                  data-created-at="{{ $notice->created_at->format('F d, Y') }}">
+                  <p class="text-[1.5rem]">
+                      {{ "•"}} <span class="me-1"></span>{{ $notice->title }} | {{ $notice->created_at->format('F d, Y') }}
+                  </p>
+              </div>
+              @endforeach
+              {{-- end of iteration --}}
+          @endif
         </div>
       </div>
     </div>

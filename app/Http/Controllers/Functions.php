@@ -7,6 +7,7 @@ use App\Models\Inquiry;
 use App\Models\Projects;
 use App\Models\Requests;
 use App\Models\Proposals;
+use App\Models\NoticeBoard;
 use Illuminate\Http\Request;
 use App\Models\Notifications;
 use App\Models\InquiryComments;
@@ -185,6 +186,15 @@ class Functions extends Controller
         }
         $requests->save();
         return redirect()->back()->with('success', 'Comment submitted successfully.');
+    }
+
+    public function repository($category){
+        if($category == 'ongoing'){
+            $projects = Projects::where('phase', '>=' , 3)->get();
+        }elseif($category == 'completed'){
+            $projects = Projects::where('phase', '=', 4)->get();
+        }
+        return view('repository', ['category' => $category, 'projects' => $projects]);
     }
 
     public function inquirycommentsubmit(Request $request){
@@ -384,6 +394,8 @@ class Functions extends Controller
     }
 
     public function dashboard(){
+        $notices = NoticeBoard::orderBy('created_at', 'desc')->take(8)->get();
+        $projects = Projects::where('phase', '<=', 3)->orderBy('created_at', 'desc')->take(5)->get();
         if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident' || auth()->user()->role == 'director'){
             // $total_requests = Inquiry::count();
             // $total_proposals = Proposals::count();
@@ -403,16 +415,16 @@ class Functions extends Controller
             $chs_percentage = ($total > 0) ? (($chs / $total) * 100) : 0;
             $total_percentage = ($total > 0) ? (($total / $total) * 100) : 0;
            
-            return view('dashboard', compact('ccs_percentage','cea_percentage','shs_percentage','chs_percentage','total_percentage'));
+            return view('dashboard', compact('notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage','total_percentage'));
         }
         elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
             $total_inquiries = Inquiry::where('type', 'inquire')->count();
             $total_requests = Inquiry::where('type', 'request')->count();
             $recent_files = Inquiry::latest()->take(5)->get();
-        return view('dashboard', compact('total_requests','total_inquiries','recent_files'));
+        return view('dashboard', compact('notices','total_requests','total_inquiries','recent_files'));
         }
 
-        return view('dashboard');
+        return view('dashboard', compact('notices','projects'));
     }
 
     public function proposalsoption(Request $request, $folder){

@@ -38,9 +38,10 @@
       @if($category == 'ongoing')
       {{-- Ongoing Projects --}}
       <div class="flex flex-col gap-2 bg-[#eeeeee] rounded-md p-3 border-2 border-red-500">
-        
+        @foreach($projects as $project)
+          
         <div class="ms-1 py-2 px-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleOngoingBtn"><p>Project Basa</p></button>
+          <button id="toggleOngoingBtn"><p>{{ $project->project_title }}</p></button>
           <div id="ongoingContent" class="grid grid-col-12 md:ml-5 text-justify md:text-left mt-5 hidden transition-all duration-500">
             <p class="text-sm font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, nihil hic? Nulla tenetur dolorum eveniet placeat!Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, nihil hic? Nulla tenetur dolorum eveniet placeat!Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, nihil hic? Nulla tenetur dolorum eveniet placeat!Lorem ipsum dolor sit amet consectetur ad</p>
             <p class="text-sm font-normal my-10">Check Photos <button id="showImageBtn" class="text-blue-600 underline">here</button></p>
@@ -52,6 +53,8 @@
             <img src="{{ asset('../img/DHVSU_Logo.png') }}" alt="Project Basa Photo" class="max-w-[50%] max-h-[70rem]">
           </div>
         </div>
+
+        @endforeach
       </div>
       @elseif($category == 'completed')
       {{-- Completed Projects --}}

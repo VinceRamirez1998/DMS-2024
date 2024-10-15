@@ -64,9 +64,10 @@ Route::middleware(['auth', 'unverified'])->group(function () {
 // Routes for Authenticated Users with Verified Emails
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [Functions::class, 'dashboard'])->name('dashboard');
-    Route::get('/repository/{category}', function($category){
-        return view('repository', ['category' => $category]);
-    })->name('repository');
+    Route::get('/repository/{category}', [Functions::class, 'repository'])->name('repository');
+    // Route::get('/repository/{category}', function($category){
+    //     return view('repository', ['category' => $category]);
+    // })->name('repository');
     Route::get('/inquiry', function () {
         return view('inquiry');
     })->name('inquiry');
@@ -130,6 +131,6 @@ Auth::routes(['verify' => true]);
 // Annoucements
 Route::get('/', [AnnouncementController::class, 'index'])->name('home');
 Route::get('/email/verification-notice', [AnnouncementController::class, 'verificationNotice'])->name('verification.notice');
-Route::get('/dashboard', [NoticeBoardController::class, 'index'])->name('dashboard.index');
+Route::get('/dashboard', [Functions::class, 'dashboard'])->name('dashboard.index');
 
 
