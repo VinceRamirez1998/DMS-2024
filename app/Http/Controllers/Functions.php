@@ -380,7 +380,7 @@ class Functions extends Controller
         $file = $request->project_title . '-'. auth()->user()->username . '_proposal_' . date('m_d_Y_s') . '.' . $request->file->extension();
         $request->file->move(public_path('documents/proposals'), $file);
         $proposal = new Proposals();
-        $proposal = Auth()->user()->id;
+        $proposal->user_id = Auth()->user()->id;
         $proposal->lastname = $request->lastname;
         $proposal->firstname = $request->firstname;
         $proposal->email = $request->email;
