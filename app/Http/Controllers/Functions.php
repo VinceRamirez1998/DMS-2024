@@ -479,8 +479,8 @@ class Functions extends Controller
     }
 
     public function proposalsubmit(Request $request){
+        $proposal = Proposals::where('id', $request->proposal)->first();
         if($request->type == 'approve'){
-            $proposal = Proposals::where('id', $request->proposal)->first();
             $project = new Projects();
             $project->user_id =  $proposal->id;
             $project->firstname = $proposal->firstname;
@@ -491,10 +491,9 @@ class Functions extends Controller
             $project->position = $proposal->position;
             $project->file = $proposal->file;
             $project->phase = 2;
-            $project->save();
-            $proposal = Proposals::where('id', $request->proposal)->delete();
+
             $notification = Notifications::create([
-                'inquiry_no' => $proposal->id,
+                'inquiry_no' => $request->proposal,
                 'sender' => auth()->user()->id,
                 'receiver' => $request->user_id,
                 'title' => "Proposal Accepted",
@@ -502,17 +501,17 @@ class Functions extends Controller
                 'status' => 'unread',
             ]);
         }elseif($request->type == 'reject'){
-            $proposal = Proposals::where('id', $request->proposal)->first();
             $notification = Notifications::create([
-                'inquiry_no' => $proposal->id,
+                'inquiry_no' => $request->proposal,
                 'sender' => auth()->user()->id,
                 'receiver' => $request->user_id,
                 'title' => "Proposal Rejected",
                 'message' => "Dear " . $proposal->firstname . ",<br><br>I hope this message finds you well. After careful consideration, we regret to inform you that your proposal has not been approved at this time. Unfortunately, we are unable to provide specific feedback regarding the decision.<br><br>We appreciate your effort and interest, and we encourage you to continue sharing your ideas with us in the future.<br><br>Thank you for your understanding.",
                 'status' => 'unread',
             ]);
-            $proposal = Proposals::where('id', $request->proposal)->delete();
         }
+        $project->save();
+        $proposal = Proposals::where('id', $request->proposal)->delete();
 
         return redirect()->back();
     }

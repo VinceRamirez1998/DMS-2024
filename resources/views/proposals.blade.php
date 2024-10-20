@@ -49,6 +49,7 @@
                             @csrf
                             <li>
                                 <input type="hidden" name="proposal" value="{{ $proposal->id }}">
+                                <input type="hidden" name="user_id" value="{{ $proposal->user_id }}">
                                 <button name="type" value="approve" class="w-full text-left px-4 py-2 text-sm font-semibold text-green-400 hover:bg-gray-100">
                                     Approve
                                 </button>
