@@ -13,9 +13,13 @@
   @include('layouts.sidenav')
   <div class="w-screen pb-3 min-h-screen p-2 lg:p-10">
     <div class="bg-[#3b3b3b] text-white rounded-md flex flex-col h-full overflow-hidden">
-        <p class="font-semibold text-lg my-3 pl-3 md:pl-5 flex items-center">
-            <a href="{{ route('projectsandrequests') }}" class="me-3"><i class="fa-solid fa-chevron-left"></i></a>Projects
-        </p>
+        <div class="flex flex-row justify-between">
+                <p class="font-semibold text-lg my-3 pl-3 md:pl-5 flex items-center">
+                    <a href="{{ route('projectsandrequests') }}" class="me-3"><i class="fa-solid fa-chevron-left"></i></a>Projects
+                </p>
+                
+
+        </div>
         <div class="h-screen w-full overflow-y-scroll">
         <div class="grid grid-cols-12 gap-2 pb-3 px-3 md:px-5">
 

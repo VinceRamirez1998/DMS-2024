@@ -44,8 +44,17 @@
                         @csrf
                         <input type="hidden" name="title" value="{{ $title->project_title }}">
                         <input type="hidden" name="phase" value="{{ $title->phase }}">
-                        @if ($title->phase != 4)
+                        @if ($title->phase != 4 && Auth::user()->role == 'director')
                         <button class="bg-[#ff9900] text-white font-bold py-2 px-5 rounded-md">Next</button>
+                        @elseif(Auth::user()->role == 'centermanager' || Auth::user()->role == 'areaspecialist' || Auth::user()->role == 'coordinator' || Auth::user()->role == 'facultyextensionist')
+                        <div class="flex items-center">
+                            <form action="{{ route('add.proposals') }}" method="POST">
+                                @csrf
+                                <label for="addfiles" class="px-3 py-2 bg-[#f39c12] text-white font-bold rounded-md">Add Files</label>
+                                <input type="hidden" name="title" value="{{ $title->project_title }}">
+                                <input id="addfiles" type="file" name="file" hidden></input>
+                            </form>
+                        </div>
                         @endif
                     </form>
                 </div>

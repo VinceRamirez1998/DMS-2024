@@ -516,6 +516,19 @@ class Functions extends Controller
         return redirect()->back();
     }
 
+    public function addproposals(Request $request){
+        $request->validate([
+            'file' => 'required',
+        ]);
+
+        $files = $request->file('files');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('public/documents/proposals', $filename);
+        }
+     
+    }
+
 
 
 }
