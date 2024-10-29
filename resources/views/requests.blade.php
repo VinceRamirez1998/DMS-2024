@@ -134,28 +134,101 @@
                         <form id="department" action="{{ route('select.department') }}" method="post">
                         @csrf
                         <div class="flex flex-col justify-end p-4 border-t">
-                            <select name="department" type="text" class="w-full rounded-md text-black" placeholder="">
-                                <option disabled {{ ($requests->department == null) ? 'selected' : '' }} >--Select--</option>
+                            <select name="department" type="text" class="w-full rounded-md text-black">
+                                <option disabled {{ ($requests->department == null) ? 'selected' : '' }}>--Select--</option>
                                 @if(auth()->user()->role == 'director')
-                                <option value="centermanager" {{ ($requests->department == 'centermanager') ? 'selected' : '' }} >Center Manager</option>
-                                <option value="areaspecialist" {{ ($requests->department == 'areaspecialist') ? 'selected' : '' }} >Area Specialist</option>
-                                <option value="deanccs" {{ ($requests->department == 'deanccs') ? 'selected' : '' }} >Dean - CCS</option>
-                                <option value="deancea" {{ ($requests->department == 'deancea') ? 'selected' : '' }} >Dean - CEA</option>
-                                <option value="deanchs" {{ ($requests->department == 'deanchs') ? 'selected' : '' }} >Dean - CHS</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - SHS</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CHTM</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - COE</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CBS</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CSSP</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - LHS</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CSSP</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CAS</option>
-                                <option value="deanshs" {{ ($requests->department == 'deanshs') ? 'selected' : '' }} >Dean - CIT</option>
-                                <option value="graduateschool" {{ ($requests->department == 'graduateschool') ? 'selected' : '' }} >Dean - Graduate School</option>
+                                <option value="areaspecialist" {{ ($requests->department == 'areaspecialist') ? 'selected' : '' }}>Area Specialist</option>
+                                <option value="centermanager" {{ ($requests->department == 'centermanager') ? 'selected' : '' }}>Center Manager</option>
+                                <option value="dean" {{ ($requests->department == 'dean') ? 'selected' : '' }}>Dean</option>
+                                @elseif(auth()->user()->role == 'centermanager')
+                                <option value="areaspecialist" {{ ($requests->department == 'areaspecialist') ? 'selected' : '' }}>Area Specialist</option>
                                 @elseif(auth()->user()->role == 'areaspecialist')
-                                <option value="coordinator" {{ ($requests->department == 'coordinator') ? 'selected' : '' }} >Coordinator</option>
+                                <option value="coordinator" {{ ($requests->department == 'coordinator') ? 'selected' : '' }}>Coordinator</option>
+                                @elseif(auth()->user()->role == 'dean')
+                                <option value="facultyextensionist" {{ ($requests->department == 'facultyextensionist') ? 'selected' : '' }}>Faculty Extensionist</option>
                                 @endif
                             </select>
+                            
+                            <div id="departmentid" style="display: none;" class="grid grid-cols-12 mt-3 flex-col">
+                                <div class="col-span-12 flex justify-center">
+                                    <p class="font-bold text-white">Select Department:</p>
+                                </div>
+                                <div class="col-span-12 flex items-center justify-evenly mt-2">
+                                    <div class="col-span-6">
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CCS" id="ccs">
+                                            <label for="ccs">CCS</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CEA" id="cea">
+                                            <label for="ccs">CEA</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CHS" id="chs">
+                                            <label for="chs">CHS</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="SHS" id="shs">
+                                            <label for="shs">SHS</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CHTM" id="chtm">
+                                            <label for="chtm">CHTM</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="COE" id="coe">
+                                            <label for="coe">COE</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-6">
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CBS" id="cbs">
+                                            <label for="cbs">CBS</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CSSP" id="cssp">
+                                            <label for="cssp">CSSP</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="LHS" id="lhs">
+                                            <label for="lhs">LHS</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CAS" id="cas">
+                                            <label for="cas">CAS</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CIT" id="cit">
+                                            <label for="cit">CIT</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="Graduateschool" id="graduate">
+                                            <label for="graduate">Graduate School</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    const departmentSelect = document.querySelector('select[name="department"]');
+                                    departmentSelect.display = 'block';
+                                    const departmentDiv = document.getElementById('departmentid');
+                                    function toggleDepartmentDiv() {
+                                        
+                                        if (departmentSelect.value === 'dean') {
+                                            departmentDiv.style.display = 'flex';
+                                        } else {
+                                            departmentDiv.style.display = 'none';
+                                        }
+                                    }
+                                    toggleDepartmentDiv();
+                                    departmentSelect.addEventListener('change', toggleDepartmentDiv);
+                                });
+                            </script>
+                            
+
+
                             <div class="flex justify-end w-full">
                                 <button name="request_id" value="{{ $requests->id }}" class="px-3 py-2 mt-3 text-center bg-[#fab005] text-white font-semibold rounded-md">Send&nbsp;Request</button>
                             </div>

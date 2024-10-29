@@ -227,6 +227,7 @@ class Functions extends Controller
     }
 
     public function selectdepartment(Request $request){
+        dd($request);
         $request->validate([
             'department' => 'required',
         ]);
