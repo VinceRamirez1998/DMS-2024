@@ -50,7 +50,7 @@
                                     See comments
                                 </button>
                             </li>
-                            @if(auth()->user()->role === 'director')
+                            @if(auth()->user()->role === 'director' || auth()->user()->role === 'dean')
                             <li>
                                 <button onclick="opensendModal('{{ $requests->id }}');" class="w-full text-[#fab005] font-bold text-left px-4 py-2 text-sm">
                                     Send
@@ -84,8 +84,9 @@
                         {{-- Comments --}}
                         
                         <div class="p-4">
-                            
+
                         @php
+                            $requests_comments = App\Models\RequestComments::all();
                             $hasComments = false;
                         @endphp
 
@@ -134,7 +135,7 @@
                         <form id="department" action="{{ route('select.department') }}" method="post">
                         @csrf
                         <div class="flex flex-col justify-end p-4 border-t">
-                            <select name="department" type="text" class="w-full rounded-md text-black">
+                            <select name="department" type="text" onchange="toggleDepartmentDiv(this, '{{ $requests->id }}')" class="w-full rounded-md text-black">
                                 <option disabled {{ ($requests->department == null) ? 'selected' : '' }}>--Select--</option>
                                 @if(auth()->user()->role == 'director')
                                 <option value="areaspecialist" {{ ($requests->department == 'areaspecialist') ? 'selected' : '' }}>Area Specialist</option>
@@ -149,60 +150,61 @@
                                 @endif
                             </select>
                             
-                            <div id="departmentid" style="display: none;" class="grid grid-cols-12 mt-3 flex-col">
+                            <div id="departmentid-{{ $requests->id }}" style="display: none;" class="grid grid-cols-12 mt-3 flex-col">
                                 <div class="col-span-12 flex justify-center">
                                     <p class="font-bold text-white">Select Department:</p>
                                 </div>
                                 <div class="col-span-12 flex items-center justify-evenly mt-2">
                                     <div class="col-span-6">
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CCS" id="ccs">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}"
+                                            name="selectdepartment[]" value="CCS" id="ccs">
                                             <label for="ccs">CCS</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CEA" id="cea">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="CEA" id="cea">
                                             <label for="ccs">CEA</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CHS" id="chs">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="CHS" id="chs">
                                             <label for="chs">CHS</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="SHS" id="shs">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="SHS" id="shs">
                                             <label for="shs">SHS</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CHTM" id="chtm">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="CHTM" id="chtm">
                                             <label for="chtm">CHTM</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="COE" id="coe">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="COE" id="coe">
                                             <label for="coe">COE</label>
                                         </div>
                                     </div>
                                     <div class="col-span-6">
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CBS" id="cbs">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="CBS" id="cbs">
                                             <label for="cbs">CBS</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CSSP" id="cssp">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="CSSP" id="cssp">
                                             <label for="cssp">CSSP</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="LHS" id="lhs">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="LHS" id="lhs">
                                             <label for="lhs">LHS</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CAS" id="cas">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="CAS" id="cas">
                                             <label for="cas">CAS</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="CIT" id="cit">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="CIT" id="cit">
                                             <label for="cit">CIT</label>
                                         </div>
                                         <div class="flex items-center">
-                                            <input class="rounded-full me-1" type="checkbox" name="selectdepartment[]" value="Graduateschool" id="graduate">
+                                            <input class="rounded-full me-1" type="{{ (Auth::user()->role == 'dean') ? 'checkbox' : 'radio' }}" name="selectdepartment[]" value="Graduateschool" id="graduate">
                                             <label for="graduate">Graduate School</label>
                                         </div>
                                     </div>
@@ -210,20 +212,20 @@
                             </div>
                             
                             <script>
+                                function toggleDepartmentDiv(selectElement, requestId) {
+                                    const departmentDiv = document.getElementById('departmentid-' + requestId);
+                                    
+                                    if (selectElement.value === 'dean' || selectElement.value === 'facultyextensionist') {
+                                        departmentDiv.style.display = 'flex';
+                                    } else {
+                                        departmentDiv.style.display = 'none';
+                                    }
+                                }
+                            
+                                // To ensure the modal shows correctly on initial load if needed
                                 document.addEventListener("DOMContentLoaded", function() {
                                     const departmentSelect = document.querySelector('select[name="department"]');
-                                    departmentSelect.display = 'block';
-                                    const departmentDiv = document.getElementById('departmentid');
-                                    function toggleDepartmentDiv() {
-                                        
-                                        if (departmentSelect.value === 'dean') {
-                                            departmentDiv.style.display = 'flex';
-                                        } else {
-                                            departmentDiv.style.display = 'none';
-                                        }
-                                    }
-                                    toggleDepartmentDiv();
-                                    departmentSelect.addEventListener('change', toggleDepartmentDiv);
+                                    toggleDepartmentDiv(departmentSelect, '{{ $requests->id }}'); // Check on load as well
                                 });
                             </script>
                             
@@ -284,9 +286,25 @@
                 document.getElementById('modal-send-' + id).classList.add('hidden');
             }
         
+            let currentlyOpenDropdown = null; // Variable to track the currently open dropdown
+
             function toggleDropdown(id) {
                 const dropdown = document.getElementById('dropdown-' + id);
+                
+                // If there is an open dropdown and it's not the one we are trying to show, close it
+                if (currentlyOpenDropdown && currentlyOpenDropdown !== dropdown) {
+                    currentlyOpenDropdown.classList.add('hidden');
+                }
+
+                // Toggle the selected dropdown
                 dropdown.classList.toggle('hidden');
+                
+                // Update the currently open dropdown or reset it
+                if (dropdown.classList.contains('hidden')) {
+                    currentlyOpenDropdown = null; // Reset if it's being hidden
+                } else {
+                    currentlyOpenDropdown = dropdown; // Update to the currently open dropdown
+                }
             }
         
             function hideDropdown(id) {

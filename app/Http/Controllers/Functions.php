@@ -88,43 +88,24 @@ class Functions extends Controller
             }elseif(Auth::user()->role == 'centermanager'){
                 $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'director')->orWhere('access', 'centermanager')->where('type', 'request')->get();
             }elseif(Auth::user()->role == 'areaspecialist'){
-                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'director')->orWhere('access', 'centermanager')->orWhere('access', 'areaspecialist')->where('type', 'request')->get();
-            }elseif(Auth::user()->role == 'dean'){
-                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'director')->orWhere('access', 'centermanager')->orWhere('access', 'areaspecialist')->orWhere('access', 'dean')->where('type', 'request')->get();
+                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'centermanager')->orWhere('access', 'areaspecialist')->where('type', 'request')->get();
+            }elseif (Auth::user()->role == 'dean') {
+                $requests = Requests::where(function($query) {
+                        $query->where('access', 'dean')
+                              ->where('department', Auth::user()->department);
+                    })
+                    ->orWhere('access', 'vicepresident')
+                    ->orWhere('access', 'centermanager')
+                    ->orWhere('access', 'areaspecialist')
+                    ->where('type', 'request') 
+                    ->get();
             }
-            $requests_comments = RequestComments::get();
-
-            if(auth()->user()->role == 'deanccs'){
-                $faculty = User::where('role','facultyccs')->get();
-            }elseif(auth()->user()->role == 'deanccs'){
-                $faculty = User::where('role','facultycea')->get();
-            }elseif(auth()->user()->role == 'deancea'){
-                $faculty = User::where('role','facultychs')->get();
-            }elseif(auth()->user()->role == 'deanchs'){
-                $faculty = User::where('role','facultyshs')->get();
-            }elseif(auth()->user()->role == 'deanshs'){
-                $faculty = User::where('role','facultychtm')->get();
-            }elseif(auth()->user()->role == 'deanchtm'){
-                $faculty = User::where('role','facultycoe')->get();
-            }elseif(auth()->user()->role == 'deancoe'){
-                $faculty = User::where('role','facultycbs')->get();
-            }elseif(auth()->user()->role == 'deancbs'){
-                $faculty = User::where('role','facultycssp')->get();
-            }elseif(auth()->user()->role == 'deanlhs'){
-                $faculty = User::where('role','facultylhs')->get();
-            }elseif(auth()->user()->role == 'deancas'){
-                $faculty = User::where('role','facultycas')->get();
-            }elseif(auth()->user()->role == 'deancit'){
-                $faculty = User::where('role','facultycit')->get();
-            }else{
-                $faculty = null;
-            }
-
-            return view('requests', compact('requests','requests_comments','faculty'));
-        }elseif($type == 'inquiries'){
+            elseif($type == 'inquiries'){
             $inquiry = Inquiry::where('type', 'inquire')->get();
             $inquiry_comments = InquiryComments::get();
             return view('inquiries', compact('inquiry','inquiry_comments'));
+            }
+            return view('requests', compact('requests'));
         }
         elseif($type == 'projects'){
             $projects = Projects::all();
@@ -227,13 +208,35 @@ class Functions extends Controller
     }
 
     public function selectdepartment(Request $request){
-        dd($request);
         $request->validate([
             'department' => 'required',
         ]);
-        $requests = Inquiry::where('id', $request->request_id)->first();
-        $requests->department = $request->department;
-        $requests->save();
+        if($request->department == 'dean'){
+            $requests = Requests::where('id', $request->request_id)->first();
+            foreach($request->selectdepartment as $departments){
+                $department = new Requests();
+                $department->username = $requests->username;
+                $department->title = $requests->title;
+                $department->position = $requests->position;
+                $department->location = $requests->location;
+                $department->file = $requests->file;
+                $department->status = $requests->status;
+                $department->type = $requests->type;
+                $department->access = $request->department;
+                $department->department = $departments ?? null;
+                $department->inquiry = $requests->inquiry ?? null;
+                $department->remarks = $requests->remarks ?? null;
+                $department->inbox_status = $requests->inbox_status ?? null;
+                $department->save();
+            }
+            $requests = Requests::where('id', $request->request_id)->delete();
+        }else{
+            $requests = Inquiry::where('id', $request->request_id)->first();
+            foreach($request->selectdepartment as $departments){
+                $requests->department = $departments;
+            }
+            $requests->save();
+        }
         return redirect()->back()->with('success', 'Department changed successfully.');
     }
 
