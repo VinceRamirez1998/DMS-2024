@@ -541,19 +541,48 @@ class Functions extends Controller
         return redirect()->back();
     }
 
-    public function addproposals(Request $request){
-        $request->validate([
-            'file' => 'required',
-        ]);
-
-        $files = $request->file('files');
+    public function addprojects(Request $request){
+        // FIle upload multiple using foreach
+        $files = $request->file('file');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $file->storeAs('public/documents/proposals', $filename);
+            $filename = $request->project_title . '-' . auth()->user()->username . '_proposal_' . date('m_d_Y_s') . '.' . $file->extension();
+            $file->move(public_path('documents/proposals'), $filename);
+            $projects = new Projects();
+            $projects->user_id = auth()->user()->id;
+            $projects->lastname = $request->lastname;
+            $projects->firstname = $request->firstname;
+            $projects->email = $request->email;
+            $projects->project_title = $request->project_title;
+            $projects->project_description = $request->project_description;
+            $projects->position = $request->position;
+            $projects->department = auth()->user()->department;
+            $projects->file = $filename;
+            $projects->save();
         }
-     
+
+        return redirect()->back();
     }
 
+    public function projectsoption(Request $request){
+        $project = Projects::where('id', $request->folder_id)->first();
+            $newName = $request->new_name;
+            $fileExtension = $request->file_extension;
+            $extension = pathinfo($newName, PATHINFO_EXTENSION);
+        
+            if ($extension !== $fileExtension) {
+                $newName .= '.' . $fileExtension;
+            }
 
+            $oldFilePath = public_path("documents/proposals/{$project->project_title}");
+            $newFilePath = public_path("documents/proposals/{$newName}");
+
+            if (file_exists($oldFilePath)) {
+                rename($oldFilePath, $newFilePath);
+            }
+
+            $project->file = $newName;
+            $project->save();
+            return redirect()->back();
+    }
 
 }

@@ -116,6 +116,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/projects/progress/forward', [Functions::class, 'progressbar'])->name('progress.forward');
     Route::post('/proposals/add', [Functions::class, 'addproposals'])->name('add.proposals');
+    Route::post('/projects/add', [Functions::class, 'addprojects'])->name('add.projects');
 
     Route::post('/notification/update', [Functions::class, 'notificationupdate'])->name('notification.update');
     Route::get('/notification/{route}', [Functions::class, 'notificationroute'])->name('notification.route');

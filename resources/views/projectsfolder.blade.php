@@ -40,23 +40,47 @@
                     </i>
                 </div>
                 <div class="flex w-full justify-end">
+                    @if ($title->phase != 4 && Auth::user()->role == 'director')
                     <form action="{{ route('progress.forward') }}" method="post">
                         @csrf
                         <input type="hidden" name="title" value="{{ $title->project_title }}">
                         <input type="hidden" name="phase" value="{{ $title->phase }}">
-                        @if ($title->phase != 4 && Auth::user()->role == 'director')
                         <button class="bg-[#ff9900] text-white font-bold py-2 px-5 rounded-md">Next</button>
-                        @elseif(Auth::user()->role == 'centermanager' || Auth::user()->role == 'areaspecialist' || Auth::user()->role == 'coordinator' || Auth::user()->role == 'facultyextensionist')
-                        <div class="flex items-center">
-                            <form action="{{ route('add.proposals') }}" method="POST">
-                                @csrf
-                                <label for="addfiles" class="px-3 py-2 bg-[#f39c12] text-white font-bold rounded-md">Add Files</label>
-                                <input type="hidden" name="title" value="{{ $title->project_title }}">
-                                <input id="addfiles" type="file" name="file" hidden></input>
-                            </form>
-                        </div>
-                        @endif
                     </form>
+                    @elseif(Auth::user()->role == 'centermanager' || Auth::user()->role == 'areaspecialist' || Auth::user()->role == 'coordinator' || Auth::user()->role == 'facultyextensionist')
+                    <div class="flex items-center">
+                        <form action="{{ route('add.projects') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <label for="addfiles" class="px-3 py-2 bg-[#f39c12] text-white font-bold rounded-md cursor-pointer">Add Files</label>
+                            <input id="addfiles" type="file" name="file[]" multiple hidden>
+                            <input type="hidden" name="phase" value="{{ $title->phase }}">
+                            <input type="hidden" name="title" value="{{ $title->project_title }}">
+                            <input type="hidden" name="lastname" value="{{ $title->lastname }}">
+                            <input type="hidden" name="firstname" value="{{ $title->firstname }}">
+                            <input type="hidden" name="email" value="{{ $title->email }}">
+                            <input type="hidden" name="project_title" value="{{ $title->project_title }}">
+                            <input type="hidden" name="project_description" value="{{ $title->project_description }}">
+                            <input type="hidden" name="position" value="{{ $title->position }}">
+                            <input type="hidden" name="phase" value="{{ $title->phase }}">
+                            <button type="submit" id="submitButton" hidden></button>
+                        </form>
+                        
+                        <script>
+                            var addfiles = document.getElementById('addfiles');
+                            var submitButton = document.getElementById('submitButton');
+                    
+                            addfiles.addEventListener('change', function() {
+                                submitButton.click(); 
+                            });
+                    
+                            document.querySelector('label[for="addfiles"]').addEventListener('click', function() {
+                                addfiles.submit();
+                            });
+                        </script>
+                    </div>
+                    
+                    
+                    @endif
                 </div>
             </div>
             @foreach($file as $file)
