@@ -112,10 +112,6 @@ class Functions extends Controller
                     ->where('department', Auth::user->department)
                     ->where('type', 'request') 
                     ->get();
-            }elseif($type == 'inquiries'){
-                $inquiry = Inquiry::where('type', 'inquire')->get();
-                $inquiry_comments = InquiryComments::get();
-                return view('inquiries', compact('inquiry','inquiry_comments'));
             }
             return view('requests', compact('requests'));
         }
@@ -123,6 +119,11 @@ class Functions extends Controller
             $projects = Projects::all();
             $proposal_comments = ProposalComments::get();
             return view('projects', compact('projects','proposal_comments'));
+        }
+        elseif($type == 'inquiries'){
+            $inquiry = Inquiry::where('type', 'inquire')->get();
+            $inquiry_comments = InquiryComments::get();
+            return view('inquiries', compact('inquiry','inquiry_comments'));
         }
     }
     public function request_month($month){
@@ -196,16 +197,13 @@ class Functions extends Controller
         }
         $inquiry = new InquiryComments();
         $inquiry->inquiry_id = $request->request_id;
-        $inquiry->username = auth()->user()->username;
         $inquiry->position = '@'. ucfirst(auth()->user()->role);
         $inquiry->reply = $request->reply;
-
-     
+        $inquiry->username = auth()->user()->username;
         $inquire_notif = Inquiry::where('id', $request->request_id)->first();
         $inquire_notif->reply_status = 'replied';
         $inquire_notif->save();
         $inquiry->save();
-
 
         $notification = new Notifications();
         $notification->inquiry_no = $request->request_id;

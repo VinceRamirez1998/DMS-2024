@@ -105,7 +105,7 @@
                       
                       <div class="flex flex-col justify-end p-4 border-t">
                         <div class="mb-3">
-                            <p>Reply</p>
+                          <p>Reply</p>
                         </div>
                         <div class="flex flex-row">
                         <input type="hidden" name="username" value={{ $inquiry->username }}>
