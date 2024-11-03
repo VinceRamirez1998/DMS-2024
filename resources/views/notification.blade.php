@@ -29,21 +29,20 @@
             <label for="selectAll" class="ms-2 cursor-pointer">Select All</label>
         </div>
         @if(count($notifications) > 0)
-          @foreach($notifications as $notification)
+          @foreach($notifications as $key => $notification)
           <div class="flex flex-col bg-[#eeeeee] rounded-md px-0 border-2 border-red-500">
-    
             <div class="flex items-center ps-2 border-b-2 {{ $notification->status == 'unread' ? 'bg-[#eeeeee]' : 'bg-[#c5c2c2]' }} border-gray-500 py-2 pe-2">
                 <input type="checkbox" name="id[]" value="{{ $notification->id }}" id="mail{{$notification->id}}" class="rounded-md me-1 item-checkbox">
                 <div class="flex flex-col container">
                   <button type="submit" name="read" value="{{ $notification->id }}" class="text-left">Subject: {{ $notification->title }}</button>
-                  <p class="text-xs mb-1">From: <span class="italic">{{ $notification->sender }}</span></p>
+                  <p class="text-xs mb-1">From: <span class="italic">{{ ucfirst($sender[$key]) }}</span></p>
                   <hr class="border-t border-gray-900 my-2">
                   <p class="text-sm">{!! $notification->message !!}</p>
                 </div>
                 <p class="ml-auto">{{ $notification->created_at->format('m/y') }}</p>
             </div>
           </div>
-            @endforeach
+          @endforeach
           @else
           <p>No notifications yet.</p>
           @endif

@@ -31,12 +31,15 @@
                             $proposalExtension === 'pdf' ? 'fa-file-pdf' : ($proposalExtension === 'doc' || $proposalExtension === 'docx' ? 'fa-file-lines' : 'fa-file-lines')
                             }} text-2xl me-2"></i>  
 
-                        <p class="overflow-hidden text-black whitespace-nowrap text-ellipsis">{{ $proposal->file }}</p>
+                        <p class="overflow-hidden text-black whitespace-nowrap text-ellipsis">{{ $proposal->project_title }}</p>
                     </a>
                 </div>
         
                 <!-- Vertical Ellipsis Dropdown -->
-                <div class="relative ">
+                <div class="relative flex-row flex">
+                    @if(Auth::user()->role === 'president' || Auth::user()->role === 'vicepresident' || Auth::user()->role === 'director' || Auth::user()->role === 'areaspecialist' || Auth::user()->role === 'centermanager')
+                    <p class="text-black/30">{{ $proposal->department . ' - ' . $proposal->created_at->format('m/y') }}</p>
+                    @endif
                     <button onclick="toggleDropdown('{{ $proposal->id }}')" class="text-gray-500 hover:text-gray-700 px-3">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>

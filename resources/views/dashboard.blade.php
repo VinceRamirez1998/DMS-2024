@@ -106,7 +106,7 @@
         @endif
         {{-- end of iterate 5 ongoing projects --}}
       </div>
-      @elseif(auth()->user()->role == 'dean' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagemer' || auth()->user()->role == 'facultyextensionist')
+      @elseif(auth()->user()->role == 'dean' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanager' || auth()->user()->role == 'facultyextensionist')
         <div class="container-fluid">
           <form action="" method="POST" class="flex flex-col md:flex-row gap-5 px-3 mb-3">
             @csrf

@@ -75,7 +75,11 @@ class Functions extends Controller
 
     public function request_page($type){
         if($type == 'proposals'){
-            $proposal = Proposals::get();
+            if(Auth::user()->role == 'president' || Auth::user()->role == 'vicepresident' || Auth::user()->role == 'director' || Auth::user()->role == 'areaspecialist' || Auth::user()->role == 'centermanager'){
+                $proposal = Proposals::get();
+            }elseif(Auth::user()->role == 'coordinator' || Auth::user()->role == 'dean' || Auth::user()->role == 'facultyextensionist'){
+                $proposal = Proposals::where('department', Auth::user()->department)->get();
+            }
             $proposal_comments = ProposalComments::get();
             return view('proposals', compact('proposal','proposal_comments'));
         }elseif($type == 'requests'){
@@ -86,25 +90,32 @@ class Functions extends Controller
             }elseif(Auth::user()->role == 'director'){
                 $requests = Requests::where('access', 'director')->get();
             }elseif(Auth::user()->role == 'centermanager'){
-                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'director')->orWhere('access', 'centermanager')->where('type', 'request')->get();
+                $requests = Requests::where('access', 'centermanager')->where('type', 'request')->get();
             }elseif(Auth::user()->role == 'areaspecialist'){
-                $requests = Requests::where('access', 'director')->orWhere('access', 'vicepresident')->orWhere('access', 'centermanager')->orWhere('access', 'areaspecialist')->where('type', 'request')->get();
+                $requests = Requests::where('access', 'areaspecialist')->where('type', 'request')->get();
             }elseif (Auth::user()->role == 'dean') {
                 $requests = Requests::where(function($query) {
                         $query->where('access', 'dean')
                               ->where('department', Auth::user()->department);
-                    })->where('type', 'request') 
+                    })
+                    ->where('type', 'request') 
                     ->get();
             }elseif (Auth::user()->role == 'coordinator') {
                 $requests = Requests::
                     where('access', 'coordinator')
+                    ->where('department', Auth::user->department)
                     ->where('type', 'request') 
                     ->get();
-            }
-            elseif($type == 'inquiries'){
-            $inquiry = Inquiry::where('type', 'inquire')->get();
-            $inquiry_comments = InquiryComments::get();
-            return view('inquiries', compact('inquiry','inquiry_comments'));
+            }elseif (Auth::user()->role == 'facultyextensionist') {
+                $requests = Requests::
+                    where('access', 'facultyextensionist')
+                    ->where('department', Auth::user->department)
+                    ->where('type', 'request') 
+                    ->get();
+            }elseif($type == 'inquiries'){
+                $inquiry = Inquiry::where('type', 'inquire')->get();
+                $inquiry_comments = InquiryComments::get();
+                return view('inquiries', compact('inquiry','inquiry_comments'));
             }
             return view('requests', compact('requests'));
         }
@@ -315,8 +326,12 @@ class Functions extends Controller
     }
 
     public function notifications(){
-        $notifications = Notifications::where('receiver', auth()->user()->username)->orderBy('created_at', 'desc')->get();
-        return view('notification', compact('notifications'));
+        $notifications = Notifications::where('receiver', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        $sender = [];
+    foreach ($notifications as $notification) {
+        $sender[] = User::where('id', $notification->sender)->first()->role;
+    }
+        return view('notification', compact('notifications', 'sender'));
     }
 
     public function notificationroute($route){
@@ -398,6 +413,7 @@ class Functions extends Controller
         $proposal->project_title = $request->project_title;
         $proposal->project_description = $request->project_description;
         $proposal->position = $request->position;
+        $proposal->department = Auth::user()->department;
         $proposal->file = $file;
         $proposal->save();
 

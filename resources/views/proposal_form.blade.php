@@ -49,9 +49,10 @@
                     <option value="president">President</option>
                     <option value="vicepresident">Vice President</option>
                     <option value="director">Director</option>
-                    <option value="centermanagement">Center Management</option>
-                    <option value="areaspecialist">Area Specialist</option>
+                    <option value="centermanagement" {{ (auth()->user()->role == 'centermanager' ? 'selected' : '') }}>Center Manager</option>
+                    <option value="areaspecialist" {{ (auth()->user()->role == 'areaspecialist' ? 'selected' : '') }}>Area Specialist</option>
                     <option value="coordinator">Coordinator</option>
+                    <option value="dean">Dean</option>
                     <option value="faculty">Faculty Extensionist</option>
                   </select>
                 </div>
