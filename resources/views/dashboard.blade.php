@@ -15,109 +15,132 @@
   @include('layouts.sidenav')
   <div class="w-screen h-full pb-5">
     <div class="grid grid-cols-12 bg-[{{ (Auth()->user()->role == 'president' || Auth()->user()->role == 'vicepresident' || Auth()->user()->role == 'director' ) ? '#FAF9F6' : 'bg-white'}}] rounded-lg md:mx-8 md:mt-8 gap-4 m-2 md:m-0 h-auto shadow-xl">
-    @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator'|| auth()->user()->role == 'areaspecialist'|| auth()->user()->role == 'centermanagement')
+    @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator'|| auth()->user()->role == 'dean'|| auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanager' || auth()->user()->role == 'facultyextensionist')
       {{-- Video --}}
       <div class="col-span-12 md:col-span-7">
-        {{-- Users and Coordinator --}}
-        @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
+        {{-- Users --}}
+        @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanager' || auth()->user()->role == 'dean' || auth()->user()->role == 'facultyextensionist')
         <iframe class="p-2 bg-[#FAF9F6] w-[100%] md:w-[620px] h-100 md:h-[349px] shadow-xl" src="https://www.youtube.com/embed/bc4v0ZgfI1w?autoplay=0&loop=1&playlist=bc4v0ZgfI1w&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        {{-- Area Specialist and Center Management --}}
-        @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
-        <div class="grid grid-cols-4 grid-rows-8 gap-4 h-full lg:px-20">
-          <div class="col-span-2 row-span-4 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">{{ $total_inquiries ?? '0' }}</p><p class="text-lg font-semibold mt-5 pb-5">Total Inquiries</p></div>
-          <div class="col-span-2 row-span-4 col-start-3 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">{{ $total_requests ?? '0' }}</p><p class="text-lg font-semibold mt-5 pb-5">Total Requests</p></div>
-          <div class="col-span-2 row-span-4 row-start-5 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5 text-center">Total On-going Projects</p></div>
-          <div class="col-span-2 row-span-4 col-start-3 row-start-5 flex flex-col justify-center items-center rounded-md bg-[#FAF9F6] shadow-2xl shadow-black/50"><p class="text-4xl font-extrabold  pt-5">2</p><p class="text-lg font-semibold mt-5 pb-5 text-center">Total Completed Projects</p></div>
-        </div>
         @endif
       </div>
       {{-- Notice Board --}}
-      <div class="col-span-12 md:col-span-5 bg-[#FAF9F6] rounded-md border-2 border-red-500 shadow-xl">
-    <div class="container-fluid w-100">
-        <p class="text-2xl ps-3 mt-2 mb-0 py-3 bg-[#800000] text-white font-bold">Notice Board</p>
-        <div class="flex flex-col container px-7 h-[277px] overflow-y-scroll">
+      <div class="col-span-12 md:col-span-5 bg-[#FAF9F6] rounded-md border-2 border-red-500 shadow-md">
+        <div class="container-fluid w-100">
+          <p class="text-2xl ps-3 mt-2 mb-0 py-3 bg-[#800000] text-white font-bold">Notice Board</p>
+          <div class="flex flex-col container px-7 h-[277px] overflow-y-scroll">
 
-            {{-- Check if there are notices --}}
-            @if ($notices->isEmpty())
-                <p class="text-center text-red-600 my-auto">No announcements available at the moment.</p>
-            @else
-                {{-- Iterate notices --}}
-                @foreach ($notices as $notice)
-                <div class="cursor-pointer text-red-700 hover:underline text-sm notice-item" 
-                    data-title="{{ $notice->title }}" 
-                    data-image="{{ asset('storage/' . $notice->image) }}" 
-                    data-content="{!! $notice->content !!}" 
-                    data-created-at="{{ $notice->created_at->format('F d, Y') }}">
-                    <p class="text-[1.5rem]">
-                        {{ "•"}} <span class="me-1"></span>{{ $notice->title }} | {{ $notice->created_at->format('F d, Y') }}
-                    </p>
-                </div>
-                @endforeach
-                {{-- end of iteration --}}
-            @endif
-
+              {{-- Check if there are notices --}}
+              @if ($notices->isEmpty())
+                  <p class="text-center text-red-600 my-auto">No announcements available at the moment.</p>
+              @else
+                  {{-- Iterate notices --}}
+                  @foreach ($notices as $notice)
+                  <div class="cursor-pointer text-red-700 hover:underline text-sm notice-item" 
+                      data-title="{{ $notice->title }}" 
+                      data-image="{{ asset('storage/' . $notice->image) }}" 
+                      data-content="{!! $notice->content !!}" 
+                      data-created-at="{{ $notice->created_at->format('F d, Y') }}">
+                      <p class="text-[1.5rem]">
+                          {{ "•"}} <span class="me-1"></span>{{ $notice->title }} | {{ $notice->created_at->format('F d, Y') }}
+                      </p>
+                  </div>
+                  @endforeach
+                  {{-- end of iteration --}}
+              @endif
+            </div>
         </div>
-    </div>
-</div>
-
-
-
-
-      {{-- Projects --}}
-      <div class="col-span-12 mb-3">
-      @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
-        <div class="flex flex-row">
-          <a href="{{ route('repository',['category' => 'ongoing']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</a>
-          <a href="{{ route('repository',['category' => 'completed']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">Completed Projects</a>
-        </div>
-        <div class="flex flex-col gap-2 h-full bg-[#eeeeee] {{ $projects->isEmpty() ? 'text-center align-center' : '' }} rounded-md p-3 border-2 border-red-500">
-        
-          {{-- Iterate 5 ongoing projects --}}
-          @if($projects->isEmpty())
-          <p class="text-center text-red-600 my-auto py-[13vh]">No projects available at the moment.</p>
-          @else
-          @foreach($projects as $key => $project)
-          <div class="ms-1 py-2 px-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
-          <button id="toggleOngoingBtn" onclick="toggleOngoingContent('ongoingContent{{ $key }}')">
-            <p>{{ $project->project_title }}</p>
-          </button>
-          <div id="ongoingContent{{$key}}" class="grid grid-col-12 md:ml-5 text-justify md:text-left mt-5 hidden transition-all duration-500">
-            <p class="text-sm font-normal">One of the objectives of the DHVSU-UESO is to assist communities that are eager for development and innovation. As part of the extension project of the College of Computing Studies at Potrero National High School, we conducted a preliminary visit and assessed the need of the community and to check their computers that will be utilized for the “Upgrading Skills through ICT Training Program” on October 2019.
-            <br><br>
-                The skills to be developed among its beneficiaries one of the following:
-                    <span><br><br>
-                        1.            File Organization and Security <br>
-                        2.            Social Media and Etiquette <br>
-                        3.            Microsoft Word Microsoft Power Point <br>
-                        4.            Microsoft Excel <br>
-                        5.            ICT Integration on Creating Instructional Material <br>
-                        6.            Basic PC Trouble Shooting <br>
-                        7.            Graphic Software <br>
-                        8.            Video Editing <br>
-                        9.            Technical Drafting   and Animation <br><br>
-                    </span>
-                The said training was handled by different faculty members from the College of Computing Studies of the Don Honorio Ventura State University.</p>
-            <p class="text-sm font-normal my-10"> <a href = " https://dhvsu.edu.ph/index.php/gallery-menu/extension#upgrading-skills-through-ict-program-october-2019" class = "text-blue-400 underline"><p>
-                <span>
-                    See project here
-                </span>
-            </p></a></p>
-          </div>
-        </div>
-        <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div class="relative max-w-100 justify-center flex">
-            <button id="closeImageBtn" class="absolute top-[-50px] right-5 text-white text-[3rem]">&times;</button>
-            <img src="{{ asset('../img/DHVSU_Logo.png') }}" alt="Project Basa Photo" class="max-w-[50%] max-h-[70rem]">
-          </div>
-        </div>
-          @endforeach
-          @endif
-
-
-
-          {{-- end of iterate 5 ongoing projects --}}
       </div>
-      @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement')
+
+    {{-- Projects --}}
+    <div class="col-span-12 mb-3">
+    @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
+      <div class="flex flex-row">
+        <a href="{{ route('repository',['category' => 'ongoing']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</a>
+        <a href="{{ route('repository',['category' => 'completed']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">Completed Projects</a>
+      </div>
+      <div class="flex flex-col gap-2 h-full bg-[#eeeeee] {{ $projects->isEmpty() ? 'text-center align-center' : '' }} rounded-md p-3 border-2 border-red-500">
+        
+        {{-- Iterate 5 ongoing projects --}}
+        @if($projects->isEmpty())
+        <p class="text-center text-red-600 my-auto py-[13vh]">No projects available at the moment.</p>
+        @else
+          @foreach($projects as $key => $project)
+            <div class="ms-1 py-2 px-3 rounded-md bg-[#cccccc] font-bold border-2 border-red-500">
+              <button id="toggleOngoingBtn" onclick="toggleOngoingContent('ongoingContent{{ $key }}')">
+                <p>{{ $project->project_title }}</p>
+              </button>
+            <div id="ongoingContent{{$key}}" class="grid grid-col-12 md:ml-5 text-justify md:text-left mt-5 hidden transition-all duration-500">
+              <p class="text-sm font-normal">One of the objectives of the DHVSU-UESO is to assist communities that are eager for development and innovation. As part of the extension project of the College of Computing Studies at Potrero National High School, we conducted a preliminary visit and assessed the need of the community and to check their computers that will be utilized for the “Upgrading Skills through ICT Training Program” on October 2019.
+              <br><br>
+              The skills to be developed among its beneficiaries one of the following:
+                <span>
+                  <br><br>
+                    1.            File Organization and Security <br>
+                    2.            Social Media and Etiquette <br>
+                    3.            Microsoft Word Microsoft Power Point <br>
+                    4.            Microsoft Excel <br>
+                    5.            ICT Integration on Creating Instructional Material <br>
+                    6.            Basic PC Trouble Shooting <br>
+                    7.            Graphic Software <br>
+                    8.            Video Editing <br>
+                    9.            Technical Drafting   and Animation <br><br>
+                </span>
+                The said training was handled by different faculty members from the College of Computing Studies of the Don Honorio Ventura State University.</p>
+                <p class="text-sm font-normal my-10"> <a href = " https://dhvsu.edu.ph/index.php/gallery-menu/extension#upgrading-skills-through-ict-program-october-2019" class = "text-blue-400 underline">
+                  <p>
+                    <span>
+                      See project here
+                    </span>
+                    </p>
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+              <div class="relative max-w-100 justify-center flex">
+                <button id="closeImageBtn" class="absolute top-[-50px] right-5 text-white text-[3rem]">&times;</button>
+                <img src="{{ asset('../img/DHVSU_Logo.png') }}" alt="Project Basa Photo" class="max-w-[50%] max-h-[70rem]">
+              </div>
+            </div>
+          @endforeach
+        @endif
+        {{-- end of iterate 5 ongoing projects --}}
+      </div>
+      @elseif(auth()->user()->role == 'dean' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagemer' || auth()->user()->role == 'facultyextensionist')
+        <div class="container-fluid">
+          <form action="" method="POST" class="flex flex-col md:flex-row gap-5 px-3 mb-3">
+            @csrf
+            @if(auth()->user()->role == 'centermanager' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'coordinator')
+            <button class="relative bg-[#3498db] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
+              <div class="flex-col">
+                Inquiries
+                <p>1</p>
+              </div>
+              <div class="absolute left-0">
+                <i class="fa-solid fa-circle-question text-[2rem] ms-3"></i>
+              </div>
+            </button>
+            @endif
+            <button class="relative bg-[#2ecc71] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
+              <div class="flex-col">
+                Request
+                <p>1</p>
+              </div>
+              <div class="absolute left-0">
+                <i class="fa-solid fa-paper-plane text-[2rem] ms-3"></i>
+              </div>
+            </button>
+            <button class="relative bg-[#f39c12] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
+              <div class="flex-col">
+                Project List
+                <p>1</p>
+              </div>
+              <div class="absolute left-0">
+                <i class="fa-solid fa-table-list text-[2rem] ms-3"></i>
+              </div>
+            </button>
+          </form>
+        </div>
         <div class="flex flex-col gap-2 bg-[#FAF9F6] rounded-md px-0 p-3 border-2 border-red-500 w-100 lg:mb-[7rem] shadow-lg">
           <div class="w-100 bg-[#800000] pl-2 lg:pl-5 py-3">
             <p class="text-white text-lg font-bold">Recent Files</p>
@@ -136,7 +159,7 @@
                   </tr>
               </thead>
               <tbody class="bg-[#cdcdcd]">
-                @foreach ($recent_files as $recent_file)
+                {{-- @foreach ($recent_files as $recent_file)
                   <tr class="odd:bg-[#E2DFD2] even:bg-[#FAF9F6]">
                       <td class="border border-[#800000] px-4 py-2">{{ $recent_file->title }}</td>
                       <td class="border border-[#800000] px-4 py-2">{{ $recent_file->username }}</td>
@@ -145,15 +168,15 @@
                       <td class="border border-[#800000] px-4 py-2">{{ $recent_file->status }}</td>
                       <td class="border border-[#800000] px-4 py-2">N/A</td>
                   </tr>
-                @endforeach
+                @endforeach --}}
               </tbody>
-          </table>
-          
+            </table>
           </div>
         </div>
       @endif
     </div>
-  @elseif(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident' || auth()->user()->role == 'director')
+
+    @elseif(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident' || auth()->user()->role == 'director')
     <div class="order-1 col-span-12 md:col-span-6 flex justify-center">
       <div class="container flex flex-col p-3">
         <div class="container flex items-center mt-10 justify-center relative">
@@ -203,77 +226,77 @@
       <div class="text-black-400 overflow-y-scroll md:overflow-auto">
         <div class="text-black-400 overflow-y-scroll md:overflow-auto">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-              <!-- Project List Table -->
-              <div>
-                  <p class="font-bold mt-10 mb-3">Project List</p>
-                  <table class="min-w-full border-collapse">
-                      <thead>
-                          <tr class="border-y-2 border-black">
-                              <th class="px-4 py-2 text-left">#</th>
-                              <th class="px-4 py-2 text-left">Project Name</th>
-                              <th class="px-4 py-2 text-left">Total Participant</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">1</td>
-                              <td class="px-4 py-2">Project A</td>
-                              <td class="px-4 py-2">10</td>
-                          </tr>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">2</td>
-                              <td class="px-4 py-2">Project B</td>
-                              <td class="px-4 py-2">15</td>
-                          </tr>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">3</td>
-                              <td class="px-4 py-2">Project C</td>
-                              <td class="px-4 py-2">20</td>
-                          </tr>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">4</td>
-                              <td class="px-4 py-2">Project D</td>
-                              <td class="px-4 py-2">25</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+            <!-- Project List Table -->
+            <div>
+                <p class="font-bold mt-10 mb-3">Project List</p>
+                <table class="min-w-full border-collapse">
+                  <thead>
+                    <tr class="border-y-2 border-black">
+                        <th class="px-4 py-2 text-left">#</th>
+                        <th class="px-4 py-2 text-left">Project Name</th>
+                        <th class="px-4 py-2 text-left">Total Participant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-black">
+                      <td class="px-4 py-2">1</td>
+                      <td class="px-4 py-2">Project A</td>
+                      <td class="px-4 py-2">10</td>
+                    </tr>
+                    <tr class="border-b border-black">
+                      <td class="px-4 py-2">2</td>
+                      <td class="px-4 py-2">Project B</td>
+                      <td class="px-4 py-2">15</td>
+                    </tr>
+                    <tr class="border-b border-black">
+                      <td class="px-4 py-2">3</td>
+                      <td class="px-4 py-2">Project C</td>
+                      <td class="px-4 py-2">20</td>
+                    </tr>
+                    <tr class="border-b border-black">
+                      <td class="px-4 py-2">4</td>
+                      <td class="px-4 py-2">Project D</td>
+                      <td class="px-4 py-2">25</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
       
-              <!-- Faculty List Table -->
-              <div>
-                  <p class="font-bold mt-10 mb-3">Faculty List</p>
-                  <table class="min-w-full border-collapse">
-                      <thead>
-                          <tr class="border-y-2 border-black">
-                              <th class="px-4 py-2 text-left">#</th>
-                              <th class="px-4 py-2 text-left">Faculty Name</th>
-                              <th class="px-4 py-2 text-left">No. of Project Participated</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">1</td>
-                              <td class="px-4 py-2">Dr. Smith</td>
-                              <td class="px-4 py-2">12</td>
-                          </tr>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">2</td>
-                              <td class="px-4 py-2">Prof. Johnson</td>
-                              <td class="px-4 py-2">8</td>
-                          </tr>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">3</td>
-                              <td class="px-4 py-2">Dr. Lee</td>
-                              <td class="px-4 py-2">5</td>
-                          </tr>
-                          <tr class="border-b border-black">
-                              <td class="px-4 py-2">4</td>
-                              <td class="px-4 py-2">Prof. Brown</td>
-                              <td class="px-4 py-2">7</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+            <!-- Faculty List Table -->
+            <div>
+              <p class="font-bold mt-10 mb-3">Faculty List</p>
+              <table class="min-w-full border-collapse">
+                <thead>
+                  <tr class="border-y-2 border-black">
+                      <th class="px-4 py-2 text-left">#</th>
+                      <th class="px-4 py-2 text-left">Faculty Name</th>
+                      <th class="px-4 py-2 text-left">No. of Project Participated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b border-black">
+                      <td class="px-4 py-2">1</td>
+                      <td class="px-4 py-2">Dr. Smith</td>
+                      <td class="px-4 py-2">12</td>
+                  </tr>
+                  <tr class="border-b border-black">
+                      <td class="px-4 py-2">2</td>
+                      <td class="px-4 py-2">Prof. Johnson</td>
+                      <td class="px-4 py-2">8</td>
+                  </tr>
+                  <tr class="border-b border-black">
+                      <td class="px-4 py-2">3</td>
+                      <td class="px-4 py-2">Dr. Lee</td>
+                      <td class="px-4 py-2">5</td>
+                  </tr>
+                  <tr class="border-b border-black">
+                      <td class="px-4 py-2">4</td>
+                      <td class="px-4 py-2">Prof. Brown</td>
+                      <td class="px-4 py-2">7</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>      
@@ -284,26 +307,26 @@
         <div class="flex flex-col container px-12 pb-20 h-full overflow-y-scroll">
           {{-- Check if there are notices --}}
           @if ($notices->isEmpty())
-              <p class="text-center text-red-600 my-auto">No announcements available at the moment.</p>
+            <p class="text-center text-red-600 my-auto">No announcements available at the moment.</p>
           @else
-              {{-- Iterate notices --}}
-              @foreach ($notices as $notice)
+            {{-- Iterate notices --}}
+            @foreach ($notices as $notice)
               <div class="cursor-pointer text-red-700 hover:underline text-sm notice-item" 
-                  data-title="{{ $notice->title }}" 
-                  data-image="{{ asset('storage/' . $notice->image) }}" 
-                  data-content="{!! $notice->content !!}" 
-                  data-created-at="{{ $notice->created_at->format('F d, Y') }}">
-                  <p class="text-[1.5rem]">
-                      {{ "•"}} <span class="me-1"></span>{{ $notice->title }} | {{ $notice->created_at->format('F d, Y') }}
-                  </p>
+                data-title="{{ $notice->title }}" 
+                data-image="{{ asset('storage/' . $notice->image) }}" 
+                data-content="{!! $notice->content !!}" 
+                data-created-at="{{ $notice->created_at->format('F d, Y') }}">
+                <p class="text-[1.5rem]">
+                    {{ "•"}} <span class="me-1"></span>{{ $notice->title }} | {{ $notice->created_at->format('F d, Y') }}
+                </p>
               </div>
-              @endforeach
-              {{-- end of iteration --}}
+            @endforeach
+            {{-- end of iteration --}}
           @endif
         </div>
       </div>
     </div>
-  @endif
+    @endif
   </div>
 </div>
 
@@ -382,7 +405,6 @@ document.addEventListener('click', function(event) {
 </script>
 @endif
 
-<!-- Modal -->
 <!-- Modal -->
 <div id="noticeModal" class="modal fixed inset-0 hidden bg-black bg-opacity-70 flex items-center justify-center">
     <div class="modal-content bg-white rounded-lg shadow-lg p-6 w-[800px] max-h-[60vh] overflow-y-auto">

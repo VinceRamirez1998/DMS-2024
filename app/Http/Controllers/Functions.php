@@ -93,10 +93,11 @@ class Functions extends Controller
                 $requests = Requests::where(function($query) {
                         $query->where('access', 'dean')
                               ->where('department', Auth::user()->department);
-                    })
-                    ->orWhere('access', 'vicepresident')
-                    ->orWhere('access', 'centermanager')
-                    ->orWhere('access', 'areaspecialist')
+                    })->where('type', 'request') 
+                    ->get();
+            }elseif (Auth::user()->role == 'coordinator') {
+                $requests = Requests::
+                    where('access', 'coordinator')
                     ->where('type', 'request') 
                     ->get();
             }
@@ -211,7 +212,7 @@ class Functions extends Controller
         $request->validate([
             'department' => 'required',
         ]);
-        if($request->department == 'dean'){
+        if($request->department == 'dean' && Auth::user()->role == 'director'){
             $requests = Requests::where('id', $request->request_id)->first();
             foreach($request->selectdepartment as $departments){
                 $department = new Requests();
@@ -231,9 +232,15 @@ class Functions extends Controller
             }
             $requests = Requests::where('id', $request->request_id)->delete();
         }else{
-            $requests = Inquiry::where('id', $request->request_id)->first();
-            foreach($request->selectdepartment as $departments){
-                $requests->department = $departments;
+            $requests = Requests::where('id', $request->request_id)->first();
+            $requests->access = $request->department;
+            if(Auth::user()->role == 'areaspecialist'){
+                $requests->access = 'coordinator';
+            }
+            if($request->selectdepartment){
+                foreach($request->selectdepartment as $department){
+                    $requests->department = $department;
+                }
             }
             $requests->save();
         }
@@ -495,7 +502,7 @@ class Functions extends Controller
             $project->position = $proposal->position;
             $project->file = $proposal->file;
             $project->phase = 2;
-
+            $project->save();
             $notification = Notifications::create([
                 'inquiry_no' => $request->proposal,
                 'sender' => auth()->user()->id,
@@ -510,13 +517,11 @@ class Functions extends Controller
                 'sender' => auth()->user()->id,
                 'receiver' => $request->user_id,
                 'title' => "Proposal Rejected",
-                'message' => "Dear " . $proposal->firstname . ",<br><br>I hope this message finds you well. After careful consideration, we regret to inform you that your proposal has not been approved at this time. Unfortunately, we are unable to provide specific feedback regarding the decision.<br><br>We appreciate your effort and interest, and we encourage you to continue sharing your ideas with us in the future.<br><br>Thank you for your understanding.",
+                'message' => "Dear " . $proposal->firstname . ",<br><br> After careful consideration, we regret to inform you that your proposal has not been approved at this time. Unfortunately, we are unable to provide specific feedback regarding the decision.<br><br>We appreciate your effort and interest, and we encourage you to continue sharing your ideas with us in the future.<br><br>Thank you for your understanding.",
                 'status' => 'unread',
             ]);
         }
-        $project->save();
         $proposal = Proposals::where('id', $request->proposal)->delete();
-
         return redirect()->back();
     }
 

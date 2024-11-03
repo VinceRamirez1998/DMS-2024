@@ -43,14 +43,14 @@
                     </button>
                     
                     <!-- Dropdown Menu -->
-                    <div id="dropdown-{{ $requests->id }}" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
+                    <div id="dropdown-{{ $requests->id }}" class="hidden absolute right-0 mt-5 w-40 bg-white rounded-md shadow-lg z-10">
                         <ul class="py-1">
                             <li>
                                 <button onclick="openModalComments('{{ $requests->id }}'); hideDropdown('{{ $requests->id }}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     See comments
                                 </button>
                             </li>
-                            @if(auth()->user()->role === 'director' || auth()->user()->role === 'dean')
+                            @if(auth()->user()->role === 'director' || auth()->user()->role === 'dean' || auth()->user()->role === 'centermanager' || auth()->user()->role === 'areaspecialist')
                             <li>
                                 <button onclick="opensendModal('{{ $requests->id }}');" class="w-full text-[#fab005] font-bold text-left px-4 py-2 text-sm">
                                     Send
@@ -135,16 +135,33 @@
                         <form id="department" action="{{ route('select.department') }}" method="post">
                         @csrf
                         <div class="flex flex-col justify-end p-4 border-t">
+                            <p class="font-bold text-white">
+                                {{
+                                    auth()->user()->role === 'director' ? 'Select Department:' :
+                                    (auth()->user()->role === 'centermanager' ? 'Select Area Specialist:' :
+                                    (auth()->user()->role === 'areaspecialist' ? 'Select Coordinator:' : ''))
+                                }}
+                            </p>
+                            
                             <select name="department" type="text" onchange="toggleDepartmentDiv(this, '{{ $requests->id }}')" class="w-full rounded-md text-black">
                                 <option disabled {{ ($requests->department == null) ? 'selected' : '' }}>--Select--</option>
                                 @if(auth()->user()->role == 'director')
-                                <option value="areaspecialist" {{ ($requests->department == 'areaspecialist') ? 'selected' : '' }}>Area Specialist</option>
                                 <option value="centermanager" {{ ($requests->department == 'centermanager') ? 'selected' : '' }}>Center Manager</option>
-                                <option value="dean" {{ ($requests->department == 'dean') ? 'selected' : '' }}>Dean</option>
-                                @elseif(auth()->user()->role == 'centermanager')
                                 <option value="areaspecialist" {{ ($requests->department == 'areaspecialist') ? 'selected' : '' }}>Area Specialist</option>
-                                @elseif(auth()->user()->role == 'areaspecialist')
-                                <option value="coordinator" {{ ($requests->department == 'coordinator') ? 'selected' : '' }}>Coordinator</option>
+                                <option value="dean" {{ ($requests->department == 'dean') ? 'selected' : '' }}>Dean</option>
+                                @elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanager')
+                                <option value="CCS" {{ ($requests->department == 'CCS') ? 'selected' : '' }}>CSS</option>
+                                <option value="CEA" {{ ($requests->department == 'CEA') ? 'selected' : '' }}>CEA</option>
+                                <option value="CHS" {{ ($requests->department == 'CHS') ? 'selected' : '' }}>CHS</option>
+                                <option value="SHS" {{ ($requests->department == 'SHS') ? 'selected' : '' }}>SHS</option>
+                                <option value="CHTM" {{ ($requests->department == 'CHTM') ? 'selected' : '' }}>CHTM</option>
+                                <option value="COE" {{ ($requests->department == 'COE') ? 'selected' : '' }}>COE</option>
+                                <option value="CBS" {{ ($requests->department == 'CBS') ? 'selected' : '' }}>CBS</option>
+                                <option value="CSSP" {{ ($requests->department == 'CSSP') ? 'selected' : '' }}>CSSP</option>
+                                <option value="LHS" {{ ($requests->department == 'LHS') ? 'selected' : '' }}>LHS</option>
+                                <option value="CAS" {{ ($requests->department == 'CAS') ? 'selected' : '' }}>CAS</option>
+                                <option value="CIT" {{ ($requests->department == 'CIT') ? 'selected' : '' }}>CIT</option>
+                                <option value="Graduateschool" {{ ($requests->department == 'Graduateschool') ? 'selected' : '' }}>Graduate School</option>
                                 @elseif(auth()->user()->role == 'dean')
                                 <option value="facultyextensionist" {{ ($requests->department == 'facultyextensionist') ? 'selected' : '' }}>Faculty Extensionist</option>
                                 @endif
@@ -152,7 +169,12 @@
                             
                             <div id="departmentid-{{ $requests->id }}" style="display: none;" class="grid grid-cols-12 mt-3 flex-col">
                                 <div class="col-span-12 flex justify-center">
-                                    <p class="font-bold text-white">Select Department:</p>
+                                    <p class="font-bold text-white">Select {{ 
+                                        auth()->user()->role === 'director' ? 'Department' :
+                                        (auth()->user()->role === 'centermanager' ? 'Area Specialist' :
+                                        (auth()->user()->role === 'areaspecialist' ? 'Coordinator' :
+                                        (auth()->user()->role === 'dean' ? 'Faculty' : '')))
+                                    }}:</p>
                                 </div>
                                 <div class="col-span-12 flex items-center justify-evenly mt-2">
                                     <div class="col-span-6">
@@ -215,7 +237,7 @@
                                 function toggleDepartmentDiv(selectElement, requestId) {
                                     const departmentDiv = document.getElementById('departmentid-' + requestId);
                                     
-                                    if (selectElement.value === 'dean' || selectElement.value === 'facultyextensionist') {
+                                    if (selectElement.value === 'dean' || selectElement.value === 'areaspecialist' || selectElement.value === 'facultyextensionist') {
                                         departmentDiv.style.display = 'flex';
                                     } else {
                                         departmentDiv.style.display = 'none';
