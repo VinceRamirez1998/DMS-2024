@@ -7,6 +7,7 @@ use App\Models\Inquiry;
 use App\Models\Projects;
 use App\Models\Requests;
 use App\Models\Proposals;
+use App\Models\ActivityLog;
 use App\Models\NoticeBoard;
 use Illuminate\Http\Request;
 use App\Models\Notifications;
@@ -418,29 +419,26 @@ class Functions extends Controller
         return redirect()->back()->with('success', 'Proposal submitted.');
     }
 
-    public function dashboard(){
+    public function dashboard(Request $request){
         $notices = NoticeBoard::orderBy('created_at', 'desc')->take(8)->get();
         $projects = Projects::where('phase', '<=', 3)->orderBy('created_at', 'desc')->take(5)->get();
         if(auth()->user()->role == 'president' || auth()->user()->role == 'vicepresident' || auth()->user()->role == 'director'){
-            // $total_requests = Inquiry::count();
-            // $total_proposals = Proposals::count();
-            // $total = ($total_proposals + $total_requests) ?? 0;
-            // $requests_percentage = ($total > 0) ? (($total_requests / $total) * 100) : 0;
-            // $proposals_percentage = ($total > 0) ? (($total_proposals / $total) * 100) : 0;
-
-            // Dummy Data
-            $ccs = 70;
-            $cea = 72;
-            $shs = 24;
-            $chs = 10;
+            $department = session('department', 'CCS');
+            $department_title = session('department_title', 'College of Computing Studies');
+            $projects = Projects::where('department', $department)->get();
+            // Pie Chart (Percentage)
+            $ccs = ActivityLog::where('department', 'CCS')->count();
+            $cea = ActivityLog::where('department', 'CEA')->count();
+            $shs = ActivityLog::where('department', 'SHS')->count();
+            $chs = ActivityLog::where('department', 'CHS')->count();
             $total = $ccs + $cea + $shs + $chs;
             $ccs_percentage = ($total > 0) ? (($ccs / $total) * 100) : 0;
             $cea_percentage = ($total > 0) ? (($cea / $total) * 100) : 0;
             $shs_percentage = ($total > 0) ? (($shs / $total) * 100) : 0;
             $chs_percentage = ($total > 0) ? (($chs / $total) * 100) : 0;
             $total_percentage = ($total > 0) ? (($total / $total) * 100) : 0;
-           
-            return view('dashboard', compact('notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage','total_percentage'));
+            
+            return view('dashboard', compact('projects','department','department_title','notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage','total_percentage'));
         }
         elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
             $total_inquiries = Inquiry::where('type', 'inquire')->count();
@@ -450,6 +448,33 @@ class Functions extends Controller
         }
 
         return view('dashboard', compact('notices','projects'));
+    }
+
+    public function chartdepartment(Request $request){
+        $department = $request->department;
+
+        switch ($department) {
+            case 'CCS':
+                $department_title = 'College of Computing Studies';
+                break;
+            case 'CEA':
+                $department_title = 'College of Engineering and Architecture';
+                break;
+            case 'SHS':
+                $department_title = 'Senior High School';
+                break;
+            case 'CHS':
+                $department_title = 'College of Health Science';
+                break;
+            default:
+                $department_title = 'Wahoo';
+        }
+        session([
+            'department' => $department,
+            'department_title' => $department_title,
+        ]);
+        return redirect()->route('dashboard');
+        
     }
 
     public function proposalsoption(Request $request, $folder){

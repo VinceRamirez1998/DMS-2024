@@ -186,37 +186,40 @@
         
         {{-- Percentage --}}
         <div class="flex flex-row justify-between container mt-[5rem] md:mb-[6rem]">
-          <div class="">
-            <a href="#" class="flex items-center me-2 text-black-400">
-              <span class="h-4 w-4 bg-[#f3c96b]"></span>
-              <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($ccs_percentage ?? 0) }}%&nbsp;CCS</p>
-            </a>
-            <a href="#" class="flex items-center me-2 text-black-400">
-              <span class="h-4 w-4 bg-[#de6e6a]"></span>
-              <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($cea_percentage ?? 0) }}%&nbsp;CEA</p>
-            </a>
-          </div>
-          <div class="">
-          <a href="#" class="flex items-center me-2 text-black-400">
-            <span class="h-4 w-4 bg-[#5971c0]"></span>
-            <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($chs_percentage ?? 0) }}%&nbsp;CHS</p>
-          </a>
-          <a href="#" class="flex items-center me-2 text-black-400">
-            <span class="h-4 w-4 bg-[#9ec97f]"></span>
-            <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($shs_percentage ?? 0) }}%&nbsp;SHS</p>
-          </a>
-          </div>
+          <form class="flex flex-row justify-between container mt-[5rem] md:mb-[6rem]" action="{{ route('chart.department') }}" method="post">
+          @csrf
+            <div class="">
+              <button name="department" value="CCS" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#f3c96b]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($ccs_percentage ?? 0) }}%&nbsp;CCS</p>
+              </button>
+              <button name="department" value="CEA" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#de6e6a]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($cea_percentage ?? 0) }}%&nbsp;CEA</p>
+              </button>
+            </div>
+            <div class="">
+            <button name="department" value="CHS" class="flex items-center me-2 text-black-400">
+              <span class="h-4 w-4 bg-[#5971c0]"></span>
+              <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($chs_percentage ?? 0) }}%&nbsp;CHS</p>
+            </button>
+            <button name="department" value="SHS" class="flex items-center me-2 text-black-400">
+              <span class="h-4 w-4 bg-[#9ec97f]"></span>
+              <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($shs_percentage ?? 0) }}%&nbsp;SHS</p>
+            </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
     <div class="order-2 md:order-3 col-span-12 px-3">
       <div class="flex container-fluid justify-center md:justify-start mb-2">
-        <p class="text-lg font-bold rounded-lg px-2 py-3 bg-[#FFD700] text-black-400">College of Computing Studies</p>
+        <p class="text-lg font-bold rounded-lg px-2 py-3 bg-[#FFD700] text-black-400">{{ $department_title ?? 'College of Computing Studies' }}</p>
       </div>
       <div class="flex flex-col md:flex-row justify-between md:justify-start container-fluid">
         <div class="flex font-bold">
           <p class="text-md font-bold text-black-400">Total Projects:</p>
-          <p class="text-md font-bold text-black-400 ms-2">4</p>
+          <p class="text-md font-bold text-black-400 ms-2">{{ $projects->unique('project_title')->count() }}</p>
         </div>
         <div class="flex">
           <p class="text-md font-bold text-black-400 md:ms-5">Total Faculty Extensionists:</p>
@@ -238,26 +241,17 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @php
+                      $number = 1;
+                    @endphp
+                    @foreach ($projects->unique('project_title') as $key => $project)
                     <tr class="border-b border-black">
-                      <td class="px-4 py-2">1</td>
-                      <td class="px-4 py-2">Project A</td>
+                      <td class="px-4 py-2">{{ $number }}</td>
+                      <td class="px-4 py-2">{{ $project->project_title }}</td>
                       <td class="px-4 py-2">10</td>
                     </tr>
-                    <tr class="border-b border-black">
-                      <td class="px-4 py-2">2</td>
-                      <td class="px-4 py-2">Project B</td>
-                      <td class="px-4 py-2">15</td>
-                    </tr>
-                    <tr class="border-b border-black">
-                      <td class="px-4 py-2">3</td>
-                      <td class="px-4 py-2">Project C</td>
-                      <td class="px-4 py-2">20</td>
-                    </tr>
-                    <tr class="border-b border-black">
-                      <td class="px-4 py-2">4</td>
-                      <td class="px-4 py-2">Project D</td>
-                      <td class="px-4 py-2">25</td>
-                    </tr>
+                    @php $number++; @endphp
+                    @endforeach
                   </tbody>
                 </table>
             </div>
