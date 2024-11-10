@@ -476,7 +476,7 @@ class Functions extends Controller
             'department' => $department,
             'department_title' => $department_title,
         ]);
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard', '#department-container');
         
     }
 
@@ -610,5 +610,12 @@ class Functions extends Controller
             $project->save();
             return redirect()->back();
     }
+
+    public function reports(Request $request){
+        dd('asd');
+        $projects = Projects::where('access', auth()->user()->role)->get();
+        return view('reports', compact('projects'));
+    }
+
 
 }

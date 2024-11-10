@@ -210,9 +210,9 @@
             </div>
           </form>
         </div>
-      </div>
     </div>
-    <div class="order-2 md:order-3 col-span-12 px-3">
+    </div>
+    <div class="order-2 md:order-3 col-span-12 px-3" id="department-container">
       <div class="flex container-fluid justify-center md:justify-start mb-2">
         <p class="text-lg font-bold rounded-lg px-2 py-3 bg-[#FFD700] text-black-400">{{ $department_title ?? 'College of Computing Studies' }}</p>
       </div>
