@@ -7,6 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   @vite('resources/css/app.css')
   <title>DHVSU</title>
+  <style>
+    .underline-important {
+        text-decoration: underline !important;
+    }
+</style>
 </head>
 <body>
   <div class="flex h-auto">
@@ -35,9 +40,14 @@
                 <input type="checkbox" name="id[]" value="{{ $notification->id }}" id="mail{{$notification->id}}" class="rounded-md me-1 item-checkbox">
                 <div class="flex flex-col container">
                   <button type="submit" name="read" value="{{ $notification->id }}" class="text-left">Subject: {{ $notification->title }}</button>
-                  <p class="text-xs mb-1">From: <span class="italic">{{ ucfirst($sender[$key]) }}</span></p>
+                  <p class="text-xs mb-1">From: <span class="italic">{{ '@' . ucfirst($sender[$key]) }}</span></p>
                   <hr class="border-t border-gray-900 my-2">
-                  <p class="text-sm">{!! $notification->message !!}</p>
+                  <p class="text-sm">{!! $notification->message !!} 
+                    @if($notification->title == 'Proposal Accepted')
+                    @php preg_match('/Your proposal for (.*?) has been/', $notification->message, $matches); $proposal = $matches[1] ?? null;@endphp
+                    <a href="{{ route('projects.folder', ['folder' => $proposal]) }}" class="underline-important text-blue-600">See project</a>
+                    @endif
+                  </p>
                 </div>
                 <p class="ml-auto">{{ $notification->created_at->format('m/y') }}</p>
             </div>

@@ -208,8 +208,8 @@ class Functions extends Controller
 
         $notification = new Notifications();
         $notification->inquiry_no = $request->request_id;
-        $notification->sender = '@' . ucfirst(auth()->user()->role);
-        $notification->receiver = $request->username;
+        $notification->sender = auth()->user()->id;
+        $notification->receiver = $request->user_id;
         $notification->title = $request->title;
         $notification->message = $request->reply;
         $notification->status = 'unread';
@@ -334,9 +334,12 @@ class Functions extends Controller
     }
 
     public function notificationroute($route){
-        $notifications = Notifications::where('status', $route)->orderBy('created_at', 'desc')->get();
-    
-        return view('notification', ['route' => $route, 'notifications' => $notifications]);
+        $notifications = Notifications::where('receiver', auth()->user()->id)->where('status', $route)->orderBy('created_at', 'desc')->get();
+        $sender = [];
+        foreach ($notifications as $notification) {
+            $sender[] = User::where('id', $notification->sender)->first()->role;
+        }
+        return view('notification', ['route' => $route, 'notifications' => $notifications, 'sender' => $sender]);
 
     }
 
