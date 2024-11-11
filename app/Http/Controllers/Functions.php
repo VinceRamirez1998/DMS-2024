@@ -434,14 +434,31 @@ class Functions extends Controller
             $cea = Projects::where('department', 'CEA')->distinct('project_title')->count();
             $shs = Projects::where('department', 'SHS')->distinct('project_title')->count();
             $chs = Projects::where('department', 'CHS')->distinct('project_title')->count();
-            $total = $ccs + $cea + $shs + $chs;
+            $chtm = Projects::where('department', 'CHTM')->distinct('project_title')->count();
+            $coe = Projects::where('department', 'COE')->distinct('project_title')->count();
+            $cbs = Projects::where('department', 'CBS')->distinct('project_title')->count();
+            $cssp = Projects::where('department', 'CSSP')->distinct('project_title')->count();
+            $lhs = Projects::where('department', 'LHS')->distinct('project_title')->count();
+            $cas = Projects::where('department', 'CAS')->distinct('project_title')->count();
+            $cit = Projects::where('department', 'CIT')->distinct('project_title')->count();
+            $graduateschool = Projects::where('department', 'Graduateschool')->distinct('project_title')->count();
+            $total = $ccs + $cea + $shs + $chs +  $chtm + $coe + $cbs + $cssp + $lhs + $cas + $cit + $graduateschool;;
             $ccs_percentage = ($total > 0) ? (($ccs / $total) * 100) : 0;
             $cea_percentage = ($total > 0) ? (($cea / $total) * 100) : 0;
             $shs_percentage = ($total > 0) ? (($shs / $total) * 100) : 0;
             $chs_percentage = ($total > 0) ? (($chs / $total) * 100) : 0;
+            $chtm_percentage = ($total > 0) ? (($chtm / $total) * 100) : 0;
+            $coe_percentage = ($total > 0) ? (($coe / $total) * 100) : 0;
+            $cbs_percentage = ($total > 0) ? (($cbs / $total) * 100) : 0;
+            $cssp_percentage = ($total > 0) ? (($cssp / $total) * 100) : 0;
+            $lhs_percentage = ($total > 0) ? (($lhs / $total) * 100) : 0;
+            $cas_percentage = ($total > 0) ? (($cas / $total) * 100) : 0;
+            $cit_percentage = ($total > 0) ? (($cit / $total) * 100) : 0;
+            $graduateschool_percentage = ($total > 0) ? (($graduateschool / $total) * 100) : 0;
+            
             $total_percentage = ($total > 0) ? (($total / $total) * 100) : 0;
             
-            return view('dashboard', compact('projects','department','department_title','notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage','total_percentage'));
+            return view('dashboard', compact('projects','department','department_title','notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage', 'chtm_percentage', 'coe_percentage', 'cbs_percentage', 'cssp_percentage', 'lhs_percentage', 'cas_percentage', 'cit_percentage', 'graduateschool_percentage', 'total_percentage'));
         }
         elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
             $total_inquiries = Inquiry::where('type', 'inquire')->count();

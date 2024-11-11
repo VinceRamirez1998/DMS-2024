@@ -208,6 +208,46 @@
               <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($shs_percentage ?? 0) }}%&nbsp;SHS</p>
             </button>
             </div>
+            <div class="">
+              <button name="department" value="CHTM" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#5697a5]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($chtm_percentage ?? 0) }}%&nbsp;CHTM</p>
+              </button>
+              <button name="department" value="COE" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#569336]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($coe_percentage ?? 0) }}%&nbsp;COE</p>
+              </button>
+            </div>
+            <div class="">
+            <button name="department" value="CBS" class="flex items-center me-2 text-black-400">
+              <span class="h-4 w-4 bg-[#569265]"></span>
+              <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($cbs_percentage ?? 0) }}%&nbsp;CBS</p>
+            </button>
+            <button name="department" value="CSSP" class="flex items-center me-2 text-black-400">
+              <span class="h-4 w-4 bg-[#569884]"></span>
+              <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($cssp_percentage ?? 0) }}%&nbsp;CSSP</p>
+            </button>
+            </div>
+            <div class="">
+              <button name="department" value="LHS" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#569936]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($lhs_percentage ?? 0) }}%&nbsp;LHS</p>
+              </button>
+              <button name="department" value="CAS" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#547346]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($cas_percentage ?? 0) }}%&nbsp;CAS</p>
+              </button>
+            </div>
+            <div class="">
+              <button name="department" value="CIT" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#548755]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($cit_percentage ?? 0) }}%&nbsp;CIT</p>
+              </button>
+              <button name="department" value="Graduateschool" class="flex items-center me-2 text-black-400">
+                <span class="h-4 w-4 bg-[#547497]"></span>
+                <p class="ms-1 hover:underline hover:text-blue-400">{{ intval($graduateschool_percentage ?? 0) }}%&nbsp;Grad</p>
+              </button>
+            </div>
           </form>
         </div>
     </div>
@@ -376,6 +416,14 @@ document.addEventListener('click', function(event) {
         { name: 'CEA', value: {{ $cea_percentage }}, color: '#f3c96b' },
         { name: 'CHS', value: {{ $chs_percentage }}, color: '#5971c0' },
         { name: 'SHS', value: {{ $shs_percentage }}, color: '#9ec97f' },
+        { name: 'CHTM', value: {{ $chtm_percentage }}, color: '#5697a5' },
+        { name: 'COE', value: {{ $coe_percentage }}, color: '#569336' },
+        { name: 'CBS', value: {{ $cbs_percentage }}, color: '#569265' },
+        { name: 'CSSP', value: {{ $cssp_percentage }}, color: '#569884' },
+        { name: 'LHS', value: {{ $lhs_percentage }}, color: '#569936' },
+        { name: 'CAS', value: {{ $cas_percentage }}, color: '#547346' },
+        { name: 'CIT', value: {{ $cit_percentage }}, color: '#548755' },
+        { name: 'Graduateschool', value: {{ $graduateschool_percentage }}, color: '#547497' },
     ];
 
     function updatePieChart(data) {
