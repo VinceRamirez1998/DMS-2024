@@ -94,6 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projectsandrequests', function () {
         return view('projectsandrequests');
     })->name('projectsandrequests');
+    Route::get('/reports', [Functions::class, 'reports'])->name('reports');
     Route::get('/{type}', [Functions::class, 'request_page'])->name('requests');
     Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');
     Route::get('/requests/{month}/{folder}', [Functions::class, 'request_folder'])->name('requests.folder');
@@ -119,8 +120,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/proposals/add', [Functions::class, 'addproposals'])->name('add.proposals');
     Route::post('/projects/add', [Functions::class, 'addprojects'])->name('add.projects');
 
-    Route::get('/reports', [Functions::class, 'reports'])->name('reports');
-    
     Route::post('/notification/update', [Functions::class, 'notificationupdate'])->name('notification.update');
     Route::get('/notification/{route}', [Functions::class, 'notificationroute'])->name('notification.route');
 });
@@ -129,7 +128,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/home', [HomeController::class, 'index'])
     ->middleware('redirect.verified')
     ->name('home');
-
 
 Auth::routes(['verify' => true]);
 

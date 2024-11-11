@@ -430,10 +430,10 @@ class Functions extends Controller
             $department_title = session('department_title', 'College of Computing Studies');
             $projects = Projects::where('department', $department)->get();
             // Pie Chart (Percentage)
-            $ccs = ActivityLog::where('department', 'CCS')->count();
-            $cea = ActivityLog::where('department', 'CEA')->count();
-            $shs = ActivityLog::where('department', 'SHS')->count();
-            $chs = ActivityLog::where('department', 'CHS')->count();
+            $ccs = Projects::where('department', 'CCS')->distinct('project_title')->count();
+            $cea = Projects::where('department', 'CEA')->distinct('project_title')->count();
+            $shs = Projects::where('department', 'SHS')->distinct('project_title')->count();
+            $chs = Projects::where('department', 'CHS')->distinct('project_title')->count();
             $total = $ccs + $cea + $shs + $chs;
             $ccs_percentage = ($total > 0) ? (($ccs / $total) * 100) : 0;
             $cea_percentage = ($total > 0) ? (($cea / $total) * 100) : 0;
@@ -612,8 +612,7 @@ class Functions extends Controller
     }
 
     public function reports(Request $request){
-        dd('asd');
-        $projects = Projects::where('access', auth()->user()->role)->get();
+        $projects = Projects::where('department', auth()->user()->department)->get();
         return view('reports', compact('projects'));
     }
 
