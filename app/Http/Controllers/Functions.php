@@ -486,8 +486,32 @@ class Functions extends Controller
             case 'CHS':
                 $department_title = 'College of Health Science';
                 break;
+            case 'CHTM':
+                $department_title = 'College of Tourism and Hospitality Management';
+                break;
+            case 'COE':
+                $department_title = 'College of Engineering';
+                break;
+            case 'CBS':
+                $department_title = 'College of Business Studies';
+                break;
+            case 'CSSP':
+                $department_title = 'College of Social Science and Philosophy';
+                break;
+            case 'LHS':
+                $department_title = 'Laboratory High School';
+                break;
+            case 'CAS':
+                $department_title = 'College of Arts and Science';
+                break;
+            case 'CHS':
+                $department_title = 'Computer of Information Technology';
+                break;
+            case 'Graduateschool':
+                $department_title = 'Graduate School';
+                break;
             default:
-                $department_title = 'Wahoo';
+                $department_title = 'College of Computing Studies';
         }
         session([
             'department' => $department,

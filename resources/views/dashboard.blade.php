@@ -53,7 +53,7 @@
 
     {{-- Projects --}}
     <div class="col-span-12 mb-3">
-    @if(auth()->user()->position != null && auth()->user()->role == null || auth()->user()->role == 'coordinator')
+    @if(auth()->user()->position != null && auth()->user()->role == null)
       <div class="flex flex-row">
         <a href="{{ route('repository',['category' => 'ongoing']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">On-going Projects</a>
         <a href="{{ route('repository',['category' => 'completed']) }}" class="bg-red-900 p-3 py-1 rounded-md text-white text-center md:text-left font-semibold">Completed Projects</a>
@@ -106,7 +106,7 @@
         @endif
         {{-- end of iterate 5 ongoing projects --}}
       </div>
-      @elseif(auth()->user()->role == 'dean' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanager' || auth()->user()->role == 'facultyextensionist')
+      @elseif(auth()->user()->role == 'dean' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanager'  || auth()->user()->role == 'coordinator' || auth()->user()->role == 'facultyextensionist')
         <div class="container-fluid">
           <form action="" method="POST" class="flex flex-col md:flex-row gap-5 px-3 mb-3">
             @csrf
@@ -114,7 +114,7 @@
             <button class="relative bg-[#3498db] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
               <div class="flex-col">
                 Inquiries
-                <p>1</p>
+                <p>@php $inq_num = App\Models\Inquiry::where('department', auth()->user()->department)->count(); echo $inq_num @endphp</p>
               </div>
               <div class="absolute left-0">
                 <i class="fa-solid fa-circle-question text-[2rem] ms-3"></i>
@@ -124,7 +124,7 @@
             <button class="relative bg-[#2ecc71] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
               <div class="flex-col">
                 Request
-                <p>1</p>
+                <p>@php $inq_num = App\Models\Requests::where('department', auth()->user()->department)->count(); echo $inq_num @endphp</p>
               </div>
               <div class="absolute left-0">
                 <i class="fa-solid fa-paper-plane text-[2rem] ms-3"></i>
@@ -133,7 +133,7 @@
             <button class="relative bg-[#f39c12] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
               <div class="flex-col">
                 Project List
-                <p>1</p>
+                <p>@php $inq_num = App\Models\Projects::where('department', auth()->user()->department)->distinct('project_title')->count(); echo $inq_num @endphp</p>
               </div>
               <div class="absolute left-0">
                 <i class="fa-solid fa-table-list text-[2rem] ms-3"></i>
@@ -146,6 +146,7 @@
             <p class="text-white text-lg font-bold">Recent Files</p>
           </div>
           {{-- Table with title --}}
+          
           <div class="overflow-x-auto px-3 max-h-[16rem] overflow-y-scroll">
             <table class="table-auto w-full">
               <thead>
@@ -159,16 +160,18 @@
                   </tr>
               </thead>
               <tbody class="bg-[#cdcdcd]">
-                {{-- @foreach ($recent_files as $recent_file)
-                  <tr class="odd:bg-[#E2DFD2] even:bg-[#FAF9F6]">
-                      <td class="border border-[#800000] px-4 py-2">{{ $recent_file->title }}</td>
-                      <td class="border border-[#800000] px-4 py-2">{{ $recent_file->username }}</td>
-                      <td class="border border-[#800000] px-4 py-2">{{ $recent_file->created_at->format('m/d/Y') }}</td>
-                      <td class="border border-[#800000] px-4 py-2">{{ pathinfo($recent_file->file, PATHINFO_EXTENSION) }}</td>
-                      <td class="border border-[#800000] px-4 py-2">{{ $recent_file->status }}</td>
-                      <td class="border border-[#800000] px-4 py-2">N/A</td>
-                  </tr>
-                @endforeach --}}
+                @if(!empty($recent_files))
+                  @foreach ($recent_files as $recent_file)
+                    <tr class="odd:bg-[#E2DFD2] even:bg-[#FAF9F6]">
+                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->title }}</td>
+                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->username }}</td>
+                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->created_at->format('m/d/Y') }}</td>
+                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->type }}</td>
+                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->status }}</td>
+                        <td class="border border-[#800000] px-4 py-2 text-center">N/A</td>
+                    </tr>
+                    @endforeach
+                  @endif
               </tbody>
             </table>
           </div>
@@ -186,7 +189,7 @@
         
         {{-- Percentage --}}
         <div class="flex flex-row justify-between container mt-[5rem] md:mb-[6rem]">
-          <form class="flex flex-row justify-between container mt-[5rem] md:mb-[6rem]" action="{{ route('chart.department') }}" method="post">
+          <form class="flex flex-col md:flex-row justify-between container mt-[5rem] md:mb-[6rem]" action="{{ route('chart.department') }}" method="post">
           @csrf
             <div class="">
               <button name="department" value="CCS" class="flex items-center me-2 text-black-400">
