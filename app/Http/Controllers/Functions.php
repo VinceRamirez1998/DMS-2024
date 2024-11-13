@@ -457,8 +457,9 @@ class Functions extends Controller
             $graduateschool_percentage = ($total > 0) ? (($graduateschool / $total) * 100) : 0;
             
             $total_percentage = ($total > 0) ? (($total / $total) * 100) : 0;
-            
-            return view('dashboard', compact('projects','department','department_title','notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage', 'chtm_percentage', 'coe_percentage', 'cbs_percentage', 'cssp_percentage', 'lhs_percentage', 'cas_percentage', 'cit_percentage', 'graduateschool_percentage', 'total_percentage'));
+            $recent = Inquiry::where('department', auth()->user()->department)->take(5)->get();
+            dd($recent);
+            return view('dashboard', compact('recent','projects','department','department_title','notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage', 'chtm_percentage', 'coe_percentage', 'cbs_percentage', 'cssp_percentage', 'lhs_percentage', 'cas_percentage', 'cit_percentage', 'graduateschool_percentage', 'total_percentage'));
         }
         elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
             $total_inquiries = Inquiry::where('type', 'inquire')->count();
@@ -655,6 +656,18 @@ class Functions extends Controller
     public function reports(Request $request){
         $projects = Projects::where('department', auth()->user()->department)->get();
         return view('reports', compact('projects'));
+    }
+
+    public function recentfiles(Request $request){
+        if($request->recent == 'inquiries'){
+            $recent = Inquiry::where('department', auth()->user()->department)->take(5)->get();
+        }elseif($request->recent == 'requests'){
+            $recent = Requests::where('department', auth()->user()->department)->take(5)->get();
+        }elseif($request->recent == 'projects'){
+            $recent = Projects::where('department', auth()->user()->department)->take(5)->get();
+        }
+        $recent_type = $request->recent;
+        return redirect()->back()->with(['recent_type' => $recent_type, 'recent' => $recent]);
     }
 
 

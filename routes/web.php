@@ -94,6 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projectsandrequests', function () {
         return view('projectsandrequests');
     })->name('projectsandrequests');
+    Route::post('/recent/files', [Functions::class, 'recentfiles'])->name('recent.files');
     Route::get('/reports', [Functions::class, 'reports'])->name('reports');
     Route::get('/{type}', [Functions::class, 'request_page'])->name('requests');
     Route::get('/requests/{month}', [Functions::class, 'request_month'])->name('requests.month');

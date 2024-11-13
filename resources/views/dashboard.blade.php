@@ -108,10 +108,10 @@
       </div>
       @elseif(auth()->user()->role == 'dean' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanager'  || auth()->user()->role == 'coordinator' || auth()->user()->role == 'facultyextensionist')
         <div class="container-fluid">
-          <form action="" method="POST" class="flex flex-col md:flex-row gap-5 px-3 mb-3">
+          <form action="{{ route('recent.files') }}" method="POST" class="flex flex-col md:flex-row gap-5 px-3 mb-3">
             @csrf
             @if(auth()->user()->role == 'centermanager' || auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'coordinator')
-            <button class="relative bg-[#3498db] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
+            <button name="recent" value="inquiries" class="relative bg-[#3498db] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
               <div class="flex-col">
                 Inquiries
                 <p>@php $inq_num = App\Models\Inquiry::where('department', auth()->user()->department)->count(); echo $inq_num @endphp</p>
@@ -121,7 +121,7 @@
               </div>
             </button>
             @endif
-            <button class="relative bg-[#2ecc71] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
+            <button name="recent" value="requests" class="relative bg-[#2ecc71] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
               <div class="flex-col">
                 Request
                 <p>@php $inq_num = App\Models\Requests::where('department', auth()->user()->department)->count(); echo $inq_num @endphp</p>
@@ -130,7 +130,7 @@
                 <i class="fa-solid fa-paper-plane text-[2rem] ms-3"></i>
               </div>
             </button>
-            <button class="relative bg-[#f39c12] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
+            <button name="recent" value="projects" class="relative bg-[#f39c12] w-full px-2 text-white font-bold text-md rounded-md py-2 flex items-center justify-center">
               <div class="flex-col">
                 Project List
                 <p>@php $inq_num = App\Models\Projects::where('department', auth()->user()->department)->distinct('project_title')->count(); echo $inq_num @endphp</p>
@@ -146,30 +146,68 @@
             <p class="text-white text-lg font-bold">Recent Files</p>
           </div>
           {{-- Table with title --}}
-          
+          @php
+              $recent_type = session('recent_type', 'inquiries');
+              $default_recent = App\Models\Inquiry::where('department', auth()->user()->department)->take(5)->get();
+              $recent = session('recent', $default_recent);
+          @endphp
           <div class="overflow-x-auto px-3 max-h-[16rem] overflow-y-scroll">
             <table class="table-auto w-full">
               <thead>
+                @if (!empty($recent_type))
                   <tr class="bg-[#FAF9F6]">
-                      <th class="border border-[#800000] px-4 py-2">File Name</th>
-                      <th class="border border-[#800000] px-4 py-2">User</th>
-                      <th class="border border-[#800000] px-4 py-2">Date Uploaded</th>
-                      <th class="border border-[#800000] px-4 py-2">Type</th>
-                      <th class="border border-[#800000] px-4 py-2">Status</th>
-                      <th class="border border-[#800000] px-4 py-2">Action</th>
+                    <th class="border border-[#800000] px-4 py-2">
+                        {{ $recent_type == 'inquiries' ? 'Username' : ($recent_type == 'requests' ? 'Request Letter' : 'Project') }}
+                    </th>
+                    <th class="border border-[#800000] px-4 py-2">
+                        {{ $recent_type == 'inquiries' ? 'Email' : ($recent_type == 'requests' ? 'Username' : 'Project Initiator') }}
+                    </th>
+                    <th class="border border-[#800000] px-4 py-2">
+                        {{ $recent_type == 'inquiries' ? 'Subject' : ($recent_type == 'requests' ? 'Title' : 'Position/Department') }}
+                    </th>
+                    @if ($recent_type == 'projects')
+                    <th class="border border-[#800000] px-4 py-2">
+                        {{ $recent_type == 'projects' ? 'Status' : '' }}
+                    </th>
+                    @endif
+                    {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
                   </tr>
+                  @endif
               </thead>
               <tbody class="bg-[#cdcdcd]">
-                @if(!empty($recent_files))
+                @if(!empty($recent_type))
                   @foreach ($recent_files as $recent_file)
-                    <tr class="odd:bg-[#E2DFD2] even:bg-[#FAF9F6]">
-                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->title }}</td>
-                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->username }}</td>
-                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->created_at->format('m/d/Y') }}</td>
-                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->type }}</td>
-                        <td class="border border-[#800000] px-4 py-2 text-center">{{ $recent_file->status }}</td>
-                        <td class="border border-[#800000] px-4 py-2 text-center">N/A</td>
-                    </tr>
+                  @if($recent_type == 'inquiries')
+                  @foreach($recent as $recent)
+                        <tr class="odd:bg-[#E2DFD2] even:bg-[#FAF9F6]">
+                          <th class="border border-[#800000] px-4 py-2">{{ $recent->username }}</th>
+                          @php $username = App\Models\User::where('username', $recent->username)->first() @endphp
+                          <th class="border border-[#800000] px-4 py-2">{{ $username->email }}</th>
+                          <th class="border border-[#800000] px-4 py-2">{{ $recent->inquiry }}</th>
+                          {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
+                        </tr>
+                        @endforeach
+                      @elseif($recent_type == 'requests')
+                        @foreach($recent as $recent)
+                        <tr class="odd:bg-[#E2DFD2] even:bg-[#FAF9F6]">
+                          <th class="border border-[#800000] px-4 py-2">{{ $recent->file }}</th>
+                          <th class="border border-[#800000] px-4 py-2">{{ $recent->username }}</th>
+                          <th class="border border-[#800000] px-4 py-2">{{ $recent->title }}</th>
+                          {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
+                        </tr>
+                        @endforeach
+                      @elseif($recent_type == 'projects')
+                        @foreach($recent->unique('project_title') as $recent)
+                          <tr class="odd:bg-[#E2DFD2] even:bg-[#FAF9F6]">
+                            <th class="border border-[#800000] px-4 py-2">{{ $recent->project_title }}</th>
+                            @php $username = App\Models\User::where('id', $recent->user_id)->first() @endphp
+                            <th class="border border-[#800000] px-4 py-2">{{ $username->username }}</th>
+                            <th class="border border-[#800000] px-4 py-2">{{ ucfirst($recent->position) . ' ' . $recent->department }}</th>
+                            <th class="border border-[#800000] px-4 py-2">{{ ($recent->phase < 3) ? 'On-going' : 'Completed' }}</th>
+                            {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
+                          </tr>
+                        @endforeach
+                      @endif
                     @endforeach
                   @endif
               </tbody>
