@@ -170,7 +170,7 @@
                         {{ $recent_type == 'projects' ? 'Status' : '' }}
                     </th>
                     @endif
-                    {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
+                    <th class="border border-[#800000] px-4 py-2"></th>
                   </tr>
                   @endif
               </thead>
@@ -184,7 +184,7 @@
                           @php $username = App\Models\User::where('username', $recent->username)->first() @endphp
                           <th class="border border-[#800000] px-4 py-2">{{ $username->email }}</th>
                           <th class="border border-[#800000] px-4 py-2">{{ $recent->inquiry }}</th>
-                          {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
+                          <th class="border border-[#800000] px-4 py-2"><a href="/inquiries">View</a></th>
                         </tr>
                         @endforeach
                       @elseif($recent_type == 'requests')
@@ -193,7 +193,7 @@
                           <th class="border border-[#800000] px-4 py-2">{{ $recent->file }}</th>
                           <th class="border border-[#800000] px-4 py-2">{{ $recent->username }}</th>
                           <th class="border border-[#800000] px-4 py-2">{{ $recent->title }}</th>
-                          {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
+                          <th class="border border-[#800000] px-4 py-2"><a href="/requests">View</a></th>
                         </tr>
                         @endforeach
                       @elseif($recent_type == 'projects')
@@ -204,7 +204,7 @@
                             <th class="border border-[#800000] px-4 py-2">{{ $username->username }}</th>
                             <th class="border border-[#800000] px-4 py-2">{{ ucfirst($recent->position) . ' ' . $recent->department }}</th>
                             <th class="border border-[#800000] px-4 py-2">{{ ($recent->phase < 3) ? 'On-going' : 'Completed' }}</th>
-                            {{-- <th class="border border-[#800000] px-4 py-2"></th> --}}
+                            <th class="border border-[#800000] px-4 py-2"><a href="{{ route('projects.folder', ['folder' => $recent->project_title]) }}">See projects</a></th>
                           </tr>
                         @endforeach
                       @endif

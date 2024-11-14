@@ -458,7 +458,6 @@ class Functions extends Controller
             
             $total_percentage = ($total > 0) ? (($total / $total) * 100) : 0;
             $recent = Inquiry::where('department', auth()->user()->department)->take(5)->get();
-            dd($recent);
             return view('dashboard', compact('recent','projects','department','department_title','notices','ccs_percentage','cea_percentage','shs_percentage','chs_percentage', 'chtm_percentage', 'coe_percentage', 'cbs_percentage', 'cssp_percentage', 'lhs_percentage', 'cas_percentage', 'cit_percentage', 'graduateschool_percentage', 'total_percentage'));
         }
         elseif(auth()->user()->role == 'areaspecialist' || auth()->user()->role == 'centermanagement'){
@@ -467,8 +466,9 @@ class Functions extends Controller
             $recent_files = Inquiry::latest()->take(5)->get();
         return view('dashboard', compact('notices','total_requests','total_inquiries','recent_files'));
         }
+        $recent_files = Inquiry::latest()->take(5)->get();
 
-        return view('dashboard', compact('notices','projects'));
+        return view('dashboard', compact('notices','projects','recent_files'));
     }
 
     public function chartdepartment(Request $request){
